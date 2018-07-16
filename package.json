@@ -1,0 +1,36 @@
+{
+  "name": "tubular-common",
+  "version": "1.0.0",
+  "description": "Tubular Common Models and Data Transformer",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jasmine-ts src/**/*.spec.ts",
+    "lint": "tslint src/**/*.ts",
+    "build": "tsc --p ./tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unosquare/tubular-common.git"
+  },
+  "keywords": [
+    "tubular",
+    "data",
+    "grid"
+  ],
+  "author": "Unosquare",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/unosquare/tubular-common/issues"
+  },
+  "homepage": "https://github.com/unosquare/tubular-common#readme",
+  "dependencies": {
+    "tsc": "^1.20150623.0"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^2.8.8",
+    "jasmine": "^3.1.0",
+    "jasmine-ts": "^0.2.1",
+    "tslint": "^5.11.0",
+    "typescript": "^2.9.2"
+  }
+}
