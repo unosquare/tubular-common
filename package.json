@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@types/jasmine": "^2.8.8",
+    "date-fns": "^1.29.0",
     "jasmine": "^3.1.0",
     "jasmine-ts": "^0.2.1",
     "tslint": "^5.11.0",

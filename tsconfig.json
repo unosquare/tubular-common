@@ -2,7 +2,7 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "preserveConstEnums": true,
-    "outDir": "dist",
+    "outDir": "./dist",
     "lib": [
       "es5",
       "es6",
@@ -12,5 +12,9 @@
     "sourceMap": true,
     "target": "es5",
     "skipLibCheck": true
-  }
+  },
+  "include": [
+    "./src/**/*.ts"
+  ],
+  "exclude": [ "./test/**/*.*", "./node_modules" ]
 }
