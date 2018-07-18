@@ -14,7 +14,7 @@ export default class GridRequest {
 
   constructor(columns: ColumnModel[], itemsPerPage: number, page: number, searchText: string = '') {
     this.Columns = columns;
-    this.Search = { Text: searchText, Operator: 'Auto' };
+    this.Search = { Operator: 'Auto', Text: searchText };
     this.Skip = itemsPerPage === -1 ? 0 : page * itemsPerPage;
     this.Take = itemsPerPage;
     this.Counter = GridRequest.counter++;
