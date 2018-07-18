@@ -1,9 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "strict": true,
+    "moduleResolution": "node",
+    "preserveConstEnums": true,
     "outDir": "dist",
-    "sourceMap": true
+    "lib": [
+      "es5",
+      "es6",
+      "dom"
+    ],
+    "declaration": true,
+    "sourceMap": true,
+    "target": "es5",
+    "skipLibCheck": true
   }
 }
