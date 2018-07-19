@@ -55,101 +55,101 @@ class Transformer {
     private static applyFiltering(request: any, subset: any[]) {
         request.Columns
             .filter((column: any) => column.hasFilter)
-            .forEach((filterableColumn: any) => {
-                const isDate = filterableColumn.DataType === 'datetime' ||
-                    filterableColumn.DataType === 'date' ||
-                    filterableColumn.DataType === 'datetimeutc';
+            .forEach((column: any) => {
+                const isDate = column.DataType === 'datetime' ||
+                    column.DataType === 'date' ||
+                    column.DataType === 'datetimeutc';
 
-                switch (filterableColumn.Filter.Operator) {
+                switch (column.Filter.Operator) {
                     case CompareOperators.EQUALS:
                         if (isDate) {
                             subset = subset.filter((row) =>
-                                isEqual(row[filterableColumn.Name], filterableColumn.Filter.Text));
-                        } else if (filterableColumn.DataType === 'string') {
+                                isEqual(row[column.Name], column.Filter.Text));
+                        } else if (column.DataType === 'string') {
                             subset = subset.filter((row) =>
-                                row[filterableColumn.Name].toLowerCase() === filterableColumn.Filter.Text.toLowerCase());
+                                row[column.Name].toLowerCase() === column.Filter.Text.toLowerCase());
                         } else {
                             subset = subset.filter((row) =>
-                                row[filterableColumn.Name] === filterableColumn.Filter.Text);
+                                row[column.Name] === column.Filter.Text);
                         }
                         break;
                     case CompareOperators.NOT_EQUALS:
-                        if (filterableColumn.DataType === 'string') {
+                        if (column.DataType === 'string') {
                             subset = subset.filter((row) =>
-                                row[filterableColumn.Name].toLowerCase() !== filterableColumn.Filter.Text.toLowerCase());
+                                row[column.Name].toLowerCase() !== column.Filter.Text.toLowerCase());
                         } else {
                             subset = subset.filter((row) =>
-                                row[filterableColumn.Name] !== filterableColumn.Filter.Text);
+                                row[column.Name] !== column.Filter.Text);
                         }
                         break;
                     case CompareOperators.CONTAINS:
-                        subset = subset.filter((row) => row[filterableColumn.Name].toLowerCase()
-                            .indexOf(filterableColumn.Filter.Text.toLowerCase()) >= 0);
+                        subset = subset.filter((row) => row[column.Name].toLowerCase()
+                            .indexOf(column.Filter.Text.toLowerCase()) >= 0);
                         break;
                     case CompareOperators.NOT_CONTAINS:
-                        subset = subset.filter((row) => row[filterableColumn.Name].toLowerCase()
-                            .indexOf(filterableColumn.Filter.Text.toLowerCase()) < 0);
+                        subset = subset.filter((row) => row[column.Name].toLowerCase()
+                            .indexOf(column.Filter.Text.toLowerCase()) < 0);
                         break;
                     case CompareOperators.STARTS_WITH:
                         subset = subset.filter((row) =>
-                            row[filterableColumn.Name].toLowerCase().startsWith(filterableColumn.Filter.Text.toLowerCase()));
+                            row[column.Name].toLowerCase().startsWith(column.Filter.Text.toLowerCase()));
                         break;
                     case CompareOperators.NOT_STARTS_WITH:
                         subset = subset.filter((row) =>
-                            !row[filterableColumn.Name].toLowerCase().startsWith(filterableColumn.Filter.Text.toLowerCase()));
+                            !row[column.Name].toLowerCase().startsWith(column.Filter.Text.toLowerCase()));
                         break;
                     case CompareOperators.ENDS_WITH:
                         subset = subset.filter((row) =>
-                            row[filterableColumn.Name].toLowerCase().endsWith(filterableColumn.Filter.Text.toLowerCase()));
+                            row[column.Name].toLowerCase().endsWith(column.Filter.Text.toLowerCase()));
                         break;
                     case CompareOperators.NOT_ENDS_WITH:
                         subset = subset.filter((row) =>
-                            !row[filterableColumn.Name].toLowerCase().endsWith(filterableColumn.Filter.Text.toLowerCase()));
+                            !row[column.Name].toLowerCase().endsWith(column.Filter.Text.toLowerCase()));
                         break;
                     case CompareOperators.GT:
                         if (isDate) {
                             subset = subset.filter((row) =>
-                                isAfter(row[filterableColumn.Name], filterableColumn.Filter.Text));
+                                isAfter(row[column.Name], column.Filter.Text));
                         } else {
-                            subset = subset.filter((row) => row[filterableColumn.Name] > filterableColumn.Filter.Text);
+                            subset = subset.filter((row) => row[column.Name] > column.Filter.Text);
                         }
                         break;
                     case CompareOperators.GTE:
                         if (isDate) {
                             subset = subset.filter((row) =>
-                                isEqual(row[filterableColumn.Name], filterableColumn.Filter.Text)
-                                || isAfter(row[filterableColumn.Name], filterableColumn.Filter.Text));
+                                isEqual(row[column.Name], column.Filter.Text)
+                                || isAfter(row[column.Name], column.Filter.Text));
                         } else {
-                            subset = subset.filter((row) => row[filterableColumn.Name] >= filterableColumn.Filter.Text);
+                            subset = subset.filter((row) => row[column.Name] >= column.Filter.Text);
                         }
                         break;
                     case CompareOperators.LT:
                         if (isDate) {
                             subset = subset.filter((row) =>
-                                isBefore(row[filterableColumn.Name], filterableColumn.Filter.Text));
+                                isBefore(row[column.Name], column.Filter.Text));
                         } else {
-                            subset = subset.filter((row) => row[filterableColumn.Name] < filterableColumn.Filter.Text);
+                            subset = subset.filter((row) => row[column.Name] < column.Filter.Text);
                         }
                         break;
                     case CompareOperators.LTE:
                         if (isDate) {
                             subset = subset.filter((row) =>
-                                isEqual(row[filterableColumn.Name], filterableColumn.Filter.Text)
-                                || isBefore(row[filterableColumn.Name], filterableColumn.Filter.Text));
+                                isEqual(row[column.Name], column.Filter.Text)
+                                || isBefore(row[column.Name], column.Filter.Text));
                         } else {
-                            subset = subset.filter((row) => row[filterableColumn.Name] <= filterableColumn.Filter.Text);
+                            subset = subset.filter((row) => row[column.Name] <= column.Filter.Text);
                         }
                         break;
                     case CompareOperators.BETWEEN:
                         if (isDate) {
                             subset = subset.filter((row) =>
-                                (isEqual(row[filterableColumn.Name], filterableColumn.Filter.Text)
-                                    || isAfter(row[filterableColumn.Name], filterableColumn.Filter.Text)) &&
-                                (isEqual(row[filterableColumn.Name], filterableColumn.Filter.Argument[0])
-                                    || isBefore(row[filterableColumn.Name], filterableColumn.Filter.Argument[0])));
+                                (isEqual(row[column.Name], column.Filter.Text)
+                                    || isAfter(row[column.Name], column.Filter.Text)) &&
+                                (isEqual(row[column.Name], column.Filter.Argument[0])
+                                    || isBefore(row[column.Name], column.Filter.Argument[0])));
                         } else {
-                            subset = subset.filter((row) => row[filterableColumn.Name] >= filterableColumn.Filter.Text &&
-                                row[filterableColumn.Name] <= filterableColumn.Filter.Argument[0]);
+                            subset = subset.filter((row) => row[column.Name] >= column.Filter.Text &&
+                                row[column.Name] <= column.Filter.Argument[0]);
                         }
                         break;
                     default:
