@@ -1,13 +1,17 @@
 {
   "name": "tubular-common",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tubular Common Models and Data Transformer",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jasmine-ts src/**/*.spec.ts",
+    "test": "jasmine-ts test/**/*.spec.ts",
     "lint": "tslint src/**/*.ts",
+    "fixlint": "tslint --fix src/**/*.ts",
     "build": "tsc --p ./tsconfig.json"
   },
+  "files": [
+    "dist/**/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unosquare/tubular-common.git"
@@ -28,6 +32,7 @@
   },
   "devDependencies": {
     "@types/jasmine": "^2.8.8",
+    "date-fns": "^1.29.0",
     "jasmine": "^3.1.0",
     "jasmine-ts": "^0.2.1",
     "tslint": "^5.11.0",

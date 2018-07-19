@@ -1,9 +1,20 @@
 {
   "compilerOptions": {
+    "moduleResolution": "node",
+    "preserveConstEnums": true,
+    "outDir": "./dist",
+    "lib": [
+      "es5",
+      "es6",
+      "dom"
+    ],
+    "declaration": true,
+    "sourceMap": true,
     "target": "es5",
-    "module": "commonjs",
-    "strict": true,
-    "outDir": "dist",
-    "sourceMap": true
-  }
+    "skipLibCheck": true
+  },
+  "include": [
+    "./src/**/*.ts"
+  ],
+  "exclude": [ "./test/**/*.*", "./node_modules" ]
 }
