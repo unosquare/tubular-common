@@ -1,7 +1,7 @@
 import { isAfter, isBefore, isEqual } from 'date-fns';
 
 import {
-    AggregateFunctions,  ColumnSortDirection,
+    AggregateFunctions, ColumnSortDirection,
     CompareOperators
 } from './Models';
 import GridRequest from './Models/GridRequest';
@@ -176,18 +176,24 @@ class Transformer {
         }
 
         subset.sort((a, b) => {
-            // TODO: Complete this logic please
-            if (sorts.reduce((prev: any, c: any) => prev && a[c.Name] === b[c.Name], true)) {
-                return 0;
-            }
+            let result = 0;
 
             for (const current of sorts) {
-                if (current.Asc ? a[current.Name] < b[current.Name] : a[current.Name] > b[current.Name]) {
-                    return -1;
+                const reverse = current.Asc ? 1 : -1;
+
+                if (a[current.Name] < b[current.Name]) {
+                    result = reverse * -1;
+                }
+                if (a[current.Name] > b[current.Name]) {
+                    result = reverse * 1;
+                }
+
+                if (result !== 0) {
+                    break;
                 }
             }
 
-            return 1;
+            return result;
         });
 
         return subset;

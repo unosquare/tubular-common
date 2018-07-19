@@ -19,7 +19,7 @@ const cases = [
     { name: 'with Page 2', request: page2Request, response: page2Response },
     { name: 'with PageSize 20', request: pageSize20Request, response: pageSize20Response },
     { name: 'with SearchText Microsoft', request: microsoftSearchRequest, response: searcTexthMicrosoftResponse },
-    { name: 'with SortOrder Id Desending', request: desendingOrderIdRequest, response: descendingOrderIdResponse },
+    { name: 'with Sort Id Descending', request: desendingOrderIdRequest, response: descendingOrderIdResponse },
     { name: 'with aggregate func COUNT', request: aggregateCountRequest, response: aggregateCountResponse },
     { name: 'with aggregate func SUM', request: aggregateSumRequest, response: aggregateSumResponse },
     { name: 'with aggregate func AVERAGE', request: aggregateAverageRequest, response: aggregateAverageResponse },
