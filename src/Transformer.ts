@@ -27,7 +27,7 @@ class Transformer {
             }
         }
 
-        response.Aggregate = this.getAggregatePayload(request, data);
+        response.AggregationPayload = this.getAggregatePayload(request, data);
 
         response.Payload = data
             .slice(request.Skip, request.Skip + request.Take)

@@ -1,5 +1,5 @@
 export default class GridResponse {
-  public Aggregate: object;
+  public AggregationPayload: object;
   public Counter: number;
   public CurrentPage: number = 0;
   public FilteredRecordCount: number;
