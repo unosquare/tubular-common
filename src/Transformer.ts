@@ -42,6 +42,7 @@ class Transformer {
 
             if (searchableColumns.length > 0) {
                 const filter = request.Search.Text.toLowerCase();
+                if (filter === '') { return subset; }
 
                 return subset.filter((item) =>
                     searchableColumns.some((x: any) => {
@@ -71,9 +72,7 @@ class Transformer {
                                 if (typeof row[column.Name] === 'undefined' || row[column.Name] === null) {
                                     return false;
                                 } else {
-                                    const p = action(row[column.Name]);
-                                    console.log(p);
-                                    return p;
+                                    return action(row[column.Name]);
                                 }
                             });
                     };
@@ -86,8 +85,6 @@ class Transformer {
                         } else if (column.DataType === 'string') {
                             subset = partialfiltering(subset,
                                 (x) => x.toLowerCase() === column.Filter.Text.toLowerCase());
-                            // subset = subset.filter((row) =>
-                                // row[column.Name].toLowerCase() === column.Filter.Text.toLowerCase());
                         } else {
                             subset = subset.filter((row) =>
                                 row[column.Name] === column.Filter.Text);
@@ -97,8 +94,6 @@ class Transformer {
                         if (column.DataType === 'string') {
                             subset = partialfiltering(subset,
                                 (x) => x.toLowerCase() !== column.Filter.Text.toLowerCase());
-                            // subset = subset.filter((row) =>
-                                // row[column.Name].toLowerCase() !== column.Filter.Text.toLowerCase());
                         } else {
                             subset = subset.filter((row) =>
                                 row[column.Name] !== column.Filter.Text);
@@ -109,38 +104,25 @@ class Transformer {
                     .indexOf(column.Filter.Text.toLowerCase()) >= 0);
                     subset = partialfiltering(subset,
                         (x) => x.toLowerCase().indexOf(column.Filter.Text.toLowerCase()));
-                        // subset = subset.filter((row) => row[column.Name].toLowerCase()
-                            // .indexOf(column.Filter.Text.toLowerCase()) >= 0);
                     break;
                     case CompareOperators.NOT_CONTAINS:
                     subset = partialfiltering(subset,
                         (x) => x.toLowerCase().indexOf(column.Filter.Text.toLowerCase()) < 0);
-                        // subset = subset.filter((row) => row[column.Name].toLowerCase()
-                            // .indexOf(column.Filter.Text.toLowerCase()) < 0);
                     break;
                     case CompareOperators.STARTS_WITH:
                     subset = partialfiltering(subset,
                         (x) => x.toLowerCase().startsWith(column.Filter.Text.toLowerCase()));
-                        // subset = subset.filter((row) =>
-                            // row[column.Name].toLowerCase().startsWith(column.Filter.Text.toLowerCase()));
                     break;
                     case CompareOperators.NOT_STARTS_WITH:
                     subset = partialfiltering(subset,
                         (x) => !x.toLowerCase().startsWith(column.Filter.Text.toLowerCase()));
-                        // subset = subset.filter((row) =>
-                            // !row[column.Name].toLowerCase().startsWith(column.Filter.Text.toLowerCase()));
                     break;
                     case CompareOperators.ENDS_WITH:
                     subset = partialfiltering(subset,
                         (x) => x.toLowerCase().endsWith(column.Filter.Text.toLowerCase()));
-                        // subset = subset.filter((row) =>
-                            // row[column.Name].toLowerCase().endsWith(column.Filter.Text.toLowerCase()));
-                    break;
                     case CompareOperators.NOT_ENDS_WITH:
                     subset = partialfiltering(subset,
                         (x) => !x.toLowerCase().endsWith(column.Filter.Text.toLowerCase()));
-                        // subset = subset.filter((row) =>
-                        //     !row[column.Name].toLowerCase().endsWith(column.Filter.Text.toLowerCase()));
                     break;
                     case CompareOperators.GT:
                         if (isDate) {
@@ -217,14 +199,17 @@ class Transformer {
             for (const current of sorts) {
                 const reverse = current.Asc ? 1 : -1;
 
+                if (typeof a[current.Name] === 'undefined' || typeof b[current.Name] === 'undefined') {
+                    result = reverse * -1;
+                    break;
+                }
+
                 if (a[current.Name] < b[current.Name]) {
                     result = reverse * -1;
+                    break;
                 }
                 if (a[current.Name] > b[current.Name]) {
                     result = reverse * 1;
-                }
-
-                if (result !== 0) {
                     break;
                 }
             }

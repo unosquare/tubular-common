@@ -673,12 +673,20 @@ const payloadWithMisisngValuesResponse = {
       OrderID: 1,
       CustomerName: 'Microsoft',
       ShippedDate: '2016-03-19T19:00:00',
-      ShipperCity: 'Guadalajara, JAL, Mexico'
+      ShipperCity: 'Guadalajara, JAL, Mexico',
+      Amount: undefined
+    },
+    {
+      OrderID: undefined,
+      CustomerName: 'OXXO',
+      ShippedDate: '2016-12-22T08:00:00',
+      ShipperCity: 'Guadalajara, JAL, Mexico',
+      Amount: 92.00
     },
     {
       OrderID: 2,
       CustomerName: 'Microsoft',
-      ShippedDate: '2016-11-08T18:00:00',
+      ShippedDate: undefined,
       ShipperCity: 'Los Angeles, CA, USA',
       Amount: 9.00
     },
@@ -686,6 +694,7 @@ const payloadWithMisisngValuesResponse = {
       OrderID: 3,
       CustomerName: 'Unosquare LLC',
       ShippedDate: '2016-11-08T18:00:00',
+      ShipperCity: undefined,
       Amount: 92.00
     },
     {
@@ -697,6 +706,7 @@ const payloadWithMisisngValuesResponse = {
     },
     {
       OrderID: 5,
+      CustomerName: undefined,
       ShippedDate: '2016-04-23T10:00:00',
       ShipperCity: 'Leon, GTO, Mexico',
       Amount: 174.00
@@ -723,13 +733,8 @@ const payloadWithMisisngValuesResponse = {
       Amount: 15.00
     },
     {
-      CustomerName: 'OXXO',
-      ShippedDate: '2016-12-22T08:00:00',
-      ShipperCity: 'Guadalajara, JAL, Mexico',
-      Amount: 92.00
-    },
-    {
       OrderID: 10,
+      CustomerName: undefined,
       ShippedDate: '2016-03-19T19:00:00',
       ShipperCity: 'Portland, OR, USA',
       Amount: 300.00

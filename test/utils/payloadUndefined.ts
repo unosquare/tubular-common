@@ -8,7 +8,6 @@ export const expectedLocalData = [
     {
       OrderID: 2,
       CustomerName: 'Microsoft',
-      ShippedDate: '2016-11-08T18:00:00',
       ShipperCity: 'Los Angeles, CA, USA',
       Amount: 9.00
     },
