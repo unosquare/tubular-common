@@ -1,6 +1,7 @@
 import 'jasmine';
 import Transformer from '../src';
 import { localData } from './utils/localData';
+import { payloadUndefined } from './utils/payloadUndefined';
 import {
     aggregateAverageRequest, aggregateCountRequest, aggregateDistinctRequest, aggregateMaxRequest,
     aggregateMinRequest, aggregateSumRequest,
@@ -11,7 +12,7 @@ import {
     aggregateAverageResponse, aggregateCountResponse, aggregateDistinctResponse, aggregateMaxResponse,
     aggregateMinResponse, aggregateSumResponse,
     descendingOrderIdResponse, page2Response, pageMinus1Response,
-    pageSize20Response, searcTexthMicrosoftResponse, simpleResponse
+    pageSize20Response, payloadWithMisisngValuesResponse, searcTexthMicrosoftResponse, simpleResponse
 } from './utils/responses';
 
 const cases = [
@@ -33,4 +34,9 @@ describe('Transformer', () => {
     cases.forEach((i) =>
         it(`should return response ${i.name}`,
             () => expect({ ...Transformer.getResponse(i.request, localData) }).toEqual(i.response)));
+
+    it('Should accept payload with missing Values', () => {
+        expect(
+            { ...Transformer.getResponse(simpleRequest, payloadUndefined) }).toEqual(payloadWithMisisngValuesResponse);
+    });
 });
