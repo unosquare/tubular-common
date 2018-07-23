@@ -482,7 +482,7 @@ const aggregateSumResponse = {
     ShippedDate: '2016-04-23T10:00:00', ShipperCity: 'Guadalajara, JAL, Mexico'},
     {Amount: 300, CustomerName: 'Unosquare LLC', OrderID: 13,
     ShippedDate: '2016-03-19T19:00:00', ShipperCity: 'Portland, OR, USA'}
-  ], 
+  ],
   TotalPages: 3,
   TotalRecordCount: 22
 };
@@ -513,7 +513,7 @@ const aggregateAverageResponse = {
     ShippedDate: '2016-04-23T10:00:00', ShipperCity: 'Guadalajara, JAL, Mexico'},
     {Amount: 300, CustomerName: 'Unosquare LLC', OrderID: 13,
     ShippedDate: '2016-03-19T19:00:00', ShipperCity: 'Portland, OR, USA'}
-  ], 
+  ],
   TotalPages: 3,
   TotalRecordCount: 22
 };
@@ -664,85 +664,6 @@ TotalPages: 1,
 TotalRecordCount: 22
 };
 
-const payloadWithMisisngValuesResponse = {
-    AggregationPayload: { },
-    Counter: 0,
-    CurrentPage: 1,
-    FilteredRecordCount: 22,
-    Payload: [{
-      OrderID: 1,
-      CustomerName: 'Microsoft',
-      ShippedDate: '2016-03-19T19:00:00',
-      ShipperCity: 'Guadalajara, JAL, Mexico',
-      Amount: undefined
-    },
-    {
-      OrderID: undefined,
-      CustomerName: 'OXXO',
-      ShippedDate: '2016-12-22T08:00:00',
-      ShipperCity: 'Guadalajara, JAL, Mexico',
-      Amount: 92.00
-    },
-    {
-      OrderID: 2,
-      CustomerName: 'Microsoft',
-      ShippedDate: undefined,
-      ShipperCity: 'Los Angeles, CA, USA',
-      Amount: 9.00
-    },
-    {
-      OrderID: 3,
-      CustomerName: 'Unosquare LLC',
-      ShippedDate: '2016-11-08T18:00:00',
-      ShipperCity: undefined,
-      Amount: 92.00
-    },
-    {
-      OrderID: 4,
-      CustomerName: 'Vesta',
-      ShippedDate: '2016-03-19T19:00:00',
-      ShipperCity: 'Portland, OR, USA',
-      Amount: 300.00
-    },
-    {
-      OrderID: 5,
-      CustomerName: undefined,
-      ShippedDate: '2016-04-23T10:00:00',
-      ShipperCity: 'Leon, GTO, Mexico',
-      Amount: 174.00
-    },
-    {
-      OrderID: 6,
-      CustomerName: 'OXXO',
-      ShippedDate: '2016-12-22T08:00:00',
-      ShipperCity: 'Guadalajara, JAL, Mexico',
-      Amount: 92.00
-    },
-    {
-      OrderID: 7,
-      CustomerName: 'Super La Playa',
-      ShippedDate: '2016-03-19T19:00:00',
-      ShipperCity: 'Portland, OR, USA',
-      Amount: 300.00
-    },
-    {
-      OrderID: 8,
-      CustomerName: 'Super La Playa',
-      ShippedDate: '2016-04-23T10:00:00',
-      ShipperCity: 'Leon, GTO, Mexico',
-      Amount: 15.00
-    },
-    {
-      OrderID: 10,
-      CustomerName: undefined,
-      ShippedDate: '2016-03-19T19:00:00',
-      ShipperCity: 'Portland, OR, USA',
-      Amount: 300.00
-    }
-  ],
-  TotalPages: 3,
-  TotalRecordCount: 22
-};
 export {
   aggregateAverageResponse,
   aggregateCountResponse,
@@ -756,6 +677,5 @@ export {
   pageMinus1Response,
   page2Response,
   simpleRecordsExpected,
-  pageSize20Response,
-  payloadWithMisisngValuesResponse
+  pageSize20Response
 };

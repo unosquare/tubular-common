@@ -76,7 +76,6 @@ export const payloadUndefined = [
     },
     {
       OrderID: 12,
-      CustomerName: 'OXXO',
       ShippedDate: '2016-11-08T18:00:00',
       ShipperCity: 'Guadalajara, JAL, Mexico',
       Amount: 92.00
