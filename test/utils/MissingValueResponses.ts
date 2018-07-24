@@ -1,4 +1,4 @@
-const payloadWithMisisngValuesResponse = {
+const payloadWithMissingValuesResponse = {
     AggregationPayload: {},
     Counter: 0,
     CurrentPage: 1,
@@ -78,7 +78,7 @@ const payloadWithMisisngValuesResponse = {
     TotalRecordCount: 22
 };
 
-const page2WithMisisngValuesResponse = {
+const page2WithMissingValuesResponse = {
     AggregationPayload: {},
     Counter: 2,
     CurrentPage: 2,
@@ -159,7 +159,7 @@ const page2WithMisisngValuesResponse = {
     TotalRecordCount: 22
 };
 
-const pageSize20WithMisisngValuesResponse = {
+const pageSize20WithMissingValuesResponse = {
     AggregationPayload: {},
     Counter: 3,
     CurrentPage: 1,
@@ -310,7 +310,7 @@ const pageSize20WithMisisngValuesResponse = {
     TotalRecordCount: 22
 };
 
-const searcTexthMicrosoftMisisngValuesResponse = {
+const searcTexthMicrosoftMissingValuesResponse = {
     AggregationPayload: {},
     Counter: 1,
     CurrentPage: 1,
@@ -340,7 +340,7 @@ const searcTexthMicrosoftMisisngValuesResponse = {
     TotalPages: 1,
     TotalRecordCount: 22
 };
-const descendingMisisngValuesResponse = {
+const descendingMissingValuesResponse = {
     AggregationPayload: {},
     Counter: 4,
     CurrentPage: 1,
@@ -391,7 +391,7 @@ const descendingMisisngValuesResponse = {
     TotalRecordCount: 22
 };
 
-const aggregateCountMisisngValuesResponse = {
+const aggregateCountMissingValuesResponse = {
     AggregationPayload: { CustomerName: 22 },
     Counter: 5,
     CurrentPage: 1,
@@ -442,7 +442,7 @@ const aggregateCountMisisngValuesResponse = {
     TotalRecordCount: 22
 };
 
-const aggregateSumtMisisngValuesResponse = {
+const aggregateSumtMissingValuesResponse = {
     AggregationPayload: { Amount: 3162 },
     Counter: 6,
     CurrentPage: 1,
@@ -503,7 +503,7 @@ const aggregateSumtMisisngValuesResponse = {
     TotalRecordCount: 22
 };
 
-const aggregateAverageMisisngValuesResponse = {
+const aggregateAverageMissingValuesResponse = {
     AggregationPayload: { Amount: 143.72727272727272 },
     Counter: 7,
     CurrentPage: 1,
@@ -554,7 +554,7 @@ const aggregateAverageMisisngValuesResponse = {
     TotalRecordCount: 22
 };
 
-const aggregateDistinctMisisngValuesResponse = {
+const aggregateDistinctMissingValuesResponse = {
     AggregationPayload: { Amount: 13 },
     Counter: 8,
     CurrentPage: 1,
@@ -605,7 +605,7 @@ const aggregateDistinctMisisngValuesResponse = {
     TotalRecordCount: 22
 };
 
-const aggregateMaxMisisngValuesResponse = {
+const aggregateMaxMissingValuesResponse = {
     AggregationPayload: { Amount: 300 },
     Counter: 9,
     CurrentPage: 1,
@@ -656,7 +656,7 @@ const aggregateMaxMisisngValuesResponse = {
     TotalRecordCount: 22
 };
 
-const aggregateMinMisisngValuesResponse = {
+const aggregateMinMissingValuesResponse = {
     AggregationPayload: { Amount: 9 },
     Counter: 10,
     CurrentPage: 1,
@@ -707,7 +707,7 @@ const aggregateMinMisisngValuesResponse = {
     TotalRecordCount: 22
 };
 
-const pageMinus1MinMisisngValuesResponse = {
+const pageMinus1MinMissingValuesResponse = {
     AggregationPayload: {},
     Counter: 11,
     CurrentPage: 0,
@@ -865,16 +865,16 @@ const pageMinus1MinMisisngValuesResponse = {
 };
 
 export {
-    aggregateMaxMisisngValuesResponse,
-    aggregateMinMisisngValuesResponse,
-    aggregateAverageMisisngValuesResponse,
-    aggregateSumtMisisngValuesResponse,
-    aggregateCountMisisngValuesResponse,
-    aggregateDistinctMisisngValuesResponse,
-    descendingMisisngValuesResponse,
-    payloadWithMisisngValuesResponse,
-    pageMinus1MinMisisngValuesResponse,
-    page2WithMisisngValuesResponse,
-    pageSize20WithMisisngValuesResponse,
-    searcTexthMicrosoftMisisngValuesResponse
+    aggregateMaxMissingValuesResponse,
+    aggregateMinMissingValuesResponse,
+    aggregateAverageMissingValuesResponse,
+    aggregateSumtMissingValuesResponse,
+    aggregateCountMissingValuesResponse,
+    aggregateDistinctMissingValuesResponse,
+    descendingMissingValuesResponse,
+    payloadWithMissingValuesResponse,
+    pageMinus1MinMissingValuesResponse,
+    page2WithMissingValuesResponse,
+    pageSize20WithMissingValuesResponse,
+    searcTexthMicrosoftMissingValuesResponse
 };

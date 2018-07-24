@@ -8,6 +8,7 @@ import {
     desendingOrderIdRequest, microsoftSearchRequest, page2Request, pageMinus1Request,
     pageSize20Request, simpleRequest,
 } from './utils/requests';
+
 import {
     aggregateAverageResponse, aggregateCountResponse, aggregateDistinctResponse, aggregateMaxResponse,
     aggregateMinResponse, aggregateSumResponse,
@@ -16,10 +17,10 @@ import {
 } from './utils/responses';
 
 import {
-    aggregateAverageMisisngValuesResponse, aggregateCountMisisngValuesResponse, aggregateDistinctMisisngValuesResponse,
-    aggregateMaxMisisngValuesResponse, aggregateMinMisisngValuesResponse, aggregateSumtMisisngValuesResponse,
-    descendingMisisngValuesResponse, page2WithMisisngValuesResponse, pageMinus1MinMisisngValuesResponse,
-    pageSize20WithMisisngValuesResponse, payloadWithMisisngValuesResponse, searcTexthMicrosoftMisisngValuesResponse
+    aggregateAverageMissingValuesResponse, aggregateCountMissingValuesResponse, aggregateDistinctMissingValuesResponse,
+    aggregateMaxMissingValuesResponse, aggregateMinMissingValuesResponse, aggregateSumtMissingValuesResponse,
+    descendingMissingValuesResponse, page2WithMissingValuesResponse, pageMinus1MinMissingValuesResponse,
+    pageSize20WithMissingValuesResponse, payloadWithMissingValuesResponse, searcTexthMicrosoftMissingValuesResponse
 } from './utils/MissingValueResponses';
 
 const cases = [
@@ -37,48 +38,48 @@ const cases = [
     { name: 'with Page -1', request: pageMinus1Request, response: pageMinus1Response }
 ];
 
-const casesWhitMissingValues = [
-    { name: 'WhitMissingValues simple', request: simpleRequest, response: payloadWithMisisngValuesResponse },
-    { name: 'WhitMissingValues with Page 2', request: page2Request, response: page2WithMisisngValuesResponse },
+const casesWithMissingValues = [
+    { name: 'WithMissingValues simple', request: simpleRequest, response: payloadWithMissingValuesResponse },
+    { name: 'WithMissingValues with Page 2', request: page2Request, response: page2WithMissingValuesResponse },
     {
-        name: 'WhitMissingValues with PageSize 20', request: pageSize20Request,
-        response: pageSize20WithMisisngValuesResponse
+        name: 'WithMissingValues with PageSize 20', request: pageSize20Request,
+        response: pageSize20WithMissingValuesResponse
     },
     {
-        name: 'WhitMissingValues with SearchText Microsoft', request: microsoftSearchRequest,
-        response: searcTexthMicrosoftMisisngValuesResponse
+        name: 'WithMissingValues with SearchText Microsoft', request: microsoftSearchRequest,
+        response: searcTexthMicrosoftMissingValuesResponse
     },
     {
-        name: 'WhitMissingValues with aggregate func COUNT', request: aggregateCountRequest,
-        response: aggregateCountMisisngValuesResponse
+        name: 'WithMissingValues with aggregate func COUNT', request: aggregateCountRequest,
+        response: aggregateCountMissingValuesResponse
     },
     {
-        name: 'WhitMissingValues with aggregate func SUM', request: aggregateSumRequest,
-        response: aggregateSumtMisisngValuesResponse
+        name: 'WithMissingValues with aggregate func SUM', request: aggregateSumRequest,
+        response: aggregateSumtMissingValuesResponse
     },
     {
-        name: 'WhitMissingValues with aggregate func AVERAGE', request: aggregateAverageRequest,
-        response: aggregateAverageMisisngValuesResponse
+        name: 'WithMissingValues with aggregate func AVERAGE', request: aggregateAverageRequest,
+        response: aggregateAverageMissingValuesResponse
     },
     {
-        name: 'WhitMissingValues with aggregate func DISTINCT', request: aggregateDistinctRequest,
-        response: aggregateDistinctMisisngValuesResponse
+        name: 'WithMissingValues with aggregate func DISTINCT', request: aggregateDistinctRequest,
+        response: aggregateDistinctMissingValuesResponse
     },
     {
-        name: 'WhitMissingValues with aggregate func MAX', request: aggregateMaxRequest,
-        response: aggregateMaxMisisngValuesResponse
+        name: 'WithMissingValues with aggregate func MAX', request: aggregateMaxRequest,
+        response: aggregateMaxMissingValuesResponse
     },
     {
-        name: 'WhitMissingValues with aggregate func MIN', request: aggregateMinRequest,
-        response: aggregateMinMisisngValuesResponse
+        name: 'WithMissingValues with aggregate func MIN', request: aggregateMinRequest,
+        response: aggregateMinMissingValuesResponse
     },
     {
-        name: 'WhitMissingValues with Page -1', request: pageMinus1Request,
-        response: pageMinus1MinMisisngValuesResponse
+        name: 'WithMissingValues with Page -1', request: pageMinus1Request,
+        response: pageMinus1MinMissingValuesResponse
     },
     {
-        name: 'WhitMissingValues with Sort Id Descending', request: desendingOrderIdRequest,
-        response: descendingMisisngValuesResponse
+        name: 'WithMissingValues with Sort Id Descending', request: desendingOrderIdRequest,
+        response: descendingMissingValuesResponse
     },
 ];
 
@@ -87,7 +88,7 @@ describe('Transformer', () => {
     it(`should return response ${i.name}`,
         () => expect({ ...Transformer.getResponse(i.request, localData) }).toEqual(i.response)));
 
-    casesWhitMissingValues.forEach((i) =>
+    casesWithMissingValues.forEach((i) =>
         it(`should return response ${i.name}`,
             () => expect({ ...Transformer.getResponse(i.request, payloadUndefined) }).toEqual(i.response)));
 });
