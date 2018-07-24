@@ -42,10 +42,16 @@ class Transformer {
 
             if (searchableColumns.length > 0) {
                 const filter = request.Search.Text.toLowerCase();
+                if (filter === '') { return subset; }
 
                 return subset.filter((item) =>
-                    searchableColumns.some((x: any) =>
-                        item[x.Name].toLowerCase().indexOf(filter) > -1));
+                    searchableColumns.some((x: any) => {
+                        if (typeof item[x.Name] === 'undefined') {
+                            return false;
+                        } else {
+                            return item[x.Name].toLowerCase().indexOf(filter) > -1;
+                        }
+                    }));
             }
 
             return subset;
@@ -60,14 +66,25 @@ class Transformer {
                     column.DataType === 'date' ||
                     column.DataType === 'datetimeutc';
 
+                const partialfiltering = (data, action) => {
+                        return data.filter(
+                            (row) => {
+                                if (typeof row[column.Name] === 'undefined' || row[column.Name] === null) {
+                                    return false;
+                                } else {
+                                    return action(row[column.Name]);
+                                }
+                            });
+                    };
+
                 switch (column.Filter.Operator) {
                     case CompareOperators.EQUALS:
                         if (isDate) {
                             subset = subset.filter((row) =>
                                 isEqual(row[column.Name], column.Filter.Text));
                         } else if (column.DataType === 'string') {
-                            subset = subset.filter((row) =>
-                                row[column.Name].toLowerCase() === column.Filter.Text.toLowerCase());
+                            subset = partialfiltering(subset,
+                                (x) => x.toLowerCase() === column.Filter.Text.toLowerCase());
                         } else {
                             subset = subset.filter((row) =>
                                 row[column.Name] === column.Filter.Text);
@@ -75,37 +92,38 @@ class Transformer {
                         break;
                     case CompareOperators.NOT_EQUALS:
                         if (column.DataType === 'string') {
-                            subset = subset.filter((row) =>
-                                row[column.Name].toLowerCase() !== column.Filter.Text.toLowerCase());
+                            subset = partialfiltering(subset,
+                                (x) => x.toLowerCase() !== column.Filter.Text.toLowerCase());
                         } else {
                             subset = subset.filter((row) =>
                                 row[column.Name] !== column.Filter.Text);
                         }
                         break;
                     case CompareOperators.CONTAINS:
-                        subset = subset.filter((row) => row[column.Name].toLowerCase()
-                            .indexOf(column.Filter.Text.toLowerCase()) >= 0);
-                        break;
+                    subset = partialfiltering(subset, (x) => x.toLowerCase()
+                    .indexOf(column.Filter.Text.toLowerCase()) >= 0);
+                    subset = partialfiltering(subset,
+                        (x) => x.toLowerCase().indexOf(column.Filter.Text.toLowerCase()));
+                    break;
                     case CompareOperators.NOT_CONTAINS:
-                        subset = subset.filter((row) => row[column.Name].toLowerCase()
-                            .indexOf(column.Filter.Text.toLowerCase()) < 0);
-                        break;
+                    subset = partialfiltering(subset,
+                        (x) => x.toLowerCase().indexOf(column.Filter.Text.toLowerCase()) < 0);
+                    break;
                     case CompareOperators.STARTS_WITH:
-                        subset = subset.filter((row) =>
-                            row[column.Name].toLowerCase().startsWith(column.Filter.Text.toLowerCase()));
-                        break;
+                    subset = partialfiltering(subset,
+                        (x) => x.toLowerCase().startsWith(column.Filter.Text.toLowerCase()));
+                    break;
                     case CompareOperators.NOT_STARTS_WITH:
-                        subset = subset.filter((row) =>
-                            !row[column.Name].toLowerCase().startsWith(column.Filter.Text.toLowerCase()));
-                        break;
+                    subset = partialfiltering(subset,
+                        (x) => !x.toLowerCase().startsWith(column.Filter.Text.toLowerCase()));
+                    break;
                     case CompareOperators.ENDS_WITH:
-                        subset = subset.filter((row) =>
-                            row[column.Name].toLowerCase().endsWith(column.Filter.Text.toLowerCase()));
-                        break;
+                    subset = partialfiltering(subset,
+                        (x) => x.toLowerCase().endsWith(column.Filter.Text.toLowerCase()));
                     case CompareOperators.NOT_ENDS_WITH:
-                        subset = subset.filter((row) =>
-                            !row[column.Name].toLowerCase().endsWith(column.Filter.Text.toLowerCase()));
-                        break;
+                    subset = partialfiltering(subset,
+                        (x) => !x.toLowerCase().endsWith(column.Filter.Text.toLowerCase()));
+                    break;
                     case CompareOperators.GT:
                         if (isDate) {
                             subset = subset.filter((row) =>
@@ -181,14 +199,17 @@ class Transformer {
             for (const current of sorts) {
                 const reverse = current.Asc ? 1 : -1;
 
+                if (typeof a[current.Name] === 'undefined' || typeof b[current.Name] === 'undefined') {
+                    result = reverse * -1;
+                    break;
+                }
+
                 if (a[current.Name] < b[current.Name]) {
                     result = reverse * -1;
+                    break;
                 }
                 if (a[current.Name] > b[current.Name]) {
                     result = reverse * 1;
-                }
-
-                if (result !== 0) {
                     break;
                 }
             }
@@ -206,11 +227,19 @@ class Transformer {
         return aggregateColumns.reduce((prev: any, column: any) => {
             switch (column.Aggregate.toLowerCase()) {
                 case AggregateFunctions.SUM.toLowerCase():
-                    prev[column.Name] = subset.length === 0 ? 0 : subset.reduce((sum, r) => sum + r[column.Name], 0);
+                    prev[column.Name] = subset.length === 0
+                        ? 0
+                        : subset.reduce((sum, r) => typeof r[column.Name] === 'undefined'
+                            ? sum
+                            : sum + r[column.Name], 0);
                     break;
                 case AggregateFunctions.AVERAGE.toLowerCase():
-                    prev[column.Name] = subset.length === 0 ? 0
-                        : (subset.reduce((sum, r) => sum + r[column.Name], 0) / subset.length);
+                    prev[column.Name] = subset.length === 0
+                        ? 0
+                        : subset.reduce((sum, r) => typeof r[column.Name] === 'undefined'
+                            ? sum
+                            : sum + r[column.Name], 0)
+                        / subset.length;
                     break;
                 case AggregateFunctions.MAX.toLowerCase():
                     prev[column.Name] = subset.length === 0 ? 0

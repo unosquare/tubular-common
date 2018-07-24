@@ -1,7 +1,7 @@
-export const localData = [
+export const payloadUndefined = [
   {
     OrderID: 1,
-    CustomerName: 'Microsoft',
+    CustomerName: undefined,
     ShippedDate: '2016-03-19T19:00:00',
     ShipperCity: 'Guadalajara, JAL, Mexico',
     Amount: 300.00
@@ -9,7 +9,7 @@ export const localData = [
   {
     OrderID: 2,
     CustomerName: 'Microsoft',
-    ShippedDate: '2016-11-08T18:00:00',
+    ShippedDate: undefined,
     ShipperCity: 'Los Angeles, CA, USA',
     Amount: 9.00
   },
@@ -17,7 +17,7 @@ export const localData = [
     OrderID: 3,
     CustomerName: 'Unosquare LLC',
     ShippedDate: '2016-11-08T18:00:00',
-    ShipperCity: 'Guadalajara, JAL, Mexico',
+    ShipperCity: undefined,
     Amount: 92.00
   },
   {
@@ -25,7 +25,7 @@ export const localData = [
     CustomerName: 'Vesta',
     ShippedDate: '2016-03-19T19:00:00',
     ShipperCity: 'Portland, OR, USA',
-    Amount: 300.00
+    Amount: undefined
   },
   {
     OrderID: 5,
