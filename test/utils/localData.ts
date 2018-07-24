@@ -1,4 +1,4 @@
-export const expectedLocalData = [
+export const localData = [
   {
     OrderID: 1,
     CustomerName: 'Microsoft',
@@ -68,11 +68,7 @@ export const expectedLocalData = [
     ShippedDate: '2016-03-19T19:00:00',
     ShipperCity: 'Portland, OR, USA',
     Amount: 300.00
-  }
-];
-
-export const localData = [
-  ...expectedLocalData,
+  },
   {
     OrderID: 11,
     CustomerName: 'Microsoft',
@@ -145,14 +141,14 @@ export const localData = [
   },
   {
     OrderID: 21,
-    CustomerName: 'Wizeline',
+    CustomerName: 'Apple',
     ShippedDate: '2015-11-04T18:00:00',
     ShipperCity: 'Guadalajara, JAL, Mexico',
     Amount: 100.00
   },
   {
     OrderID: 22,
-    CustomerName: 'Tiempo Development',
+    CustomerName: 'Google',
     ShippedDate: '2016-01-04T18:00:00',
     ShipperCity: 'Monterrey, NL, Mexico',
     Amount: 150.00

@@ -39,56 +39,56 @@ const cases = [
 ];
 
 const casesWithMissingValues = [
-    { name: 'WithMissingValues simple', request: simpleRequest, response: payloadWithMissingValuesResponse },
-    { name: 'WithMissingValues with Page 2', request: page2Request, response: page2WithMissingValuesResponse },
+    { name: 'simple', request: simpleRequest, response: payloadWithMissingValuesResponse },
+    { name: 'with Page 2', request: page2Request, response: page2WithMissingValuesResponse },
     {
-        name: 'WithMissingValues with PageSize 20', request: pageSize20Request,
+        name: 'with PageSize 20', request: pageSize20Request,
         response: pageSize20WithMissingValuesResponse
     },
     {
-        name: 'WithMissingValues with SearchText Microsoft', request: microsoftSearchRequest,
+        name: 'with SearchText Microsoft', request: microsoftSearchRequest,
         response: searcTexthMicrosoftMissingValuesResponse
     },
     {
-        name: 'WithMissingValues with aggregate func COUNT', request: aggregateCountRequest,
+        name: 'with aggregate func COUNT', request: aggregateCountRequest,
         response: aggregateCountMissingValuesResponse
     },
     {
-        name: 'WithMissingValues with aggregate func SUM', request: aggregateSumRequest,
+        name: 'with aggregate func SUM', request: aggregateSumRequest,
         response: aggregateSumtMissingValuesResponse
     },
     {
-        name: 'WithMissingValues with aggregate func AVERAGE', request: aggregateAverageRequest,
+        name: 'with aggregate func AVERAGE', request: aggregateAverageRequest,
         response: aggregateAverageMissingValuesResponse
     },
     {
-        name: 'WithMissingValues with aggregate func DISTINCT', request: aggregateDistinctRequest,
+        name: 'with aggregate func DISTINCT', request: aggregateDistinctRequest,
         response: aggregateDistinctMissingValuesResponse
     },
     {
-        name: 'WithMissingValues with aggregate func MAX', request: aggregateMaxRequest,
+        name: 'with aggregate func MAX', request: aggregateMaxRequest,
         response: aggregateMaxMissingValuesResponse
     },
     {
-        name: 'WithMissingValues with aggregate func MIN', request: aggregateMinRequest,
+        name: 'with aggregate func MIN', request: aggregateMinRequest,
         response: aggregateMinMissingValuesResponse
     },
     {
-        name: 'WithMissingValues with Page -1', request: pageMinus1Request,
+        name: 'with Page -1', request: pageMinus1Request,
         response: pageMinus1MinMissingValuesResponse
     },
     {
-        name: 'WithMissingValues with Sort Id Descending', request: desendingOrderIdRequest,
+        name: 'with Sort Id Descending', request: desendingOrderIdRequest,
         response: descendingMissingValuesResponse
     },
 ];
 
 describe('Transformer', () => {
     cases.forEach((i) =>
-    it(`should return response ${i.name}`,
-        () => expect({ ...Transformer.getResponse(i.request, localData) }).toEqual(i.response)));
-
-    casesWithMissingValues.forEach((i) =>
         it(`should return response ${i.name}`,
-            () => expect({ ...Transformer.getResponse(i.request, payloadUndefined) }).toEqual(i.response)));
+            () => expect({ ...Transformer.getResponse(i.request, localData) }).toEqual(i.response)));
+
+    // casesWithMissingValues.forEach((i) =>
+    //     it(`should return response with missing data and ${i.name}`,
+    //         () => expect({ ...Transformer.getResponse(i.request, payloadUndefined) }).toEqual(i.response)));
 });

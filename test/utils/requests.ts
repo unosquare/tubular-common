@@ -304,23 +304,20 @@ const aggregateDistinctRequest = new GridRequest(
       new ColumnModel('CustomerName',
         {
           Aggregate: AggregateFunctions.NONE,
-          Searchable: true,
-          Sortable: false
+          Searchable: true
         }
       ),
       new ColumnModel('ShippedDate',
         {
           DataType: ColumnDataType.DATE_TIME,
-          Filtering: true,
-          Sortable: false
+          Filtering: true
         }
       ),
       new ColumnModel('ShipperCity'),
       new ColumnModel('Amount',
         {
           Aggregate: AggregateFunctions.DISTINCT_COUNT,
-          DataType: ColumnDataType.NUMERIC,
-          Sortable: false
+          DataType: ColumnDataType.NUMERIC
         }
       )
     ],
