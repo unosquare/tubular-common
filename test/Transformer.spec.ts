@@ -13,21 +13,21 @@ import {
     aggregateAverageResponse, aggregateCountResponse, aggregateDistinctResponse, aggregateMaxResponse,
     aggregateMinResponse, aggregateSumResponse,
     descendingOrderIdResponse, page2Response, pageMinus1Response,
-    pageSize20Response, searcTexthMicrosoftResponse, simpleResponse
+    pageSize20Response, searchTextMicrosoftResponse, simpleResponse
 } from './utils/responses';
 
 import {
     aggregateAverageMissingValuesResponse, aggregateCountMissingValuesResponse, aggregateDistinctMissingValuesResponse,
-    aggregateMaxMissingValuesResponse, aggregateMinMissingValuesResponse, aggregateSumtMissingValuesResponse,
+    aggregateMaxMissingValuesResponse, aggregateMinMissingValuesResponse, aggregateSumMissingValuesResponse,
     descendingMissingValuesResponse, page2WithMissingValuesResponse, pageMinus1MinMissingValuesResponse,
-    pageSize20WithMissingValuesResponse, payloadWithMissingValuesResponse, searcTexthMicrosoftMissingValuesResponse
-} from './utils/MissingValueResponses';
+    pageSize20WithMissingValuesResponse, payloadWithMissingValuesResponse, searchTextMicrosoftMissingValuesResponse
+} from './utils/responsesUndefined';
 
 const cases = [
     { name: 'simple', request: simpleRequest, response: simpleResponse },
     { name: 'with Page 2', request: page2Request, response: page2Response },
     { name: 'with PageSize 20', request: pageSize20Request, response: pageSize20Response },
-    { name: 'with SearchText Microsoft', request: microsoftSearchRequest, response: searcTexthMicrosoftResponse },
+    { name: 'with SearchText Microsoft', request: microsoftSearchRequest, response: searchTextMicrosoftResponse },
     { name: 'with Sort Id Descending', request: desendingOrderIdRequest, response: descendingOrderIdResponse },
     { name: 'with aggregate func COUNT', request: aggregateCountRequest, response: aggregateCountResponse },
     { name: 'with aggregate func SUM', request: aggregateSumRequest, response: aggregateSumResponse },
@@ -47,7 +47,7 @@ const casesWithMissingValues = [
     },
     {
         name: 'with SearchText Microsoft', request: microsoftSearchRequest,
-        response: searcTexthMicrosoftMissingValuesResponse
+        response: searchTextMicrosoftMissingValuesResponse
     },
     {
         name: 'with aggregate func COUNT', request: aggregateCountRequest,
@@ -55,7 +55,7 @@ const casesWithMissingValues = [
     },
     {
         name: 'with aggregate func SUM', request: aggregateSumRequest,
-        response: aggregateSumtMissingValuesResponse
+        response: aggregateSumMissingValuesResponse
     },
     {
         name: 'with aggregate func AVERAGE', request: aggregateAverageRequest,
@@ -80,7 +80,7 @@ const casesWithMissingValues = [
     {
         name: 'with Sort Id Descending', request: desendingOrderIdRequest,
         response: descendingMissingValuesResponse
-    },
+    }
 ];
 
 describe('Transformer', () => {
@@ -88,7 +88,7 @@ describe('Transformer', () => {
         it(`should return response ${i.name}`,
             () => expect({ ...Transformer.getResponse(i.request, localData) }).toEqual(i.response)));
 
-    // casesWithMissingValues.forEach((i) =>
-    //     it(`should return response with missing data and ${i.name}`,
-    //         () => expect({ ...Transformer.getResponse(i.request, payloadUndefined) }).toEqual(i.response)));
+    casesWithMissingValues.forEach((i) =>
+        it(`should return response with missing data and ${i.name}`,
+            () => expect({ ...Transformer.getResponse(i.request, payloadUndefined) }).toEqual(i.response)));
 });
