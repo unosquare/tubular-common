@@ -227,17 +227,19 @@ class Transformer {
         return aggregateColumns.reduce((prev: any, column: any) => {
             switch (column.Aggregate.toLowerCase()) {
                 case AggregateFunctions.SUM.toLowerCase():
-                    prev[column.Name] = subset.length === 0 ? 0 : subset.reduce((sum, r) => {
-                        if (typeof r[column.Name] === 'undefined') { return sum + 0; }
-                        return sum + r[column.Name];
-                    }, 0);
+                    prev[column.Name] = subset.length === 0
+                        ? 0
+                        : subset.reduce((sum, r) => typeof r[column.Name] === 'undefined'
+                            ? sum
+                            : sum + r[column.Name], 0);
                     break;
                 case AggregateFunctions.AVERAGE.toLowerCase():
-                    prev[column.Name] = subset.length === 0 ? 0
-                        : (subset.reduce((sum, r) => {
-                            if (typeof r[column.Name] === 'undefined') { return sum + 0; }
-                            return sum + r[column.Name];
-                        }, 0) / subset.length);
+                    prev[column.Name] = subset.length === 0
+                        ? 0
+                        : subset.reduce((sum, r) => typeof r[column.Name] === 'undefined'
+                            ? sum
+                            : sum + r[column.Name], 0)
+                        / subset.length;
                     break;
                 case AggregateFunctions.MAX.toLowerCase():
                     prev[column.Name] = subset.length === 0 ? 0
