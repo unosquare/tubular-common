@@ -68,7 +68,7 @@ export default class ColumnModel {
     this.SortDirection = options && options.Sortable && options.SortDirection || ColumnSortDirection.NONE;
     this.SortOrder = options && this.SortDirection !== ColumnSortDirection.NONE && options.SortOrder || -1;
     this.Sortable = options && options.Sortable || false;
-    this.Visible = options && options.Visible || true;
+    this.Visible = options && typeof(options.Visible) === 'boolean' ? options.Visible : true;
     this.Filter = options && options.Filtering ? filterProps(name) : {};
 
     this.Filter.HasFilter = this.hasFilter;
