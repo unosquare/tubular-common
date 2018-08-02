@@ -11,4 +11,14 @@ describe('New ColumnModel instance', () => {
 
         expect(actual.Visible).toBeFalsy();
     });
+
+    it('should have property Visible = true values', () => {
+        const actual = new ColumnModel('Test',
+            {
+                IsKey: true
+            }
+        );
+
+        expect(actual.Visible).toBeTruthy();
+    });
 });
