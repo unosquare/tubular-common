@@ -1,13 +1,14 @@
 {
   "name": "tubular-common",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Tubular Common Models and Data Transformer",
   "main": "dist/index.js",
   "scripts": {
     "test": "jasmine-ts test/**/*.spec.ts",
     "lint": "tslint src/**/*.ts",
     "fixlint": "tslint --fix src/**/*.ts",
-    "build": "tsc --p ./tsconfig.json"
+    "build": "tsc --p ./tsconfig.json",
+    "prepublish": "npm run build"
   },
   "files": [
     "dist/**/*"
