@@ -85,7 +85,7 @@ console.log(data);
 
 The output is the following Javascript object:
 
-```json
+```javascript
 {
   AggregationPayload: { },
   Counter: 0,
