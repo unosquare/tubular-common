@@ -6,7 +6,7 @@
 
 Tubular Common provides TypeScript and Javascript models and data transformer to use any Tubular DataGrid component with an array of Javascript objects. 
 
-Please visit the [Tubular GitHub Page}(http://unosquare.github.io/tubular) to learn how quickly you can start coding. Don't forget to check out the Tubular Generator which quickly turns models into an awesome UIs!
+Please visit the [Tubular GitHub Page](http://unosquare.github.io/tubular) to learn how quickly you can start coding. Don't forget to check out the Tubular Generator which quickly turns models into an awesome UIs!
 
 ## npm Installation [![npm version](https://badge.fury.io/js/tubular-common.svg)](https://badge.fury.io/js/tubular-common)
 
