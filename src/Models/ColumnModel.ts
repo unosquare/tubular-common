@@ -12,6 +12,34 @@ function filterProps(name: string): object {
   };
 }
 
+const NumericOperators = [
+  { Value: CompareOperators.NONE, Title: 'None' },
+  { Value: CompareOperators.EQUALS, Title: 'Equals' },
+  { Value: CompareOperators.BETWEEN, Title: 'Between' },
+  { Value: CompareOperators.GTE, Title: '>=' },
+  { Value: CompareOperators.GT, Title: '>' },
+  { Value: CompareOperators.LTE, Title: '<=' },
+  { Value: CompareOperators.LT, Title: '<' }
+];
+
+const StringOperators = [
+  { Value: CompareOperators.NONE, Title: 'None' },
+  { Value: CompareOperators.EQUALS, Title: 'Equals' },
+  { Value: CompareOperators.NOT_EQUALS, Title: 'Not Equals' },
+  { Value: CompareOperators.CONTAINS, Title: 'Contains' },
+  { Value: CompareOperators.NOT_CONTAINS, Title: 'Not Contains' },
+  { Value: CompareOperators.STARTS_WITH, Title: 'Starts With' },
+  { Value: CompareOperators.NOT_STARTS_WITH, Title: 'Not Starts With' },
+  { Value: CompareOperators.ENDS_WITH, Title: 'Ends With' },
+  { Value: CompareOperators.NOT_ENDS_WITH, Title: 'Not Ends With' }
+];
+
+const BooleanOperators = [
+  { Value: CompareOperators.NONE, Title: 'None' },
+  { Value: CompareOperators.EQUALS, Title: 'Equals' },
+  { Value: CompareOperators.NOT_EQUALS, Title: 'Not Equals' }
+];
+
 export default class ColumnModel {
   public static sortColumnArray(columnName: string, columns: ColumnModel[], multiSort: boolean) {
     const column = columns.find((c: ColumnModel) => c.Name === columnName);
@@ -68,9 +96,25 @@ export default class ColumnModel {
     this.SortDirection = options && options.Sortable && options.SortDirection || ColumnSortDirection.NONE;
     this.SortOrder = options && this.SortDirection !== ColumnSortDirection.NONE && options.SortOrder || -1;
     this.Sortable = options && options.Sortable || false;
-    this.Visible = options && typeof(options.Visible) === 'boolean' ? options.Visible : true;
+    this.Visible = options && typeof (options.Visible) === 'boolean' ? options.Visible : true;
     this.Filter = options && options.Filtering ? filterProps(name) : {};
 
     this.Filter.HasFilter = this.hasFilter;
+  }
+
+  public getOperators() {
+    switch (this.DataType) {
+      case ColumnDataType.STRING:
+        return StringOperators;
+      case ColumnDataType.NUMERIC:
+      case ColumnDataType.DATE:
+      case ColumnDataType.DATE_TIME:
+      case ColumnDataType.DATE_TIME_UTC:
+        return NumericOperators;
+      case ColumnDataType.BOOLEAN:
+        return BooleanOperators;
+      default:
+        return [];
+    }
   }
 }
