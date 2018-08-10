@@ -70,6 +70,22 @@ export default class ColumnModel {
     return columns;
   }
 
+  public static getOperators(column: ColumnModel) {
+    switch (column.DataType) {
+      case ColumnDataType.STRING:
+        return StringOperators;
+      case ColumnDataType.NUMERIC:
+      case ColumnDataType.DATE:
+      case ColumnDataType.DATE_TIME:
+      case ColumnDataType.DATE_TIME_UTC:
+        return NumericOperators;
+      case ColumnDataType.BOOLEAN:
+        return BooleanOperators;
+      default:
+        return [];
+    }
+  }
+
   public Aggregate: AggregateFunctions;
   public DataType: ColumnDataType;
   public Filter: any;
@@ -100,21 +116,5 @@ export default class ColumnModel {
     this.Filter = options && options.Filtering ? filterProps(name) : {};
 
     this.Filter.HasFilter = this.hasFilter;
-  }
-
-  public getOperators() {
-    switch (this.DataType) {
-      case ColumnDataType.STRING:
-        return StringOperators;
-      case ColumnDataType.NUMERIC:
-      case ColumnDataType.DATE:
-      case ColumnDataType.DATE_TIME:
-      case ColumnDataType.DATE_TIME_UTC:
-        return NumericOperators;
-      case ColumnDataType.BOOLEAN:
-        return BooleanOperators;
-      default:
-        return [];
-    }
   }
 }
