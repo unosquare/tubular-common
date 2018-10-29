@@ -1,11 +1,14 @@
-import { isAfter, isBefore, isEqual } from 'date-fns';
-
+import toDate from './date-utils';
 import {
     AggregateFunctions, ColumnSortDirection,
     CompareOperators
 } from './Models';
 import GridRequest from './Models/GridRequest';
 import GridResponse from './Models/GridResponse';
+
+const isEqual = (date1: any, date2: any) => toDate(date1).getTime() === toDate(date2).getTime();
+const isAfter = (date1: any, date2: any) => toDate(date1).getTime() > toDate(date2).getTime();
+const isBefore = (date1: any, date2: any) => toDate(date1).getTime() < toDate(date2).getTime();
 
 class Transformer {
 
@@ -67,15 +70,15 @@ class Transformer {
                     column.DataType === 'datetimeutc';
 
                 const partialfiltering = (data, action) => {
-                        return data.filter(
-                            (row) => {
-                                if (typeof row[column.Name] === 'undefined' || row[column.Name] === null) {
-                                    return false;
-                                } else {
-                                    return action(row[column.Name]);
-                                }
-                            });
-                    };
+                    return data.filter(
+                        (row) => {
+                            if (typeof row[column.Name] === 'undefined' || row[column.Name] === null) {
+                                return false;
+                            } else {
+                                return action(row[column.Name]);
+                            }
+                        });
+                };
 
                 switch (column.Filter.Operator) {
                     case CompareOperators.EQUALS:
@@ -100,30 +103,30 @@ class Transformer {
                         }
                         break;
                     case CompareOperators.CONTAINS:
-                    subset = partialfiltering(subset, (x) => x.toLowerCase()
-                    .indexOf(column.Filter.Text.toLowerCase()) >= 0);
-                    subset = partialfiltering(subset,
-                        (x) => x.toLowerCase().indexOf(column.Filter.Text.toLowerCase()));
-                    break;
+                        subset = partialfiltering(subset, (x) => x.toLowerCase()
+                            .indexOf(column.Filter.Text.toLowerCase()) >= 0);
+                        subset = partialfiltering(subset,
+                            (x) => x.toLowerCase().indexOf(column.Filter.Text.toLowerCase()));
+                        break;
                     case CompareOperators.NOT_CONTAINS:
-                    subset = partialfiltering(subset,
-                        (x) => x.toLowerCase().indexOf(column.Filter.Text.toLowerCase()) < 0);
-                    break;
+                        subset = partialfiltering(subset,
+                            (x) => x.toLowerCase().indexOf(column.Filter.Text.toLowerCase()) < 0);
+                        break;
                     case CompareOperators.STARTS_WITH:
-                    subset = partialfiltering(subset,
-                        (x) => x.toLowerCase().startsWith(column.Filter.Text.toLowerCase()));
-                    break;
+                        subset = partialfiltering(subset,
+                            (x) => x.toLowerCase().startsWith(column.Filter.Text.toLowerCase()));
+                        break;
                     case CompareOperators.NOT_STARTS_WITH:
-                    subset = partialfiltering(subset,
-                        (x) => !x.toLowerCase().startsWith(column.Filter.Text.toLowerCase()));
-                    break;
+                        subset = partialfiltering(subset,
+                            (x) => !x.toLowerCase().startsWith(column.Filter.Text.toLowerCase()));
+                        break;
                     case CompareOperators.ENDS_WITH:
-                    subset = partialfiltering(subset,
-                        (x) => x.toLowerCase().endsWith(column.Filter.Text.toLowerCase()));
+                        subset = partialfiltering(subset,
+                            (x) => x.toLowerCase().endsWith(column.Filter.Text.toLowerCase()));
                     case CompareOperators.NOT_ENDS_WITH:
-                    subset = partialfiltering(subset,
-                        (x) => !x.toLowerCase().endsWith(column.Filter.Text.toLowerCase()));
-                    break;
+                        subset = partialfiltering(subset,
+                            (x) => !x.toLowerCase().endsWith(column.Filter.Text.toLowerCase()));
+                        break;
                     case CompareOperators.GT:
                         if (isDate) {
                             subset = subset.filter((row) =>
