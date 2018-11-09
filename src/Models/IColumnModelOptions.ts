@@ -3,7 +3,7 @@ import { AggregateFunctions, ColumnDataType, ColumnSortDirection } from './Colum
 export default interface IColumnModelOptions {
     Aggregate?: AggregateFunctions;
     DataType?: ColumnDataType;
-    Filtering?: boolean;
+    Filterable?: boolean;
     IsKey?: boolean;
     Label?: string;
     Searchable?: boolean;

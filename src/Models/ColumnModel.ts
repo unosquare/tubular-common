@@ -89,6 +89,7 @@ export default class ColumnModel {
   public Aggregate: AggregateFunctions;
   public DataType: ColumnDataType;
   public Filter: any;
+  public Filterable: boolean;
   public IsKey: boolean;
   public Label: string;
   public Name: string;
@@ -113,7 +114,8 @@ export default class ColumnModel {
     this.SortOrder = options && this.SortDirection !== ColumnSortDirection.NONE && options.SortOrder || -1;
     this.Sortable = options && options.Sortable || false;
     this.Visible = options && typeof (options.Visible) === 'boolean' ? options.Visible : true;
-    this.Filter = options && options.Filtering ? filterProps(name) : {};
+    this.Filter = options && options.Filterable ? filterProps(name) : {};
+    this.Filterable = options && options.Filterable || false;
 
     this.Filter.HasFilter = this.hasFilter;
   }
