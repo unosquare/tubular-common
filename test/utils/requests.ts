@@ -23,7 +23,7 @@ const simpleRequest = new GridRequest(
     new ColumnModel('ShippedDate',
       {
         DataType: ColumnDataType.DATE_TIME,
-        Filtering: true,
+        Filterable: true,
         Sortable: false
       }
     ),
@@ -58,7 +58,7 @@ const microsoftSearchRequest = new GridRequest([
   new ColumnModel('ShippedDate',
     {
       DataType: ColumnDataType.DATE_TIME,
-      Filtering: true,
+      Filterable: true,
       Sortable: false
     }
   ),
@@ -93,7 +93,7 @@ const page2Request = new GridRequest([
   new ColumnModel('ShippedDate',
     {
       DataType: ColumnDataType.DATE_TIME,
-      Filtering: true,
+      Filterable: true,
       Sortable: false
     }
   ),
@@ -129,7 +129,7 @@ const pageSize20Request = new GridRequest(
     new ColumnModel('ShippedDate',
       {
         DataType: ColumnDataType.DATE_TIME,
-        Filtering: true,
+        Filterable: true,
         Sortable: false
       }
     ),
@@ -165,7 +165,7 @@ const desendingOrderIdRequest = new GridRequest(
     new ColumnModel('ShippedDate',
       {
         DataType: ColumnDataType.DATE_TIME,
-        Filtering: true,
+        Filterable: true,
         Sortable: false
       }
     ),
@@ -201,7 +201,7 @@ const aggregateCountRequest = new GridRequest(
     new ColumnModel('ShippedDate',
       {
         DataType: ColumnDataType.DATE_TIME,
-        Filtering: true,
+        Filterable: true,
         Sortable: false
       }
     ),
@@ -237,7 +237,7 @@ const aggregateSumRequest = new GridRequest(
     new ColumnModel('ShippedDate',
       {
         DataType: ColumnDataType.DATE_TIME,
-        Filtering: true,
+        Filterable: true,
         Sortable: false
       }
     ),
@@ -274,7 +274,7 @@ const aggregateAverageRequest = new GridRequest(
     new ColumnModel('ShippedDate',
       {
         DataType: ColumnDataType.DATE_TIME,
-        Filtering: true,
+        Filterable: true,
         Sortable: false
       }
     ),
@@ -310,7 +310,7 @@ const aggregateDistinctRequest = new GridRequest(
     new ColumnModel('ShippedDate',
       {
         DataType: ColumnDataType.DATE_TIME,
-        Filtering: true
+        Filterable: true
       }
     ),
     new ColumnModel('ShipperCity'),
@@ -345,7 +345,7 @@ const aggregateMaxRequest = new GridRequest(
     new ColumnModel('ShippedDate',
       {
         DataType: ColumnDataType.DATE_TIME,
-        Filtering: true,
+        Filterable: true,
         Sortable: false
       }
     ),
@@ -382,7 +382,7 @@ const aggregateMinRequest = new GridRequest(
     new ColumnModel('ShippedDate',
       {
         DataType: ColumnDataType.DATE_TIME,
-        Filtering: true,
+        Filterable: true,
         Sortable: false
       }
     ),
@@ -419,7 +419,7 @@ const pageMinus1Request = new GridRequest(
     new ColumnModel('ShippedDate',
       {
         DataType: ColumnDataType.DATE_TIME,
-        Filtering: true,
+        Filterable: true,
         Sortable: false
       }
     ),

@@ -48,7 +48,7 @@ const request = new GridRequest(
     new ColumnModel('ShippedDate',
       {
         DataType: ColumnDataType.DATE_TIME,
-        Filtering: true,
+        Filterable: true,
         Sortable: false
       }
     ),
