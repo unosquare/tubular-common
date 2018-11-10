@@ -30,11 +30,12 @@ const request = new GridRequest(
     new ColumnModel('OrderID',
       {
         DataType: ColumnDataType.NUMERIC,
+        Filterable: true,
         IsKey: true,
         Label: 'Order ID',
         SortDirection: ColumnSortDirection.ASCENDING,
         SortOrder: 1,
-        Sortable: true
+        Sortable: true,
       }
     ),
     new ColumnModel('CustomerName',
@@ -47,7 +48,7 @@ const request = new GridRequest(
     new ColumnModel('ShippedDate',
       {
         DataType: ColumnDataType.DATE_TIME,
-        Filtering: true,
+        Filterable: true,
         Sortable: false
       }
     ),
@@ -168,6 +169,23 @@ The output is the following Javascript object:
 };
 ```
 
+### `ColumnModel` class
+
+It represents a `DataGrid` column and its constructor requires a name identifier as well as an object of column options with the following properties:
+
+| Name | Type | Default Value | Description | Options   |
+|---------------|-------------------|-------------------------|--------------------------------------------------------------|----------|
+| `Name`          | `string`              |         `NONE`          | This is required and represents a property of the entity which we are binding. |-|
+| `Aggregate`     | `AggregateFunctions`  |         `NONE`          | The aggregation function that will be applied to this column. | `NONE`, `SUM`, `AVERAGE`, `COUNT`, `DISTINCT_COUNT`, `MAX`, `MIN` |
+| `DataType`      | `ColumnDataType`      |       `STRING`          | The column type. | `STRING`, `NUMERIC`, `BOOLEAN`, `DATE`, `DATE_TIME`, `DATE_TIME_UTC` |
+| `Filterable`        | `bool`                |        `false`          | Enables filtering.|-|
+| `IsKey`         | `bool`                |        `false`          | Defines if a column is an identifier or not. |-|
+| `Label`         | `string`              | The name of the column  | Column label that will be shown. |-|
+| `Searchable`    | `bool`                |        `true`           | Indicates that a column can be used to search upon. |-|
+| `SortDirection` |`ColumnSortDirection`  |        `NONE`           |-| `NONE`, `ASCENDING`, `DESCENDING` |
+| `SortOrder`     | `number`              |         `-1`            |-|-|
+| `Sortable`      | `bool`                |        `false`          | Determines if a column can be sorted. |-|
+| `Visible`       | `bool`                |        `true`           | Specifies if a column should be shown. |-|
 
 ## Related Projects
 
