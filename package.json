@@ -29,13 +29,10 @@
     "url": "https://github.com/unosquare/tubular-common/issues"
   },
   "homepage": "https://github.com/unosquare/tubular-common#readme",
-  "dependencies": {
-    "tsc": "^1.20150623.0"
-  },
   "devDependencies": {
     "@types/jasmine": "^2.8.8",
     "jasmine": "^3.1.0",
-    "jasmine-ts": "^0.3.0",
+    "jasmine-ts": "^0.2.1",
     "tslint": "^5.11.0",
     "typescript": "^3.0.1"
   }
