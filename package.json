@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "jasmine-ts test/**/*.spec.ts",
-    "unit": "nyc -e .ts -x \"*.spec.ts\" jasmine-ts \"test/**/*.spec.ts\"",
+    "unit": "nyc --reporter=lcov -e .ts -x \"*.spec.ts\" jasmine-ts \"test/**/*.spec.ts\" && cat ./coverage/lcov.info | codacy-coverage",
     "lint": "tslint src/**/*.ts",
     "fixlint": "tslint --fix src/**/*.ts",
     "build": "tsc --p ./tsconfig.json",
