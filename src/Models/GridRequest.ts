@@ -2,12 +2,17 @@ import ColumnModel from './ColumnModel';
 
 const currentTimezone = new Date().getTimezoneOffset();
 
+export interface ISearch {
+  Operator: any;
+  Text: any;
+}
+
 export default class GridRequest {
   protected static counter: number = 0;
 
   public Columns: ColumnModel[];
   public Counter: number;
-  public Search: object;
+  public Search: ISearch;
   public Skip: number;
   public Take: number;
   public TimezoneOffset: number;

@@ -3,6 +3,7 @@ import {
     AggregateFunctions, ColumnSortDirection,
     CompareOperators
 } from './Models';
+import ColumnModel from './Models/ColumnModel';
 import GridRequest from './Models/GridRequest';
 import GridResponse from './Models/GridResponse';
 
@@ -10,7 +11,7 @@ const isEqual = (date1: any, date2: any) => toDate(date1).getTime() === toDate(d
 const isAfter = (date1: any, date2: any) => toDate(date1).getTime() > toDate(date2).getTime();
 const isBefore = (date1: any, date2: any) => toDate(date1).getTime() < toDate(date2).getTime();
 
-class Transformer {
+export default class Transformer {
 
     public static getResponse(request: GridRequest, dataSource: any): GridResponse {
         const response = new GridResponse(request.Counter);
@@ -39,7 +40,7 @@ class Transformer {
         return response;
     }
 
-    private static applyFreeTextSearch(request: any, subset: any[]) {
+    private static applyFreeTextSearch(request: GridRequest, subset: any[]) {
         if (request.Search && request.Search.Operator.toLowerCase() === CompareOperators.AUTO.toLowerCase()) {
             const searchableColumns = request.Columns.filter((x: any) => x.Searchable);
 
@@ -61,24 +62,18 @@ class Transformer {
         }
     }
 
-    private static applyFiltering(request: any, subset: any[]) {
+    private static applyFiltering(request: GridRequest, subset: any[]) {
         request.Columns
-            .filter((column: any) => column.hasFilter)
-            .forEach((column: any) => {
+            .filter((column: ColumnModel) => column.hasFilter)
+            .forEach((column: ColumnModel) => {
                 const isDate = column.DataType === 'datetime' ||
                     column.DataType === 'date' ||
                     column.DataType === 'datetimeutc';
 
-                const partialfiltering = (data, action) => {
-                    return data.filter(
-                        (row) => {
-                            if (typeof row[column.Name] === 'undefined' || row[column.Name] === null) {
-                                return false;
-                            } else {
-                                return action(row[column.Name]);
-                            }
-                        });
-                };
+                const partialfiltering = (data: any[], action: (f: string) => boolean) => data.filter(
+                    (row: any) => typeof row[column.Name] === 'undefined' || row[column.Name] === null
+                        ? false
+                        : action(row[column.Name]));
 
                 switch (column.Filter.Operator) {
                     case CompareOperators.EQUALS:
@@ -87,7 +82,7 @@ class Transformer {
                                 isEqual(row[column.Name], column.Filter.Text));
                         } else if (column.DataType === 'string') {
                             subset = partialfiltering(subset,
-                                (x) => x.toLowerCase() === column.Filter.Text.toLowerCase());
+                                (x: string) => x.toLowerCase() === column.Filter.Text.toLowerCase());
                         } else {
                             subset = subset.filter((row) =>
                                 row[column.Name] === column.Filter.Text);
@@ -96,7 +91,7 @@ class Transformer {
                     case CompareOperators.NOT_EQUALS:
                         if (column.DataType === 'string') {
                             subset = partialfiltering(subset,
-                                (x) => x.toLowerCase() !== column.Filter.Text.toLowerCase());
+                                (x: string) => x.toLowerCase() !== column.Filter.Text.toLowerCase());
                         } else {
                             subset = subset.filter((row) =>
                                 row[column.Name] !== column.Filter.Text);
@@ -106,26 +101,26 @@ class Transformer {
                         subset = partialfiltering(subset, (x) => x.toLowerCase()
                             .indexOf(column.Filter.Text.toLowerCase()) >= 0);
                         subset = partialfiltering(subset,
-                            (x) => x.toLowerCase().indexOf(column.Filter.Text.toLowerCase()));
+                            (x: string) => x.toLowerCase().indexOf(column.Filter.Text.toLowerCase()) >= 0);
                         break;
                     case CompareOperators.NOT_CONTAINS:
                         subset = partialfiltering(subset,
-                            (x) => x.toLowerCase().indexOf(column.Filter.Text.toLowerCase()) < 0);
+                            (x: string) => x.toLowerCase().indexOf(column.Filter.Text.toLowerCase()) < 0);
                         break;
                     case CompareOperators.STARTS_WITH:
                         subset = partialfiltering(subset,
-                            (x) => x.toLowerCase().startsWith(column.Filter.Text.toLowerCase()));
+                            (x: string) => x.toLowerCase().startsWith(column.Filter.Text.toLowerCase()));
                         break;
                     case CompareOperators.NOT_STARTS_WITH:
                         subset = partialfiltering(subset,
-                            (x) => !x.toLowerCase().startsWith(column.Filter.Text.toLowerCase()));
+                            (x: string) => !x.toLowerCase().startsWith(column.Filter.Text.toLowerCase()));
                         break;
                     case CompareOperators.ENDS_WITH:
                         subset = partialfiltering(subset,
-                            (x) => x.toLowerCase().endsWith(column.Filter.Text.toLowerCase()));
+                            (x: string) => x.toLowerCase().endsWith(column.Filter.Text.toLowerCase()));
                     case CompareOperators.NOT_ENDS_WITH:
                         subset = partialfiltering(subset,
-                            (x) => !x.toLowerCase().endsWith(column.Filter.Text.toLowerCase()));
+                            (x: string) => !x.toLowerCase().endsWith(column.Filter.Text.toLowerCase()));
                         break;
                     case CompareOperators.GT:
                         if (isDate) {
@@ -181,9 +176,9 @@ class Transformer {
         return subset;
     }
 
-    private static applySorting(request: any, subset: any[]) {
+    private static applySorting(request: GridRequest, subset: any[]) {
         const sortedColumns = request.Columns
-            .filter((column: any) => column.SortOrder > 0);
+            .filter((column: ColumnModel) => column.SortOrder > 0);
 
         let sorts: any[] = [
             { Name: request.Columns[0].Name, Asc: true }
@@ -193,7 +188,7 @@ class Transformer {
             sortedColumns.sort((a, b) => a.SortOrder > b.SortOrder ? 1 : b.SortOrder > a.SortOrder ? -1 : 0);
 
             sorts = sortedColumns
-                .map((y: any) => ({ Name: y.Name, Asc: y.SortDirection === ColumnSortDirection.ASCENDING }));
+                .map((y: ColumnModel) => ({ Name: y.Name, Asc: y.SortDirection === ColumnSortDirection.ASCENDING }));
         }
 
         subset.sort((a, b) => {
@@ -223,11 +218,12 @@ class Transformer {
         return subset;
     }
 
-    private static getAggregatePayload(request: any, subset: any[]) {
-        const aggregateColumns = request.Columns.filter((column: any) =>
-            column.Aggregate && column.Aggregate.toLowerCase() !== AggregateFunctions.NONE.toLowerCase());
+    private static getAggregatePayload(request: GridRequest, subset: any[]) {
+        const aggregateColumns = request.Columns
+            .filter((column: ColumnModel) =>
+                column.Aggregate && column.Aggregate.toLowerCase() !== AggregateFunctions.NONE.toLowerCase());
 
-        return aggregateColumns.reduce((prev: any, column: any) => {
+        return aggregateColumns.reduce((prev: any, column: ColumnModel) => {
             switch (column.Aggregate.toLowerCase()) {
                 case AggregateFunctions.SUM.toLowerCase():
                     prev[column.Name] = subset.length === 0
@@ -272,13 +268,11 @@ class Transformer {
         }, {});
     }
 
-    private static parsePayload(row: any, columns: any[]) {
-        return columns.reduce((obj: any, column: any, key: any) => {
+    private static parsePayload(row: any, columns: ColumnModel[]) {
+        return columns.reduce((obj: any, column: ColumnModel, key: number) => {
             obj[column.Name] = row[key] || row[column.Name];
 
             return obj;
         }, {});
     }
 }
-
-export default Transformer;

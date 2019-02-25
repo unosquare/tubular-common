@@ -63,7 +63,7 @@ const patterns = {
  *
  * @param {Date|String|Number} argument - the value to convert
  */
-export default function toDate(argument) {
+export default function toDate(argument: Date | string | number) {
     if (argument === null) {
         return new Date(NaN);
     }
@@ -90,14 +90,10 @@ export default function toDate(argument) {
 
     const date = parseDate(restDateString, year);
 
-    if (isNaN(date)) {
-        return new Date(NaN);
-    }
-
     if (date) {
         const timestamp = date.getTime();
         let time = 0;
-        let offset;
+        let offset: number;
 
         if (dateStrings.time) {
             time = parseTime(dateStrings.time);
@@ -124,7 +120,7 @@ export default function toDate(argument) {
     }
 }
 
-function getTimezoneOffsetInMilliseconds(dirtyDate) {
+function getTimezoneOffsetInMilliseconds(dirtyDate: Date) {
     const date = new Date(dirtyDate.getTime());
     const baseTimezoneOffset = date.getTimezoneOffset();
     date.setSeconds(0, 0);
@@ -133,10 +129,10 @@ function getTimezoneOffsetInMilliseconds(dirtyDate) {
     return baseTimezoneOffset * MILLISECONDS_IN_MINUTE + millisecondsPartOfTimezoneOffset;
 }
 
-function splitDateString(dateString) {
+function splitDateString(dateString: string) {
     const dateStrings: any = {};
     const array = dateString.split(patterns.dateTimeDelimeter);
-    let timeString;
+    let timeString: string;
 
     if (patterns.plainTime.test(array[0])) {
         dateStrings.date = null;
@@ -163,11 +159,11 @@ function splitDateString(dateString) {
     return dateStrings;
 }
 
-function parseYear(dateString, additionalDigits) {
+function parseYear(dateString: string, additionalDigits: number) {
     const patternYYY = patterns.YYY[additionalDigits];
     const patternYYYYY = patterns.YYYYY[additionalDigits];
 
-    let token;
+    let token: any[] | RegExpExecArray;
 
     // YYYY or ±YYYYY
     token = patterns.YYYY.exec(dateString) || patternYYYYY.exec(dateString);
@@ -195,16 +191,16 @@ function parseYear(dateString, additionalDigits) {
     };
 }
 
-function parseDate(dateString, year) {
+function parseDate(dateString: string, year: number) {
     // Invalid ISO-formatted year
     if (year === null) {
         return null;
     }
 
-    let token;
-    let date;
-    let month;
-    let week;
+    let token: RegExpExecArray | string[];
+    let date: Date;
+    let month: number;
+    let week: number;
 
     // YYYY
     if (dateString.length === 0) {
@@ -261,7 +257,7 @@ function parseDate(dateString, year) {
     if (token) {
         week = parseInt(token[1], 10) - 1;
 
-        if (!validateWeekDate(year, week)) {
+        if (!validateWeekDate(week)) {
             return new Date(NaN);
         }
 
@@ -274,7 +270,7 @@ function parseDate(dateString, year) {
         week = parseInt(token[1], 10) - 1;
         const dayOfWeek = parseInt(token[2], 10) - 1;
 
-        if (!validateWeekDate(year, week, dayOfWeek)) {
+        if (!validateWeekDate(week, dayOfWeek)) {
             return new Date(NaN);
         }
 
@@ -285,10 +281,10 @@ function parseDate(dateString, year) {
     return null;
 }
 
-function parseTime(timeString) {
-    let token;
-    let hours;
-    let minutes;
+function parseTime(timeString: string) {
+    let token: RegExpExecArray | string[];
+    let hours: number;
+    let minutes: number;
 
     // hh
     token = patterns.HH.exec(timeString);
@@ -336,9 +332,9 @@ function parseTime(timeString) {
     return null;
 }
 
-function parseTimezone(timezoneString) {
-    let token;
-    let absoluteOffset;
+function parseTimezone(timezoneString: string) {
+    let token: RegExpExecArray | string[];
+    let absoluteOffset: number;
 
     // Z
     token = patterns.timezoneZ.exec(timezoneString);
@@ -346,7 +342,7 @@ function parseTimezone(timezoneString) {
         return 0;
     }
 
-    let hours;
+    let hours: number;
 
     // ±hh
     token = patterns.timezoneHH.exec(timezoneString);
@@ -373,7 +369,7 @@ function parseTimezone(timezoneString) {
     return 0;
 }
 
-function dayOfISOWeekYear(isoWeekYear, week, day?) {
+function dayOfISOWeekYear(isoWeekYear: number, week: number, day?: number) {
     week = week || 0;
     day = day || 0;
     const date = new Date(0);
@@ -389,11 +385,11 @@ function dayOfISOWeekYear(isoWeekYear, week, day?) {
 const DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 const DAYS_IN_MONTH_LEAP_YEAR = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-function isLeapYearIndex(year) {
+function isLeapYearIndex(year: number) {
     return year % 400 === 0 || (year % 4 === 0 && year % 100 !== 0);
 }
 
-function validateDate(year, month, date?) {
+function validateDate(year: number, month: number, date?: number) {
     if (month < 0 || month > 11) {
         return false;
     }
@@ -415,7 +411,7 @@ function validateDate(year, month, date?) {
     return true;
 }
 
-function validateDayOfYearDate(year, dayOfYear) {
+function validateDayOfYearDate(year: number, dayOfYear: number) {
     if (dayOfYear < 1) {
         return false;
     }
@@ -431,7 +427,7 @@ function validateDayOfYearDate(year, dayOfYear) {
     return true;
 }
 
-function validateWeekDate(year, week, day?) {
+function validateWeekDate(week: number, day?: number) {
     if (week < 0 || week > 52) {
         return false;
     }
@@ -443,7 +439,7 @@ function validateWeekDate(year, week, day?) {
     return true;
 }
 
-function validateTime(hours, minutes?, seconds?) {
+function validateTime(hours: number, minutes?: number, seconds?: number) {
     if (hours != null && (hours < 0 || hours >= 25)) {
         return false;
     }
@@ -459,6 +455,6 @@ function validateTime(hours, minutes?, seconds?) {
     return true;
 }
 
-function validateTimezone(minutes) {
+function validateTimezone(minutes: number) {
     return !(minutes < 0 || minutes > 59);
 }
