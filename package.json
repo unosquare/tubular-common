@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/unosquare/tubular-common#readme",
   "devDependencies": {
-    "@types/jasmine": "^2.8.8",
+    "@types/jasmine": "^3.3.15",
     "jasmine": "^3.1.0",
     "jasmine-ts": "^0.2.1",
     "nyc": "^14.1.1",
