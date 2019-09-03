@@ -7,7 +7,6 @@ function filterProps(name: string): object {
     HasFilter: false,
     Name: name,
     Operator: 'None',
-    OptionsUrl: null,
     Text: null
   };
 }
