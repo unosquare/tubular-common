@@ -44,15 +44,7 @@ export class TubularHttpClient implements ITubularHttpClient {
     public static isValidResponse(data: any) {
         return data && expectedStructureKeys === JSON.stringify(Object.keys(data).sort());
     }
-
-    public static parsePayload(row: any, c: any[]) {
-        return c.reduce((obj: any, column: any, key: any) => {
-            obj[column.Name] = row[key] || row[column.Name];
-
-            return obj;
-        }, {});
-    }
-
+    
     public request: string | Request;
 
     public constructor(request: string | Request | ITubularHttpClient) {

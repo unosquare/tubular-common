@@ -3,6 +3,14 @@ import getYear from 'date-fns/getYear';
 import parseISO from 'date-fns/parseISO';
 import { ColumnDataType, ColumnModel } from '.';
 
+export const parsePayload = (row: any, columns: ColumnModel[]): any => {
+    return columns.reduce((obj: any, column: ColumnModel, key: number) => {
+        obj[column.Name] = row[key] || row[column.Name];
+
+        return obj;
+    }, {});
+};
+
 export const formatDate = (value: any, formatString: string = 'M/d/yyyy'): string => {
     if (!value) {
         return '';

@@ -6,6 +6,7 @@ import {
 import ColumnModel from './Models/ColumnModel';
 import GridRequest from './Models/GridRequest';
 import GridResponse from './Models/GridResponse';
+import { parsePayload } from './utils';
 
 const isEqual = (date1: any, date2: any) => parseISO(date1).getTime() === parseISO(date2).getTime();
 const isAfter = (date1: any, date2: any) => parseISO(date1).getTime() > parseISO(date2).getTime();
@@ -35,7 +36,7 @@ export default class Transformer {
 
         response.Payload = data
             .slice(request.Skip, request.Skip + request.Take)
-            .map((row: any) => this.parsePayload(row, request.Columns));
+            .map((row: any) => parsePayload(row, request.Columns));
 
         return response;
     }
@@ -265,14 +266,6 @@ export default class Transformer {
             }
 
             return prev;
-        }, {});
-    }
-
-    private static parsePayload(row: any, columns: ColumnModel[]) {
-        return columns.reduce((obj: any, column: ColumnModel, key: number) => {
-            obj[column.Name] = row[key] || row[column.Name];
-
-            return obj;
         }, {});
     }
 }
