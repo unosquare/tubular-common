@@ -1,4 +1,4 @@
-import toDate from './date-utils';
+import parseISO from 'date-fns/parseISO';
 import {
     AggregateFunctions, ColumnSortDirection,
     CompareOperators
@@ -7,9 +7,9 @@ import ColumnModel from './Models/ColumnModel';
 import GridRequest from './Models/GridRequest';
 import GridResponse from './Models/GridResponse';
 
-const isEqual = (date1: any, date2: any) => toDate(date1).getTime() === toDate(date2).getTime();
-const isAfter = (date1: any, date2: any) => toDate(date1).getTime() > toDate(date2).getTime();
-const isBefore = (date1: any, date2: any) => toDate(date1).getTime() < toDate(date2).getTime();
+const isEqual = (date1: any, date2: any) => parseISO(date1).getTime() === parseISO(date2).getTime();
+const isAfter = (date1: any, date2: any) => parseISO(date1).getTime() > parseISO(date2).getTime();
+const isBefore = (date1: any, date2: any) => parseISO(date1).getTime() < parseISO(date2).getTime();
 
 export default class Transformer {
 
