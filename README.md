@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/unosquare/tubular-common.svg?branch=master)](https://travis-ci.org/unosquare/tubular-common)
 
-![Tubular Common](http://unosquare.github.io/tubular/assets/tubular.png)
+![Tubular Common](http://unosquare.github.io/tubular-angular/assets/tubular.png)
 
 :star: *Please star this project if you find it useful!*
 
