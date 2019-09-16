@@ -41,6 +41,42 @@ const BooleanOperators = [
 ];
 
 export default class ColumnModel {
+  public static createFilterPatch(column: ColumnModel): IFilterWrapper {
+    let filterText = column.Filter.Text;
+    let filterArgument = column.Filter.Argument[0];
+
+    if (column.DataType === ColumnDataType.NUMERIC) {
+      filterText = parseFloat(filterText);
+      filterArgument = parseFloat(filterArgument);
+    } else if (column.DataType === ColumnDataType.BOOLEAN) {
+      filterText = filterText === 'true';
+      filterArgument = '';
+    }
+
+    return {
+      Argument: [filterArgument],
+      HasFilter: true,
+      Operator: column.Filter.Operator || CompareOperators.AUTO,
+      Text: filterText,
+    };
+  }
+
+  public static getOperators(column: ColumnModel) {
+    switch (column.DataType) {
+      case ColumnDataType.STRING:
+        return StringOperators;
+      case ColumnDataType.NUMERIC:
+      case ColumnDataType.DATE:
+      case ColumnDataType.DATE_TIME:
+      case ColumnDataType.DATE_TIME_UTC:
+        return NumericOperators;
+      case ColumnDataType.BOOLEAN:
+        return BooleanOperators;
+      default:
+        return [];
+    }
+  }
+
   public static sortColumnArray(columnName: string, columns: ColumnModel[], multiSort: boolean) {
     const column = columns.find((c: ColumnModel) => c.Name === columnName);
     if (!column) { return; }
@@ -111,41 +147,5 @@ export default class ColumnModel {
     this.Filterable = options && options.Filterable || false;
 
     this.Filter.HasFilter = this.hasFilter;
-  }
-
-  public getOperators() {
-    switch (this.DataType) {
-      case ColumnDataType.STRING:
-        return StringOperators;
-      case ColumnDataType.NUMERIC:
-      case ColumnDataType.DATE:
-      case ColumnDataType.DATE_TIME:
-      case ColumnDataType.DATE_TIME_UTC:
-        return NumericOperators;
-      case ColumnDataType.BOOLEAN:
-        return BooleanOperators;
-      default:
-        return [];
-    }
-  }
-
-  public createFilterPatch(): IFilterWrapper {
-    let filterText = this.Filter.Text;
-    let filterArgument = this.Filter.Argument[0];
-
-    if (this.DataType === ColumnDataType.NUMERIC) {
-      filterText = parseFloat(filterText);
-      filterArgument = parseFloat(filterArgument);
-    } else if (this.DataType === ColumnDataType.BOOLEAN) {
-      filterText = filterText === 'true';
-      filterArgument = '';
-    }
-
-    return {
-      Argument: [filterArgument],
-      HasFilter: true,
-      Operator: this.Filter.Operator || CompareOperators.AUTO,
-      Text: filterText,
-    };
   }
 }
