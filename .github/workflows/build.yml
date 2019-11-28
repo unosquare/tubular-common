@@ -1,0 +1,30 @@
+name: Node CI
+
+on: [push]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@v1
+    - name: Run ESLint
+      uses: stefanoeb/eslint-action@1.0.0
+      
+  build:
+    needs: [lint]
+    runs-on: ubuntu-latest
+  
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@v1
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12
+    - name: npm install, test, and coverage
+      run: |
+        npm ci
+        npm test
+        npm run build
