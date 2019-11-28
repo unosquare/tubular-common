@@ -23,7 +23,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12
-    - name: npm install, test, and coverage
+    - name: npm install, test, and build
       run: |
         npm ci
         npm test
