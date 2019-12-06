@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/unosquare/tubular-common.svg?branch=master)](https://travis-ci.org/unosquare/tubular-common)
+[![codecov](https://codecov.io/gh/unosquare/tubular-common/branch/master/graph/badge.svg)](https://codecov.io/gh/unosquare/tubular-common)
 
 ![Tubular Common](http://unosquare.github.io/tubular-angular/assets/tubular.png)
 
