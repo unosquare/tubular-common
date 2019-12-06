@@ -25,8 +25,12 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12
-    - name: npm install, test, and build
+    - name: npm install, build and unit
       run: |
         npm ci
-        npm test
         npm run build
+        npm run unit
+    - uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: coverage/lcov.info
