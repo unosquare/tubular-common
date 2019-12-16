@@ -1,9 +1,9 @@
 import GridRequest from '../Models/GridRequest';
-import { ITubularHttpClient } from './ITubularHttpClient';
+import { TubularHttpClientAbstract } from './TubularHttpClientAbstract';
 
-export type FetchHandler = (request: string, gridRequest: GridRequest) => Promise<any>;
+export type FetchHandler = (request: string, gridRequest: GridRequest) => Promise<{}>;
 
-export class ShallowHttpClient implements ITubularHttpClient {
+export class ShallowHttpClient implements TubularHttpClientAbstract {
     public request: string;
     public handler: FetchHandler;
 
@@ -12,7 +12,7 @@ export class ShallowHttpClient implements ITubularHttpClient {
         this.handler = handler;
     }
 
-    public fetch(gridRequest: GridRequest): Promise<any> {
+    public fetch(gridRequest: GridRequest): Promise<{}> {
         return this.handler(this.request, gridRequest);
     }
 }

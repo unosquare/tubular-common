@@ -1,10 +1,10 @@
 export enum ColumnDataType {
-    STRING = 'string',
-    NUMERIC = 'numeric',
-    BOOLEAN = 'boolean',
-    DATE = 'date',
-    DATE_TIME = 'datetime',
-    DATE_TIME_UTC = 'datetimeutc',
+    String = 'string',
+    Numeric = 'numeric',
+    Boolean = 'boolean',
+    Date = 'date',
+    DateTime = 'datetime',
+    DateTimeUtc = 'datetimeutc',
 }
 
 export enum ColumnSortDirection {

@@ -1,14 +1,14 @@
 import { ColumnModel } from '../Models';
-import { IDataGridStorage } from './IDataGridStorage';
+import { DataGridStorage } from './DataGridStorage';
 
-export class LocalStorage implements IDataGridStorage {
+export class LocalStorage implements DataGridStorage {
     public constructor(private name?: string) {
         if (!window || !window.localStorage) {
             throw new Error('The localStorage is not present.');
         }
     }
 
-    public setGridName(name: string) {
+    public setGridName(name: string): void {
         this.name = name;
     }
 

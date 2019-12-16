@@ -1,6 +1,6 @@
 import ColumnModel from '../Models/ColumnModel';
 
-export interface IDataGridStorage {
+export interface DataGridStorage {
     setTextSearch: (textSearch: string) => void;
     setPage: (page: number) => void;
     setColumns: (columns: ColumnModel[]) => void;
