@@ -8,7 +8,8 @@ const expectedStructureKeys = JSON.stringify([
     'FilteredRecordCount',
     'Payload',
     'TotalPages',
-    'TotalRecordCount']);
+    'TotalRecordCount',
+]);
 
 export class TubularHttpClient implements ITubularHttpClient {
     public static resolveRequest(request: string | Request | ITubularHttpClient): string | Request {
@@ -18,27 +19,25 @@ export class TubularHttpClient implements ITubularHttpClient {
             return httpCast.request;
         }
 
-        return request as Request || request as string;
+        return (request as Request) || (request as string);
     }
 
     public static getRequest(objRequest: string | Request, gridRequest: GridRequest) {
         if (typeof objRequest === 'string') {
-            return new Request(objRequest,
-                {
-                    body: JSON.stringify(gridRequest),
-                    headers: new Headers({ 'Content-Type': 'application/json;charset=utf-8' }),
-                    method: 'POST',
-                });
+            return new Request(objRequest, {
+                body: JSON.stringify(gridRequest),
+                headers: new Headers({ 'Content-Type': 'application/json;charset=utf-8' }),
+                method: 'POST',
+            });
         }
 
         (objRequest as Request).headers.append('Content-Type', 'application/json;charset=utf-8');
 
-        return new Request(objRequest.url,
-            {
-                body: JSON.stringify(gridRequest),
-                headers: (objRequest as Request).headers,
-                method: (objRequest as Request).method,
-            });
+        return new Request(objRequest.url, {
+            body: JSON.stringify(gridRequest),
+            headers: (objRequest as Request).headers,
+            method: (objRequest as Request).method,
+        });
     }
 
     public static isValidResponse(data: any) {

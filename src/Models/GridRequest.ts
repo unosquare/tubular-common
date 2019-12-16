@@ -3,26 +3,26 @@ import ColumnModel from './ColumnModel';
 const currentTimezone = new Date().getTimezoneOffset();
 
 export interface ISearch {
-  Operator: any;
-  Text: any;
+    Operator: any;
+    Text: any;
 }
 
 export default class GridRequest {
-  protected static counter: number = 0;
+    protected static counter = 0;
 
-  public Columns: ColumnModel[];
-  public Counter: number;
-  public Search: ISearch;
-  public Skip: number;
-  public Take: number;
-  public TimezoneOffset: number;
+    public Columns: ColumnModel[];
+    public Counter: number;
+    public Search: ISearch;
+    public Skip: number;
+    public Take: number;
+    public TimezoneOffset: number;
 
-  constructor(columns: ColumnModel[], itemsPerPage: number, page: number, searchText: string = '') {
-    this.Columns = columns;
-    this.Search = { Operator: 'Auto', Text: searchText };
-    this.Skip = itemsPerPage === -1 ? 0 : page * itemsPerPage;
-    this.Take = itemsPerPage;
-    this.Counter = GridRequest.counter++;
-    this.TimezoneOffset = currentTimezone;
-  }
+    constructor(columns: ColumnModel[], itemsPerPage: number, page: number, searchText = '') {
+        this.Columns = columns;
+        this.Search = { Operator: 'Auto', Text: searchText };
+        this.Skip = itemsPerPage === -1 ? 0 : page * itemsPerPage;
+        this.Take = itemsPerPage;
+        this.Counter = GridRequest.counter++;
+        this.TimezoneOffset = currentTimezone;
+    }
 }

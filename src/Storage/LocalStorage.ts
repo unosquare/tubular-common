@@ -2,7 +2,6 @@ import { ColumnModel } from '../Models';
 import { IDataGridStorage } from './IDataGridStorage';
 
 export class LocalStorage implements IDataGridStorage {
-
     public constructor(private name?: string) {
         if (!window || !window.localStorage) {
             throw new Error('The localStorage is not present.');

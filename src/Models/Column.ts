@@ -4,13 +4,13 @@ export enum ColumnDataType {
     BOOLEAN = 'boolean',
     DATE = 'date',
     DATE_TIME = 'datetime',
-    DATE_TIME_UTC = 'datetimeutc'
+    DATE_TIME_UTC = 'datetimeutc',
 }
 
 export enum ColumnSortDirection {
     NONE = 'None',
     ASCENDING = 'Ascending',
-    DESCENDING = 'Descending'
+    DESCENDING = 'Descending',
 }
 
 export enum CompareOperators {
@@ -29,7 +29,7 @@ export enum CompareOperators {
     BETWEEN = 'Between',
     NOT_CONTAINS = 'NotContains',
     NOT_STARTS_WITH = 'NotStartsWith',
-    NOT_ENDS_WITH = 'NotEndsWith'
+    NOT_ENDS_WITH = 'NotEndsWith',
 }
 
 export enum AggregateFunctions {
@@ -39,5 +39,5 @@ export enum AggregateFunctions {
     COUNT = 'Count',
     DISTINCT_COUNT = 'DistinctCount',
     MAX = 'Max',
-    MIN = 'Min'
+    MIN = 'Min',
 }

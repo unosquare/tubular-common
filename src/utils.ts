@@ -11,7 +11,7 @@ export const parsePayload = (row: any, columns: ColumnModel[]): any => {
     }, {});
 };
 
-export const formatDate = (value: any, formatString: string = 'M/d/yyyy'): string => {
+export const formatDate = (value: any, formatString = 'M/d/yyyy'): string => {
     if (!value) {
         return '';
     }
@@ -39,45 +39,54 @@ const getCellValue = (cellDataType: string, cell: any): string => {
         case ColumnDataType.DATE_TIME_UTC:
             return formatDate(cell, 'M/d/yyyy h:mm a');
         case ColumnDataType.BOOLEAN:
-            return (cell === true ? 'Yes' : 'No');
+            return cell === true ? 'Yes' : 'No';
         default:
             return (cell || '').toString();
     }
 };
 
-const objToArray = (row: any) => row instanceof Object
-    ? Object.keys(row).map((key: any) => row[key])
-    : row;
+const objToArray = (row: any) => (row instanceof Object ? Object.keys(row).map((key: any) => row[key]) : row);
 
 const processRow = (row: any, columns: any[], ignoreType: boolean): string => {
-    const finalVal = objToArray(row)
-        .reduce((prev: any, value: any, i: any) => {
-            if (!columns[i].Visible) { return; }
+    const finalVal = objToArray(row).reduce((prev: any, value: any, i: any) => {
+        if (!columns[i].Visible) {
+            return;
+        }
 
-            let result = getCellValue(ignoreType ? ColumnDataType.STRING : columns[i].DataType, value)
-                .replace(/"/g, '""');
+        let result = getCellValue(ignoreType ? ColumnDataType.STRING : columns[i].DataType, value).replace(/"/g, '""');
 
-            if (result.search(/("|,|\n)/g) >= 0) {
-                result = `"${result}"`;
-            }
+        if (result.search(/("|,|\n)/g) >= 0) {
+            result = `"${result}"`;
+        }
 
-            return `${prev !== undefined ? prev : ''}${i > 0 && prev !== undefined ? ',' : ''}${result}`;
-        }, '');
+        return `${prev !== undefined ? prev : ''}${i > 0 && prev !== undefined ? ',' : ''}${result}`;
+    }, '');
 
     return `${finalVal}\n`;
 };
 
-export const getCsv = (gridResult: any, columns: any) => gridResult.reduce(
-    (prev: string, row: any) => prev + processRow(row, columns, false),
-    processRow(columns.map((x: any) => x.Label), columns, true));
+export const getCsv = (gridResult: any, columns: any) =>
+    gridResult.reduce(
+        (prev: string, row: any) => prev + processRow(row, columns, false),
+        processRow(
+            columns.map((x: any) => x.Label),
+            columns,
+            true,
+        ),
+    );
 
-export const getHtml = (gridResult: any, columns: any) => `<table class="table table-bordered table-striped"><thead><tr>${
-    columns
+export const getHtml = (gridResult: any, columns: any) =>
+    `<table class="table table-bordered table-striped"><thead><tr>${columns
         .filter((c: any) => c.Visible)
-        .reduce((prev: any, el: any) => `${prev}<th>${el.Label || el.Name}</th>`, '')
-    }</tr></thead><tbody>${
-    gridResult.reduce((prevRow: string, row: any) =>
-        `${prevRow}<tr>${objToArray(row).reduce((prev: string, cell: any, index: number) =>
-            !columns[index].Visible ? prev : `${prev}<td>${getCellValue(columns[index].DataType, cell)}</td>`,
-            '')}</tr>`
-        , '')}</tbody></table>`;
+        .reduce(
+            (prev: any, el: any) => `${prev}<th>${el.Label || el.Name}</th>`,
+            '',
+        )}</tr></thead><tbody>${gridResult.reduce(
+        (prevRow: string, row: any) =>
+            `${prevRow}<tr>${objToArray(row).reduce(
+                (prev: string, cell: any, index: number) =>
+                    !columns[index].Visible ? prev : `${prev}<td>${getCellValue(columns[index].DataType, cell)}</td>`,
+                '',
+            )}</tr>`,
+        '',
+    )}</tbody></table>`;

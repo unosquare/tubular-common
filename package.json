@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jasmine-ts test/**/*.spec.ts",
     "unit": "npx nyc --reporter=lcov -e .ts -x \"*.spec.ts\" jasmine-ts \"test/**/*.spec.ts\"",
-    "lint": "tslint src/**/*.ts",
-    "lint:fix": "tslint --fix src/**/*.ts",
+    "lint": "eslint src/**/*.{js,ts}",
+    "lint:fix": "eslint src/**/*.{js,ts} --fix",
     "build": "tsc",
     "prepublish": "npm run build"
   },
@@ -34,8 +34,13 @@
     "@types/jasmine": "^3.3.15",
     "jasmine": "^3.1.0",
     "jasmine-ts": "^0.2.1",
+    "eslint": "^6.7.2",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "prettier": "^1.19.1",
     "ts-node": "^8.5.4",
-    "tslint": "^5.20.1",
+    "@typescript-eslint/eslint-plugin": "^2.11.0",
+    "@typescript-eslint/parser": "^2.11.0",
     "typescript": "^3.7.3"
   },
   "dependencies": {
