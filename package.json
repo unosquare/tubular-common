@@ -4,12 +4,34 @@
   "description": "Tubular Common Models and Data Transformer",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jasmine-ts test/**/*.spec.ts",
-    "unit": "npx nyc --reporter=lcov -e .ts -x \"*.spec.ts\" jasmine-ts \"test/**/*.spec.ts\"",
+    "test": "jest",
+    "cest": "jest --collectCoverage",
     "lint": "eslint src/**/*.{js,ts}",
     "lint:fix": "eslint src/**/*.{js,ts} --fix",
     "build": "tsc",
     "prepublish": "npm run build"
+  },
+  "jest": {
+    "automock": false,
+    "coverageReporters": [
+      "lcov"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts)$": "ts-jest"
+    },
+    "testMatch": [
+      "<rootDir>/test/**/*.spec.ts"
+    ],
+    "globals": {
+      "ts-jest": {
+        "diagnostics": false,
+        "tsConfig": "tsconfig.json"
+      }
+    }
   },
   "files": [
     "dist/**/*",
@@ -31,16 +53,14 @@
   },
   "homepage": "https://github.com/unosquare/tubular-common#readme",
   "devDependencies": {
-    "@types/jasmine": "^3.3.15",
-    "jasmine": "^3.1.0",
-    "jasmine-ts": "^0.2.1",
+    "jest": "^24.9.0",
     "eslint": "^6.7.2",
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-prettier": "^3.1.2",
     "prettier": "^1.19.1",
-    "ts-node": "^8.5.4",
-    "@typescript-eslint/eslint-plugin": "^2.11.0",
-    "@typescript-eslint/parser": "^2.11.0",
+    "ts-jest": "^24.2.0",
+    "@typescript-eslint/eslint-plugin": "^2.12.0",
+    "@typescript-eslint/parser": "^2.12.0",
     "typescript": "^3.7.3"
   },
   "dependencies": {

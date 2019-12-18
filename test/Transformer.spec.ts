@@ -1,4 +1,3 @@
-import 'jasmine';
 import Transformer from '../src';
 import { localData } from './utils/localData';
 import { payloadUndefined } from './utils/payloadUndefined';
