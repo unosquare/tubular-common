@@ -1,4 +1,3 @@
-import 'jasmine';
 import { ColumnModel } from '../src';
 
 describe('New ColumnModel instance', () => {

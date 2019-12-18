@@ -1,4 +1,3 @@
-import 'jasmine';
 import { GridRequest } from '../src';
 
 describe('New GridRequest instance', () => {
