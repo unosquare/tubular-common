@@ -4,6 +4,6 @@ export interface FilterWrapper {
     argument: string[];
     hasFilter: boolean;
     operator: CompareOperators | string;
-    text: string;
-    name: string;
+    text?: string;
+    name?: string;
 }

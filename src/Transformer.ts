@@ -37,12 +37,12 @@ export default class Transformer {
         return response;
     }
 
-    private static applyFreeTextSearch(request: GridRequest, subset: []): [] {
-        if (request.search && request.search.operator.toLowerCase() === CompareOperators.AUTO.toLowerCase()) {
+    private static applyFreeTextSearch(request: GridRequest, subset: {}[]): {}[] {
+        if (request.search && request.search.operator.toLowerCase() === CompareOperators.Auto.toLowerCase()) {
             const searchableColumns = request.columns.filter((x: ColumnModel) => x.searchable);
 
             if (searchableColumns.length > 0) {
-                const filter = request.search.Text.toLowerCase();
+                const filter = request.search.text.toLowerCase();
                 if (filter === '') {
                     return subset;
                 }
@@ -62,7 +62,7 @@ export default class Transformer {
         }
     }
 
-    private static applyFiltering(request: GridRequest, subset: []) {
+    private static applyFiltering(request: GridRequest, subset: {}[]): {}[] {
         request.columns
             .filter((column: ColumnModel) => column.hasFilter)
             .forEach((column: ColumnModel) => {
@@ -71,7 +71,7 @@ export default class Transformer {
                     column.dataType === ColumnDataType.DateTime ||
                     column.dataType === ColumnDataType.DateTimeUtc;
 
-                const partialfiltering = (data: [], action: (f: string) => boolean) =>
+                const partialfiltering = (data: {}[], action: (f: string) => boolean): {}[] =>
                     data.filter((row: {}) =>
                         typeof row[column.name] === 'undefined' || row[column.name] === null
                             ? false
@@ -79,7 +79,7 @@ export default class Transformer {
                     );
 
                 switch (column.filter.operator) {
-                    case CompareOperators.EQUALS:
+                    case CompareOperators.Equals:
                         if (isDate) {
                             subset = subset.filter(row => isEqual(row[column.name], column.filter.text));
                         } else if (column.dataType === ColumnDataType.String) {
@@ -91,8 +91,8 @@ export default class Transformer {
                             subset = subset.filter(row => row[column.name] === column.filter.text);
                         }
                         break;
-                    case CompareOperators.NOT_EQUALS:
-                        if (column.DataType === 'string') {
+                    case CompareOperators.NotEquals:
+                        if (column.dataType === 'string') {
                             subset = partialfiltering(
                                 subset,
                                 (x: string) => x.toLowerCase() !== column.filter.text.toLowerCase(),
@@ -101,7 +101,7 @@ export default class Transformer {
                             subset = subset.filter(row => row[column.name] !== column.filter.text);
                         }
                         break;
-                    case CompareOperators.CONTAINS:
+                    case CompareOperators.Contains:
                         subset = partialfiltering(
                             subset,
                             x => x.toLowerCase().indexOf(column.filter.text.toLowerCase()) >= 0,
@@ -111,41 +111,41 @@ export default class Transformer {
                             (x: string) => x.toLowerCase().indexOf(column.filter.text.toLowerCase()) >= 0,
                         );
                         break;
-                    case CompareOperators.NOT_CONTAINS:
+                    case CompareOperators.NotContains:
                         subset = partialfiltering(
                             subset,
                             (x: string) => x.toLowerCase().indexOf(column.filter.text.toLowerCase()) < 0,
                         );
                         break;
-                    case CompareOperators.STARTS_WITH:
+                    case CompareOperators.StartsWith:
                         subset = partialfiltering(subset, (x: string) =>
                             x.toLowerCase().startsWith(column.filter.text.toLowerCase()),
                         );
                         break;
-                    case CompareOperators.NOT_STARTS_WITH:
+                    case CompareOperators.NotStartsWith:
                         subset = partialfiltering(
                             subset,
                             (x: string) => !x.toLowerCase().startsWith(column.filter.text.toLowerCase()),
                         );
                         break;
-                    case CompareOperators.ENDS_WITH:
+                    case CompareOperators.EndsWith:
                         subset = partialfiltering(subset, (x: string) =>
                             x.toLowerCase().endsWith(column.filter.text.toLowerCase()),
                         );
-                    case CompareOperators.NOT_ENDS_WITH:
+                    case CompareOperators.NotEndsWith:
                         subset = partialfiltering(
                             subset,
                             (x: string) => !x.toLowerCase().endsWith(column.filter.text.toLowerCase()),
                         );
                         break;
-                    case CompareOperators.GT:
+                    case CompareOperators.Gt:
                         if (isDate) {
                             subset = subset.filter(row => isAfter(row[column.name], column.filter.text));
                         } else {
                             subset = subset.filter(row => row[column.name] > column.filter.text);
                         }
                         break;
-                    case CompareOperators.GTE:
+                    case CompareOperators.Gte:
                         if (isDate) {
                             subset = subset.filter(
                                 row =>
@@ -156,14 +156,14 @@ export default class Transformer {
                             subset = subset.filter(row => row[column.name] >= column.filter.text);
                         }
                         break;
-                    case CompareOperators.LT:
+                    case CompareOperators.Lt:
                         if (isDate) {
                             subset = subset.filter(row => isBefore(row[column.name], column.filter.text));
                         } else {
                             subset = subset.filter(row => row[column.name] < column.filter.text);
                         }
                         break;
-                    case CompareOperators.LTE:
+                    case CompareOperators.Lte:
                         if (isDate) {
                             subset = subset.filter(
                                 row =>
@@ -174,20 +174,20 @@ export default class Transformer {
                             subset = subset.filter(row => row[column.name] <= column.filter.text);
                         }
                         break;
-                    case CompareOperators.BETWEEN:
+                    case CompareOperators.Between:
                         if (isDate) {
                             subset = subset.filter(
                                 row =>
                                     (isEqual(row[column.name], column.filter.text) ||
                                         isAfter(row[column.name], column.filter.text)) &&
-                                    (isEqual(row[column.name], column.Filter.Argument[0]) ||
-                                        isBefore(row[column.name], column.Filter.Argument[0])),
+                                    (isEqual(row[column.name], column.filter.argument[0]) ||
+                                        isBefore(row[column.name], column.filter.argument[0])),
                             );
                         } else {
                             subset = subset.filter(
                                 row =>
                                     row[column.name] >= column.filter.text &&
-                                    row[column.name] <= column.Filter.Argument[0],
+                                    row[column.name] <= column.filter.argument[0],
                             );
                         }
                         break;
@@ -199,17 +199,17 @@ export default class Transformer {
         return subset;
     }
 
-    private static applySorting(request: GridRequest, subset: []) {
+    private static applySorting(request: GridRequest, subset: {}[]): {}[] {
         const sortedColumns = request.columns.filter((column: ColumnModel) => column.sortOrder > 0);
 
-        let sorts: [] = [{ name: request.columns[0].name, asc: true }];
+        let sorts: { name: string; asc: boolean }[] = [{ name: request.columns[0].name, asc: true }];
 
         if (sortedColumns.length > 0) {
             sortedColumns.sort((a, b) => (a.sortOrder > b.sortOrder ? 1 : b.sortOrder > a.sortOrder ? -1 : 0));
 
             sorts = sortedColumns.map((y: ColumnModel) => ({
                 name: y.name,
-                asc: y.sortDirection === ColumnSortDirection.ASCENDING,
+                asc: y.sortDirection === ColumnSortDirection.Ascending,
             }));
         }
 
@@ -240,15 +240,15 @@ export default class Transformer {
         return subset;
     }
 
-    private static getAggregatePayload(request: GridRequest, subset: []) {
+    private static getAggregatePayload(request: GridRequest, subset: {}[]): {} {
         const aggregateColumns = request.columns.filter(
             (column: ColumnModel) =>
-                column.aggregate && column.aggregate.toLowerCase() !== AggregateFunctions.NONE.toLowerCase(),
+                column.aggregate && column.aggregate.toLowerCase() !== AggregateFunctions.None.toLowerCase(),
         );
 
-        return aggregateColumns.reduce((prev: any, column: ColumnModel) => {
+        return aggregateColumns.reduce((prev: {}, column: ColumnModel) => {
             switch (column.aggregate.toLowerCase()) {
-                case AggregateFunctions.SUM.toLowerCase():
+                case AggregateFunctions.Sum.toLowerCase():
                     prev[column.name] =
                         subset.length === 0
                             ? 0
@@ -257,7 +257,7 @@ export default class Transformer {
                                   0,
                               );
                     break;
-                case AggregateFunctions.AVERAGE.toLowerCase():
+                case AggregateFunctions.Average.toLowerCase():
                     prev[column.name] =
                         subset.length === 0
                             ? 0
@@ -266,7 +266,7 @@ export default class Transformer {
                                   0,
                               ) / subset.length;
                     break;
-                case AggregateFunctions.MAX.toLowerCase():
+                case AggregateFunctions.Max.toLowerCase():
                     prev[column.name] =
                         subset.length === 0
                             ? 0
@@ -275,7 +275,7 @@ export default class Transformer {
                                   subset[0][column.name],
                               );
                     break;
-                case AggregateFunctions.MIN.toLowerCase():
+                case AggregateFunctions.Min.toLowerCase():
                     prev[column.name] =
                         subset.length === 0
                             ? 0
@@ -284,19 +284,19 @@ export default class Transformer {
                                   subset[0][column.name],
                               );
                     break;
-                case AggregateFunctions.COUNT.toLowerCase():
+                case AggregateFunctions.Count.toLowerCase():
                     prev[column.name] = subset.length;
                     break;
-                case AggregateFunctions.DISTINCT_COUNT.toLowerCase():
+                case AggregateFunctions.DistinctCount.toLowerCase():
                     prev[column.name] =
                         subset.length === 0
                             ? 0
-                            : subset.reduce((list, r) => {
+                            : (subset.reduce((list: {}[], r: {}) => {
                                   if (list.indexOf(r[column.name]) === -1) {
                                       list.push(r[column.name]);
                                   }
                                   return list;
-                              }, []).length;
+                              }, []) as []).length;
                     break;
                 default:
                     throw new Error('Unsupported aggregate function');

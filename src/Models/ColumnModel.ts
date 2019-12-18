@@ -13,35 +13,35 @@ function filterProps(name: string): FilterWrapper {
 }
 
 const NumericOperators = [
-    { value: CompareOperators.NONE, title: 'None' },
-    { value: CompareOperators.EQUALS, title: 'Equals' },
-    { value: CompareOperators.BETWEEN, title: 'Between' },
-    { value: CompareOperators.GTE, title: '>=' },
-    { value: CompareOperators.GT, title: '>' },
-    { value: CompareOperators.LTE, title: '<=' },
-    { value: CompareOperators.LT, title: '<' },
+    { value: CompareOperators.None, title: 'None' },
+    { value: CompareOperators.Equals, title: 'Equals' },
+    { value: CompareOperators.Between, title: 'Between' },
+    { value: CompareOperators.Gte, title: '>=' },
+    { value: CompareOperators.Gt, title: '>' },
+    { value: CompareOperators.Lte, title: '<=' },
+    { value: CompareOperators.Lt, title: '<' },
 ];
 
 const StringOperators = [
-    { value: CompareOperators.NONE, title: 'None' },
-    { value: CompareOperators.EQUALS, title: 'Equals' },
-    { value: CompareOperators.NOT_EQUALS, title: 'Not Equals' },
-    { value: CompareOperators.CONTAINS, title: 'Contains' },
-    { value: CompareOperators.NOT_CONTAINS, title: 'Not Contains' },
-    { value: CompareOperators.STARTS_WITH, title: 'Starts With' },
-    { value: CompareOperators.NOT_STARTS_WITH, title: 'Not Starts With' },
-    { value: CompareOperators.ENDS_WITH, title: 'Ends With' },
-    { value: CompareOperators.NOT_ENDS_WITH, title: 'Not Ends With' },
+    { value: CompareOperators.None, title: 'None' },
+    { value: CompareOperators.Equals, title: 'Equals' },
+    { value: CompareOperators.NotEquals, title: 'Not Equals' },
+    { value: CompareOperators.Contains, title: 'Contains' },
+    { value: CompareOperators.NotContains, title: 'Not Contains' },
+    { value: CompareOperators.StartsWith, title: 'Starts With' },
+    { value: CompareOperators.NotStartsWith, title: 'Not Starts With' },
+    { value: CompareOperators.EndsWith, title: 'Ends With' },
+    { value: CompareOperators.NotEndsWith, title: 'Not Ends With' },
 ];
 
 const BooleanOperators = [
-    { value: CompareOperators.NONE, title: 'None' },
-    { value: CompareOperators.EQUALS, title: 'Equals' },
-    { value: CompareOperators.NOT_EQUALS, title: 'Not Equals' },
+    { value: CompareOperators.None, title: 'None' },
+    { value: CompareOperators.Equals, title: 'Equals' },
+    { value: CompareOperators.NotEquals, title: 'Not Equals' },
 ];
 
 export default class ColumnModel {
-    public static createFilterPatch(column: ColumnModel): IFilterWrapper {
+    public static createFilterPatch(column: ColumnModel): FilterWrapper {
         let filterText = column.filter.text;
         let filterArgument = column.filter.argument[0];
 
@@ -54,14 +54,15 @@ export default class ColumnModel {
         }
 
         return {
-            Argument: [filterArgument],
-            HasFilter: true,
-            Operator: column.filter.operator || CompareOperators.AUTO,
-            Text: filterText,
+            name: column.name,
+            argument: [filterArgument],
+            hasFilter: true,
+            operator: column.filter.operator || CompareOperators.Auto,
+            text: filterText,
         };
     }
 
-    public static getOperators(column: ColumnModel): any[] {
+    public static getOperators(column: ColumnModel): {}[] {
         switch (column.dataType) {
             case ColumnDataType.String:
                 return StringOperators;
@@ -84,20 +85,20 @@ export default class ColumnModel {
         }
 
         column.sortDirection =
-            column.sortDirection === ColumnSortDirection.NONE
-                ? ColumnSortDirection.ASCENDING
-                : column.sortDirection === ColumnSortDirection.ASCENDING
-                ? ColumnSortDirection.DESCENDING
-                : ColumnSortDirection.NONE;
+            column.sortDirection === ColumnSortDirection.None
+                ? ColumnSortDirection.Ascending
+                : column.sortDirection === ColumnSortDirection.Ascending
+                ? ColumnSortDirection.Descending
+                : ColumnSortDirection.None;
 
-        column.sortOrder = column.sortDirection === ColumnSortDirection.NONE ? -1 : Number.MAX_VALUE;
+        column.sortOrder = column.sortDirection === ColumnSortDirection.None ? -1 : Number.MAX_VALUE;
 
         if (!multiSort) {
             columns
                 .filter((col: ColumnModel) => col.name !== columnName)
                 .forEach((c: ColumnModel) => {
                     c.sortOrder = -1;
-                    c.sortDirection = ColumnSortDirection.NONE;
+                    c.sortDirection = ColumnSortDirection.None;
                 });
         }
 
@@ -113,11 +114,11 @@ export default class ColumnModel {
         return columns;
     }
 
-    public static clearFilterPatch(): IFilterWrapper {
+    public static clearFilterPatch(): FilterWrapper {
         return {
             argument: [''],
             hasFilter: false,
-            operator: CompareOperators.NONE,
+            operator: CompareOperators.None,
             text: '',
         };
     }
@@ -136,23 +137,23 @@ export default class ColumnModel {
     public visible: boolean;
 
     public hasFilter =
-        this.filter && (this.filter.text || this.filter.argument) && this.filter.operator !== CompareOperators.NONE;
+        this.filter && (this.filter.text || this.filter.argument) && this.filter.operator !== CompareOperators.None;
 
     constructor(name: string, options?: IColumnModelOptions) {
-        this.aggregate = (options && options.aggregate) || AggregateFunctions.NONE;
+        this.aggregate = (options && options.aggregate) || AggregateFunctions.None;
         this.dataType = (options && options.dataType) || ColumnDataType.String;
         this.isKey = (options && options.isKey) || false;
         this.label = (options && options.label) || (name || '').replace(/([a-z])([A-Z])/g, '$1 $2');
         this.name = name;
         this.searchable = (options && options.searchable) || false;
-        this.sortDirection = (options && options.sortable && options.sortDirection) || ColumnSortDirection.NONE;
-        this.sortOrder = (options && this.sortDirection !== ColumnSortDirection.NONE && options.sortOrder) || -1;
+        this.sortDirection = (options && options.sortable && options.sortDirection) || ColumnSortDirection.None;
+        this.sortOrder = (options && this.sortDirection !== ColumnSortDirection.None && options.sortOrder) || -1;
         this.sortable = (options && options.sortable) || false;
         this.visible = options && typeof options.visible === 'boolean' ? options.visible : true;
         this.filter =
             options && options.filterable === true
                 ? filterProps(name)
-                : { argument: [], operator: CompareOperators.NONE, hasFilter: false };
+                : { argument: [], operator: CompareOperators.None, hasFilter: false };
         this.filterable = (options && options.filterable) || false;
 
         this.filter.hasFilter = this.hasFilter;
