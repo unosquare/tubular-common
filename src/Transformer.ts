@@ -10,7 +10,7 @@ const isAfter = (date1: string, date2: string): boolean => parseISO(date1).getTi
 const isBefore = (date1: string, date2: string): boolean => parseISO(date1).getTime() < parseISO(date2).getTime();
 
 export default class Transformer {
-    public static getResponse(request: GridRequest, dataSource: []): GridResponse {
+    public static getResponse(request: GridRequest, dataSource: {}[]): GridResponse {
         const response = new GridResponse(request.counter);
         response.totalRecordCount = dataSource.length;
 
@@ -48,7 +48,7 @@ export default class Transformer {
                 }
 
                 return subset.filter(item =>
-                    searchableColumns.some((x: any) => {
+                    searchableColumns.some((x: ColumnModel) => {
                         if (typeof item[x.name] === 'undefined') {
                             return false;
                         } else {

@@ -11,7 +11,7 @@ export const parsePayload = (row: {}, columns: ColumnModel[]): {} => {
     }, {});
 };
 
-export const formatDate = (value: any, formatString = 'M/d/yyyy'): string => {
+export const formatDate = (value: string, formatString = 'M/d/yyyy'): string => {
     if (!value) {
         return '';
     }
@@ -45,15 +45,16 @@ const getCellValue = (cellDataType: string, cell: any): string => {
     }
 };
 
-const objToArray = (row: any) => (row instanceof Object ? Object.keys(row).map((key: string) => row[key]) : row);
+const objToArray = (row: {} | []): any[] =>
+    row instanceof Object ? Object.keys(row).map((key: string) => row[key]) : row;
 
-const processRow = (row: {}, columns: any[], ignoreType: boolean): string => {
-    const finalVal = objToArray(row).reduce((prev: any, value: any, i: any) => {
-        if (!columns[i].Visible) {
+const processRow = (row: {}, columns: ColumnModel[], ignoreType: boolean): string => {
+    const finalVal = objToArray(row).reduce((prev: string, value: [], i: number) => {
+        if (!columns[i].visible) {
             return;
         }
 
-        let result = getCellValue(ignoreType ? ColumnDataType.String : columns[i].DataType, value).replace(/"/g, '""');
+        let result = getCellValue(ignoreType ? ColumnDataType.String : columns[i].dataType, value).replace(/"/g, '""');
 
         if (result.search(/("|,|\n)/g) >= 0) {
             result = `"${result}"`;
@@ -84,7 +85,7 @@ export const getHtml = (gridResult: [], columns: ColumnModel[]): string =>
         )}</tr></thead><tbody>${gridResult.reduce(
         (prevRow: string, row: {}) =>
             `${prevRow}<tr>${objToArray(row).reduce(
-                (prev: string, cell: any, index: number) =>
+                (prev: string, cell: {}, index: number) =>
                     !columns[index].visible ? prev : `${prev}<td>${getCellValue(columns[index].dataType, cell)}</td>`,
                 '',
             )}</tr>`,
