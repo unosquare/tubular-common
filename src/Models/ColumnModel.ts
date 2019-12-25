@@ -1,157 +1,161 @@
 import { AggregateFunctions, ColumnDataType, ColumnSortDirection, CompareOperators } from './Column';
-import IColumnModelOptions from './IColumnModelOptions';
-import { IFilterWrapper } from './IFilterWrapper';
+import IColumnModelOptions from './ColumnModelOptions';
+import { FilterWrapper } from './FilterWrapper';
 
-function filterProps(name: string): object {
+function filterProps(name: string): FilterWrapper {
     return {
-        Argument: [],
-        HasFilter: false,
-        Name: name,
-        Operator: 'None',
-        Text: null,
+        argument: [],
+        hasFilter: false,
+        name: name,
+        operator: 'None',
+        text: null,
     };
 }
 
 const NumericOperators = [
-    { Value: CompareOperators.NONE, Title: 'None' },
-    { Value: CompareOperators.EQUALS, Title: 'Equals' },
-    { Value: CompareOperators.BETWEEN, Title: 'Between' },
-    { Value: CompareOperators.GTE, Title: '>=' },
-    { Value: CompareOperators.GT, Title: '>' },
-    { Value: CompareOperators.LTE, Title: '<=' },
-    { Value: CompareOperators.LT, Title: '<' },
+    { value: CompareOperators.None, title: 'None' },
+    { value: CompareOperators.Equals, title: 'Equals' },
+    { value: CompareOperators.Between, title: 'Between' },
+    { value: CompareOperators.Gte, title: '>=' },
+    { value: CompareOperators.Gt, title: '>' },
+    { value: CompareOperators.Lte, title: '<=' },
+    { value: CompareOperators.Lt, title: '<' },
 ];
 
 const StringOperators = [
-    { Value: CompareOperators.NONE, Title: 'None' },
-    { Value: CompareOperators.EQUALS, Title: 'Equals' },
-    { Value: CompareOperators.NOT_EQUALS, Title: 'Not Equals' },
-    { Value: CompareOperators.CONTAINS, Title: 'Contains' },
-    { Value: CompareOperators.NOT_CONTAINS, Title: 'Not Contains' },
-    { Value: CompareOperators.STARTS_WITH, Title: 'Starts With' },
-    { Value: CompareOperators.NOT_STARTS_WITH, Title: 'Not Starts With' },
-    { Value: CompareOperators.ENDS_WITH, Title: 'Ends With' },
-    { Value: CompareOperators.NOT_ENDS_WITH, Title: 'Not Ends With' },
+    { value: CompareOperators.None, title: 'None' },
+    { value: CompareOperators.Equals, title: 'Equals' },
+    { value: CompareOperators.NotEquals, title: 'Not Equals' },
+    { value: CompareOperators.Contains, title: 'Contains' },
+    { value: CompareOperators.NotContains, title: 'Not Contains' },
+    { value: CompareOperators.StartsWith, title: 'Starts With' },
+    { value: CompareOperators.NotStartsWith, title: 'Not Starts With' },
+    { value: CompareOperators.EndsWith, title: 'Ends With' },
+    { value: CompareOperators.NotEndsWith, title: 'Not Ends With' },
 ];
 
 const BooleanOperators = [
-    { Value: CompareOperators.NONE, Title: 'None' },
-    { Value: CompareOperators.EQUALS, Title: 'Equals' },
-    { Value: CompareOperators.NOT_EQUALS, Title: 'Not Equals' },
+    { value: CompareOperators.None, title: 'None' },
+    { value: CompareOperators.Equals, title: 'Equals' },
+    { value: CompareOperators.NotEquals, title: 'Not Equals' },
 ];
 
 export default class ColumnModel {
-    public static createFilterPatch(column: ColumnModel): IFilterWrapper {
-        let filterText = column.Filter.Text;
-        let filterArgument = column.Filter.Argument[0];
+    public static createFilterPatch(column: ColumnModel): FilterWrapper {
+        let filterText = column.filter.text;
+        let filterArgument = column.filter.argument[0];
 
-        if (column.DataType === ColumnDataType.NUMERIC) {
-            filterText = parseFloat(filterText);
-            filterArgument = parseFloat(filterArgument);
-        } else if (column.DataType === ColumnDataType.BOOLEAN) {
-            filterText = filterText === 'true';
+        if (column.dataType === ColumnDataType.Numeric) {
+            filterText = parseFloat(filterText).toString();
+            filterArgument = parseFloat(filterArgument).toString();
+        } else if (column.dataType === ColumnDataType.Boolean) {
+            filterText = (filterText === 'true').toString();
             filterArgument = '';
         }
 
         return {
-            Argument: [filterArgument],
-            HasFilter: true,
-            Operator: column.Filter.Operator || CompareOperators.AUTO,
-            Text: filterText,
+            name: column.name,
+            argument: [filterArgument],
+            hasFilter: true,
+            operator: column.filter.operator || CompareOperators.Auto,
+            text: filterText,
         };
     }
 
-    public static getOperators(column: ColumnModel) {
-        switch (column.DataType) {
-            case ColumnDataType.STRING:
+    public static getOperators(column: ColumnModel): {}[] {
+        switch (column.dataType) {
+            case ColumnDataType.String:
                 return StringOperators;
-            case ColumnDataType.NUMERIC:
-            case ColumnDataType.DATE:
-            case ColumnDataType.DATE_TIME:
-            case ColumnDataType.DATE_TIME_UTC:
+            case ColumnDataType.Numeric:
+            case ColumnDataType.Date:
+            case ColumnDataType.DateTime:
+            case ColumnDataType.DateTimeUtc:
                 return NumericOperators;
-            case ColumnDataType.BOOLEAN:
+            case ColumnDataType.Boolean:
                 return BooleanOperators;
             default:
                 return [];
         }
     }
 
-    public static sortColumnArray(columnName: string, columns: ColumnModel[], multiSort: boolean) {
-        const column = columns.find((c: ColumnModel) => c.Name === columnName);
+    public static sortColumnArray(columnName: string, columns: ColumnModel[], multiSort: boolean): ColumnModel[] {
+        const column = columns.find((c: ColumnModel) => c.name === columnName);
         if (!column) {
             return;
         }
 
-        column.SortDirection =
-            column.SortDirection === ColumnSortDirection.NONE
-                ? ColumnSortDirection.ASCENDING
-                : column.SortDirection === ColumnSortDirection.ASCENDING
-                ? ColumnSortDirection.DESCENDING
-                : ColumnSortDirection.NONE;
+        column.sortDirection =
+            column.sortDirection === ColumnSortDirection.None
+                ? ColumnSortDirection.Ascending
+                : column.sortDirection === ColumnSortDirection.Ascending
+                ? ColumnSortDirection.Descending
+                : ColumnSortDirection.None;
 
-        column.SortOrder = column.SortDirection === ColumnSortDirection.NONE ? -1 : Number.MAX_VALUE;
+        column.sortOrder = column.sortDirection === ColumnSortDirection.None ? -1 : Number.MAX_VALUE;
 
         if (!multiSort) {
             columns
-                .filter((col: any) => col.Name !== columnName)
-                .forEach((c: any) => {
-                    c.SortOrder = -1;
-                    c.SortDirection = ColumnSortDirection.NONE;
+                .filter((col: ColumnModel) => col.name !== columnName)
+                .forEach((c: ColumnModel) => {
+                    c.sortOrder = -1;
+                    c.sortDirection = ColumnSortDirection.None;
                 });
         }
 
         columns
-            .filter((col: ColumnModel) => col.SortOrder > 0)
+            .filter((col: ColumnModel) => col.sortOrder > 0)
             .sort((a: ColumnModel, b: ColumnModel) =>
-                a.SortOrder === b.SortOrder ? 0 : a.SortOrder > b.SortOrder ? 1 : -1,
+                a.sortOrder === b.sortOrder ? 0 : a.sortOrder > b.sortOrder ? 1 : -1,
             )
-            .forEach((col: any, i: number) => {
-                col.SortOrder = i + 1;
+            .forEach((col: ColumnModel, i: number) => {
+                col.sortOrder = i + 1;
             });
 
         return columns;
     }
 
-    public static clearFilterPatch(): IFilterWrapper {
+    public static clearFilterPatch(): FilterWrapper {
         return {
-            Argument: [''],
-            HasFilter: false,
-            Operator: CompareOperators.NONE,
-            Text: '',
+            argument: [''],
+            hasFilter: false,
+            operator: CompareOperators.None,
+            text: '',
         };
     }
 
-    public Aggregate: AggregateFunctions;
-    public DataType: ColumnDataType;
-    public Filter: any;
-    public Filterable: boolean;
-    public IsKey: boolean;
-    public Label: string;
-    public Name: string;
-    public Searchable: boolean;
-    public SortDirection: ColumnSortDirection;
-    public SortOrder: number;
-    public Sortable: boolean;
-    public Visible: boolean;
+    public aggregate: AggregateFunctions;
+    public dataType: ColumnDataType;
+    public filter: FilterWrapper | { text?: string; argument: []; operator: CompareOperators; hasFilter: boolean };
+    public filterable: boolean;
+    public isKey: boolean;
+    public label: string;
+    public name: string;
+    public searchable: boolean;
+    public sortDirection: ColumnSortDirection;
+    public sortOrder: number;
+    public sortable: boolean;
+    public visible: boolean;
 
     public hasFilter =
-        this.Filter && (this.Filter.Text || this.Filter.Argument) && this.Filter.Operator !== CompareOperators.NONE;
+        this.filter && (this.filter.text || this.filter.argument) && this.filter.operator !== CompareOperators.None;
 
     constructor(name: string, options?: IColumnModelOptions) {
-        this.Aggregate = (options && options.Aggregate) || AggregateFunctions.NONE;
-        this.DataType = (options && options.DataType) || ColumnDataType.STRING;
-        this.IsKey = (options && options.IsKey) || false;
-        this.Label = (options && options.Label) || (name || '').replace(/([a-z])([A-Z])/g, '$1 $2');
-        this.Name = name;
-        this.Searchable = (options && options.Searchable) || false;
-        this.SortDirection = (options && options.Sortable && options.SortDirection) || ColumnSortDirection.NONE;
-        this.SortOrder = (options && this.SortDirection !== ColumnSortDirection.NONE && options.SortOrder) || -1;
-        this.Sortable = (options && options.Sortable) || false;
-        this.Visible = options && typeof options.Visible === 'boolean' ? options.Visible : true;
-        this.Filter = options && options.Filterable ? filterProps(name) : {};
-        this.Filterable = (options && options.Filterable) || false;
+        this.aggregate = (options && options.aggregate) || AggregateFunctions.None;
+        this.dataType = (options && options.dataType) || ColumnDataType.String;
+        this.isKey = (options && options.isKey) || false;
+        this.label = (options && options.label) || (name || '').replace(/([a-z])([A-Z])/g, '$1 $2');
+        this.name = name;
+        this.searchable = (options && options.searchable) || false;
+        this.sortDirection = (options && options.sortable && options.sortDirection) || ColumnSortDirection.None;
+        this.sortOrder = (options && this.sortDirection !== ColumnSortDirection.None && options.sortOrder) || -1;
+        this.sortable = (options && options.sortable) || false;
+        this.visible = options && typeof options.visible === 'boolean' ? options.visible : true;
+        this.filter =
+            options && options.filterable === true
+                ? filterProps(name)
+                : { argument: [], operator: CompareOperators.None, hasFilter: false };
+        this.filterable = (options && options.filterable) || false;
 
-        this.Filter.HasFilter = this.hasFilter;
+        this.filter.hasFilter = this.hasFilter;
     }
 }

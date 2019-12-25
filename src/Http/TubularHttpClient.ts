@@ -1,5 +1,5 @@
 import GridRequest from '../Models/GridRequest';
-import { ITubularHttpClient } from './ITubularHttpClient';
+import { TubularHttpClientAbstract } from './TubularHttpClientAbstract';
 
 const expectedStructureKeys = JSON.stringify([
     'AggregationPayload',
@@ -11,9 +11,9 @@ const expectedStructureKeys = JSON.stringify([
     'TotalRecordCount',
 ]);
 
-export class TubularHttpClient implements ITubularHttpClient {
-    public static resolveRequest(request: string | Request | ITubularHttpClient): string | Request {
-        const httpCast = request as ITubularHttpClient;
+export class TubularHttpClient implements TubularHttpClientAbstract {
+    public static resolveRequest(request: string | Request | TubularHttpClientAbstract): string | Request {
+        const httpCast = request as TubularHttpClientAbstract;
 
         if (httpCast.request) {
             return httpCast.request;
@@ -22,7 +22,7 @@ export class TubularHttpClient implements ITubularHttpClient {
         return (request as Request) || (request as string);
     }
 
-    public static getRequest(objRequest: string | Request, gridRequest: GridRequest) {
+    public static getRequest(objRequest: string | Request, gridRequest: GridRequest): Request {
         if (typeof objRequest === 'string') {
             return new Request(objRequest, {
                 body: JSON.stringify(gridRequest),
@@ -40,17 +40,17 @@ export class TubularHttpClient implements ITubularHttpClient {
         });
     }
 
-    public static isValidResponse(data: any) {
+    public static isValidResponse(data: {}): boolean {
         return data && expectedStructureKeys === JSON.stringify(Object.keys(data).sort());
     }
 
     public request: string | Request;
 
-    public constructor(request: string | Request | ITubularHttpClient) {
+    public constructor(request: string | Request | TubularHttpClientAbstract) {
         this.request = TubularHttpClient.resolveRequest(request);
     }
 
-    public async fetch(gridRequest: GridRequest): Promise<any> {
+    public async fetch(gridRequest: GridRequest): Promise<{}> {
         const response = await fetch(TubularHttpClient.getRequest(this.request, gridRequest));
 
         if (response.status >= 200 && response.status < 300) {

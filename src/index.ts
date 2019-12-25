@@ -1,7 +1,7 @@
 import { AggregateFunctions, ColumnDataType, ColumnModel, ColumnSortDirection, CompareOperators } from './Models';
 import GridRequest from './Models/GridRequest';
 import GridResponse from './Models/GridResponse';
-import { IFilterWrapper } from './Models/IFilterWrapper';
+import { FilterWrapper } from './Models/FilterWrapper';
 import Transformer from './Transformer';
 
 export {
@@ -12,7 +12,7 @@ export {
     CompareOperators,
     GridRequest,
     GridResponse,
-    IFilterWrapper,
+    FilterWrapper,
 };
 
 export * from './utils';

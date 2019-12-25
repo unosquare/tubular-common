@@ -3,15 +3,15 @@ import getYear from 'date-fns/getYear';
 import parseISO from 'date-fns/parseISO';
 import { ColumnDataType, ColumnModel } from '.';
 
-export const parsePayload = (row: any, columns: ColumnModel[]): any => {
-    return columns.reduce((obj: any, column: ColumnModel, key: number) => {
-        obj[column.Name] = row[key] || row[column.Name];
+export const parsePayload = (row: {}, columns: ColumnModel[]): {} => {
+    return columns.reduce((obj: {}, column: ColumnModel, key: number) => {
+        obj[column.name] = row[key] || row[column.name];
 
         return obj;
     }, {});
 };
 
-export const formatDate = (value: any, formatString = 'M/d/yyyy'): string => {
+export const formatDate = (value: string, formatString = 'M/d/yyyy'): string => {
     if (!value) {
         return '';
     }
@@ -21,10 +21,10 @@ export const formatDate = (value: any, formatString = 'M/d/yyyy'): string => {
 };
 
 export const getColumnAlign = (column: ColumnModel): 'inherit' | 'left' | 'center' | 'right' | 'justify' => {
-    switch (column.DataType) {
-        case ColumnDataType.NUMERIC:
+    switch (column.dataType) {
+        case ColumnDataType.Numeric:
             return 'right';
-        case ColumnDataType.BOOLEAN:
+        case ColumnDataType.Boolean:
             return 'center';
         default:
             return 'inherit';
@@ -33,27 +33,28 @@ export const getColumnAlign = (column: ColumnModel): 'inherit' | 'left' | 'cente
 
 const getCellValue = (cellDataType: string, cell: any): string => {
     switch (cellDataType) {
-        case ColumnDataType.DATE:
+        case ColumnDataType.Date:
             return formatDate(cell, 'M/d/yyyy');
-        case ColumnDataType.DATE_TIME:
-        case ColumnDataType.DATE_TIME_UTC:
+        case ColumnDataType.DateTime:
+        case ColumnDataType.DateTimeUtc:
             return formatDate(cell, 'M/d/yyyy h:mm a');
-        case ColumnDataType.BOOLEAN:
+        case ColumnDataType.Boolean:
             return cell === true ? 'Yes' : 'No';
         default:
             return (cell || '').toString();
     }
 };
 
-const objToArray = (row: any) => (row instanceof Object ? Object.keys(row).map((key: any) => row[key]) : row);
+const objToArray = (row: {} | []): any[] =>
+    row instanceof Object ? Object.keys(row).map((key: string) => row[key]) : row;
 
-const processRow = (row: any, columns: any[], ignoreType: boolean): string => {
-    const finalVal = objToArray(row).reduce((prev: any, value: any, i: any) => {
-        if (!columns[i].Visible) {
+const processRow = (row: {}, columns: ColumnModel[], ignoreType: boolean): string => {
+    const finalVal = objToArray(row).reduce((prev: string, value: [], i: number) => {
+        if (!columns[i].visible) {
             return;
         }
 
-        let result = getCellValue(ignoreType ? ColumnDataType.STRING : columns[i].DataType, value).replace(/"/g, '""');
+        let result = getCellValue(ignoreType ? ColumnDataType.String : columns[i].dataType, value).replace(/"/g, '""');
 
         if (result.search(/("|,|\n)/g) >= 0) {
             result = `"${result}"`;
@@ -65,27 +66,27 @@ const processRow = (row: any, columns: any[], ignoreType: boolean): string => {
     return `${finalVal}\n`;
 };
 
-export const getCsv = (gridResult: any, columns: any) =>
+export const getCsv = (gridResult: [], columns: ColumnModel[]): string =>
     gridResult.reduce(
-        (prev: string, row: any) => prev + processRow(row, columns, false),
+        (prev: string, row: {}) => prev + processRow(row, columns, false),
         processRow(
-            columns.map((x: any) => x.Label),
+            columns.map((x: ColumnModel) => x.label),
             columns,
             true,
         ),
     );
 
-export const getHtml = (gridResult: any, columns: any) =>
+export const getHtml = (gridResult: [], columns: ColumnModel[]): string =>
     `<table class="table table-bordered table-striped"><thead><tr>${columns
-        .filter((c: any) => c.Visible)
+        .filter((c: ColumnModel) => c.visible)
         .reduce(
-            (prev: any, el: any) => `${prev}<th>${el.Label || el.Name}</th>`,
+            (prev: string, el: ColumnModel) => `${prev}<th>${el.label || el.name}</th>`,
             '',
         )}</tr></thead><tbody>${gridResult.reduce(
-        (prevRow: string, row: any) =>
+        (prevRow: string, row: {}) =>
             `${prevRow}<tr>${objToArray(row).reduce(
-                (prev: string, cell: any, index: number) =>
-                    !columns[index].Visible ? prev : `${prev}<td>${getCellValue(columns[index].DataType, cell)}</td>`,
+                (prev: string, cell: {}, index: number) =>
+                    !columns[index].visible ? prev : `${prev}<td>${getCellValue(columns[index].dataType, cell)}</td>`,
                 '',
             )}</tr>`,
         '',

@@ -2,22 +2,18 @@ import { ColumnModel } from '../src';
 
 describe('New ColumnModel instance', () => {
     it('should have property Visible = false values', () => {
-        const actual = new ColumnModel('Test',
-            {
-                Visible: false
-            }
-        );
+        const actual = new ColumnModel('Test', {
+            visible: false,
+        });
 
-        expect(actual.Visible).toBeFalsy();
+        expect(actual.visible).toBeFalsy();
     });
 
     it('should have property Visible = true values', () => {
-        const actual = new ColumnModel('Test',
-            {
-                IsKey: true
-            }
-        );
+        const actual = new ColumnModel('Test', {
+            isKey: true,
+        });
 
-        expect(actual.Visible).toBeTruthy();
+        expect(actual.visible).toBeTruthy();
     });
 });

@@ -1,14 +1,15 @@
-[![codecov](https://codecov.io/gh/unosquare/tubular-common/branch/master/graph/badge.svg)](https://codecov.io/gh/unosquare/tubular-common)
+[![codecov](https://codecov.io/gh/unosquare/tubular-common/branch/master/graph/badge.svg)](https://codecov.io/gh/unosquare/tubular-common) 
+[![npm version](https://badge.fury.io/js/tubular-common.svg)](https://badge.fury.io/js/tubular-common)
 
 ![Tubular Common](http://unosquare.github.io/tubular-angular/assets/tubular.png)
 
-:star: *Please star this project if you find it useful!*
+:star: _Please star this project if you find it useful!_
 
-Tubular Common provides TypeScript and Javascript models and data transformer to use any Tubular DataGrid component with an array of Javascript objects. 
+Tubular Common provides TypeScript and Javascript models and data transformer to use any Tubular DataGrid component with an array of Javascript objects.
 
 Please visit the [Tubular GitHub Page](http://unosquare.github.io/tubular) to learn how quickly you can start coding. See [Related projects](#related-projects) below to discover more Tubular libraries and backend solutions.
 
-## Installation [![npm version](https://badge.fury.io/js/tubular-common.svg)](https://badge.fury.io/js/tubular-common)
+## Installation
 
 ```sh
 $ npm install tubular-common --save
@@ -26,58 +27,53 @@ The following code is a sample how use the request and response objects to tranf
 import Transformer from 'tubular-common';
 
 const request = new GridRequest(
-  [
-    new ColumnModel('OrderID',
-      {
-        DataType: ColumnDataType.NUMERIC,
-        Filterable: true,
-        IsKey: true,
-        Label: 'Order ID',
-        SortDirection: ColumnSortDirection.ASCENDING,
-        SortOrder: 1,
-        Sortable: true,
-      }
-    ),
-    new ColumnModel('CustomerName',
-      {
-        Aggregate: AggregateFunctions.NONE,
-        Searchable: true,
-        Sortable: false
-      }
-    ),
-    new ColumnModel('ShippedDate',
-      {
-        DataType: ColumnDataType.DATE_TIME,
-        Filterable: true,
-        Sortable: false
-      }
-    ),
-    new ColumnModel('ShipperCity'),
-    new ColumnModel('Amount',
-      {
-        DataType: ColumnDataType.NUMERIC,
-        Sortable: false
-      }
-    )
-  ],
-  10, 0, '');
+    [
+        new ColumnModel('OrderID', {
+            dataType: ColumnDataType.Numeric,
+            filterable: true,
+            isKey: true,
+            label: 'Order ID',
+            sortDirection: ColumnSortDirection.Ascending,
+            sortOrder: 1,
+            sortable: true,
+        }),
+        new ColumnModel('CustomerName', {
+            aggregate: AggregateFunctions.None,
+            searchable: true,
+            sortable: false,
+        }),
+        new ColumnModel('ShippedDate', {
+            dataType: ColumnDataType.DateTime,
+            dilterable: true,
+            sortable: false,
+        }),
+        new ColumnModel('ShipperCity'),
+        new ColumnModel('Amount', {
+            dataType: ColumnDataType.Numeric,
+            sortable: false,
+        }),
+    ],
+    10,
+    0,
+    '',
+);
 
 export const data = [
-  {
-    OrderID: 1,
-    CustomerName: 'Microsoft',
-    ShippedDate: '2016-03-19T19:00:00',
-    ShipperCity: 'Guadalajara, JAL, Mexico',
-    Amount: 300.00
-  },
-  {
-    OrderID: 2,
-    CustomerName: 'Microsoft',
-    ShippedDate: '2016-11-08T18:00:00',
-    ShipperCity: 'Los Angeles, CA, USA',
-    Amount: 9.00
-  },
-  /// ...
+    {
+        OrderID: 1,
+        CustomerName: 'Microsoft',
+        ShippedDate: '2016-03-19T19:00:00',
+        ShipperCity: 'Guadalajara, JAL, Mexico',
+        Amount: 300.0,
+    },
+    {
+        OrderID: 2,
+        CustomerName: 'Microsoft',
+        ShippedDate: '2016-11-08T18:00:00',
+        ShipperCity: 'Los Angeles, CA, USA',
+        Amount: 9.0,
+    },
+    /// ...
 ];
 
 const response = Transformer.getResponse(request, data);
@@ -88,11 +84,11 @@ The output is the following Javascript object:
 
 ```javascript
 {
-  AggregationPayload: { },
-  Counter: 0,
-  CurrentPage: 1,
-  FilteredRecordCount: 22,
-  Payload: [
+  aggregationPayload: { },
+  counter: 0,
+  currentPage: 1,
+  filteredRecordCount: 22,
+  payload: [
     {
       OrderID: 1,
       CustomerName: 'Microsoft',
@@ -164,8 +160,8 @@ The output is the following Javascript object:
       Amount: 300.00
     }
   ],
-  TotalPages: 3,
-  TotalRecordCount: 22
+  totalPages: 3,
+  totalRecordCount: 22
 };
 ```
 
@@ -173,29 +169,25 @@ The output is the following Javascript object:
 
 It represents a `DataGrid` column and its constructor requires a name identifier as well as an object of column options with the following properties:
 
-| Name | Type | Default Value | Description | Options   |
-|---------------|-------------------|-------------------------|--------------------------------------------------------------|----------|
-| `Name`          | `string`              |         `NONE`          | This is required and represents a property of the entity which we are binding. |-|
-| `Aggregate`     | `AggregateFunctions`  |         `NONE`          | The aggregation function that will be applied to this column. | `NONE`, `SUM`, `AVERAGE`, `COUNT`, `DISTINCT_COUNT`, `MAX`, `MIN` |
-| `DataType`      | `ColumnDataType`      |       `STRING`          | The column type. | `STRING`, `NUMERIC`, `BOOLEAN`, `DATE`, `DATE_TIME`, `DATE_TIME_UTC` |
-| `Filterable`        | `bool`                |        `false`          | Enables filtering.|-|
-| `IsKey`         | `bool`                |        `false`          | Defines if a column is an identifier or not. |-|
-| `Label`         | `string`              | The name of the column  | Column label that will be shown. |-|
-| `Searchable`    | `bool`                |        `true`           | Indicates that a column can be used to search upon. |-|
-| `SortDirection` |`ColumnSortDirection`  |        `NONE`           |-| `NONE`, `ASCENDING`, `DESCENDING` |
-| `SortOrder`     | `number`              |         `-1`            |-|-|
-| `Sortable`      | `bool`                |        `false`          | Determines if a column can be sorted. |-|
-| `Visible`       | `bool`                |        `true`           | Specifies if a column should be shown. |-|
+| Name            | Type                  | Default Value          | Description                                                                    | Options                                                              |
+| --------------- | --------------------- | ---------------------- | ------------------------------------------------------------------------------ | -------------------------------------------------------------------- |
+| `name`          | `string`              |                        | This is required and represents a property of the entity which we are binding. | -                                                                    |
+| `aggregate`     | `AggregateFunctions`  |                        | The aggregation function that will be applied to this column.                  | `None`, `Sum`, `Average`, `Count`, `DistinctCount`, `Max`, `Min`    |
+| `dataType`      | `ColumnDataType`      | `String`               | The column type.                                                               | `String`, `Numeric`, `Boolean`, `Date`, `DateTime`, `DateTimeUtc` |
+| `filterable`    | `bool`                | `false`                | Enables filtering.                                                             | -                                                                    |
+| `isKey`         | `bool`                | `false`                | Defines if a column is an identifier or not.                                   | -                                                                    |
+| `label`         | `string`              | The name of the column | Column label that will be shown.                                               | -                                                                    |
+| `searchable`    | `bool`                | `true`                 | Indicates that a column can be used to search upon.                            | -                                                                    |
+| `sortDirection` | `ColumnSortDirection` |                        | -                                                                              | `None`, `Ascending`, `Descending`                                    |
+| `sortOrder`     | `number`              | `-1`                   | -                                                                              | -                                                                    |
+| `sortable`      | `bool`                | `false`                | Determines if a column can be sorted.                                          | -                                                                    |
+| `visible`       | `bool`                | `true`                 | Specifies if a column should be shown.                                         | -                                                                    |
 
 ## Related Projects
 
-Name | Type | Language/tech | Description
------|------|---------------|--------------
-| [Tubular for AngularJS (formerly Tubular)](https://github.com/unosquare/tubular) | Library | AngularJs | Tubular provides a set of directives and services using AngularJS as framework. |
-| [Tubular for Angular7 (formerly Tubular2)](https://github.com/unosquare/tubular2) | Library | Angular7 | New Tubular2 with Angular7 (Angular2) and Angular Material 2.
-| [Tubular React](https://github.com/unosquare/tubular-react) | Library | React | Tubular-React is a DataGrid component using Material-UI |
-| [Tubular Dotnet](https://github.com/unosquare/tubular-dotnet) | Backend library | C#/.NET Core | Tubular provides .NET Framework and .NET Core Library to create REST service to use with Tubular Angular Components easily with any WebApi library (ASP.NET Web API for example). |
-| [Tubular Nodejs](https://github.com/unosquare/tubular-nodejs) | Backend Library | Javascript | Tubular Node.js provides an easy way to integrate Tubular Angular Components easily with any Node.js WebApi library. |
-| [Tubular Boilerplate C#](https://github.com/unosquare/tubular-boilerplate-csharp) | Boilerplate | C# | Tubular Directives Boilerplate (includes AngularJS and Bootstrap) |
-| [Tubular Boilerplate](https://github.com/unosquare/tubular-boilerplate) | Boilerplate | Javascript/AngularJS | Tubular Directives Boilerplate (includes AngularJS and Bootstrap). |
-| [Tubular ASP.NET Core 2.0 Boilerplate](https://github.com/unosquare/tubular-aspnet-core-boilerplate) | Boilerplate | C#/.NET Core | Tubular Directives Boilerplate (includes AngularJS and Bootstrap). |
+| Name                                                                                                 | Type            | Language/tech        | Description                                                                                                                                                                       |
+| ---------------------------------------------------------------------------------------------------- | --------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Tubular React Common](https://github.com/unosquare/tubular-react.common)                     | Library         | React            | React hooks to integrate with any Grid component.                                                                                                   |
+| [Tubular React](https://github.com/unosquare/tubular-react)                                          | Library         | React                | Tubular-React is a DataGrid component using Material-UI                                                                                                                           |
+| [Tubular Dotnet](https://github.com/unosquare/tubular-dotnet)                                        | Backend library | C#/.NET Core         | Tubular provides .NET Framework and .NET Core Library to create REST service to use with Tubular Angular Components easily with any WebApi library (ASP.NET Web API for example). |
+| [Tubular Nodejs](https://github.com/unosquare/tubular-nodejs)                                        | Backend Library | Javascript           | Tubular Node.js provides an easy way to integrate Tubular Angular Components easily with any Node.js WebApi library.                                                              |
