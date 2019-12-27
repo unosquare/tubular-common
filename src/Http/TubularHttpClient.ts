@@ -1,7 +1,7 @@
 import GridRequest from '../Models/GridRequest';
 import { TubularHttpClientAbstract } from './TubularHttpClientAbstract';
 
-const expectedStructureKeys = JSON.stringify([
+const responseKeys = [
     'AggregationPayload',
     'Counter',
     'CurrentPage',
@@ -9,7 +9,9 @@ const expectedStructureKeys = JSON.stringify([
     'Payload',
     'TotalPages',
     'TotalRecordCount',
-]);
+];
+
+const expectedStructureKeys = JSON.stringify(responseKeys);
 
 export class TubularHttpClient implements TubularHttpClientAbstract {
     public static resolveRequest(request: string | Request | TubularHttpClientAbstract): string | Request {
@@ -55,8 +57,16 @@ export class TubularHttpClient implements TubularHttpClientAbstract {
 
         if (response.status >= 200 && response.status < 300) {
             const responseBody: string = await response.text();
+            const responseObject = responseBody ? JSON.parse(responseBody) : {};
 
-            return responseBody ? JSON.parse(responseBody) : {};
+            responseKeys.forEach(k => {
+                if (responseObject[k]) {
+                    responseObject[k.charAt(0).toLowerCase() + k.slice(1)] = responseObject[k];
+                    delete responseObject[k];
+                }
+            });
+
+            return responseObject;
         }
 
         throw new Error('Invalid request');
