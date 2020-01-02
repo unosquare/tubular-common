@@ -1,3 +1,4 @@
+import GridResponse from '../Models/GridResponse';
 import GridRequest from '../Models/GridRequest';
 import { TubularHttpClientAbstract } from './TubularHttpClientAbstract';
 
@@ -60,12 +61,12 @@ export class TubularHttpClient implements TubularHttpClientAbstract {
         this.request = TubularHttpClient.resolveRequest(request);
     }
 
-    public async fetch(gridRequest: GridRequest): Promise<{}> {
+    public async fetch(gridRequest: GridRequest): Promise<GridResponse> {
         const response = await fetch(TubularHttpClient.getRequest(this.request, gridRequest));
 
         if (response.status >= 200 && response.status < 300) {
             const responseBody: string = await response.text();
-            const responseObject = responseBody ? JSON.parse(responseBody) : {};
+            const responseObject: GridResponse = responseBody ? JSON.parse(responseBody) : {};
 
             responseKeys.forEach(k => {
                 if (responseObject[k]) {
