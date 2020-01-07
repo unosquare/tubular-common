@@ -69,7 +69,7 @@ export class TubularHttpClient implements TubularHttpClientAbstract {
             const responseObject: GridResponse = responseBody ? JSON.parse(responseBody) : {};
 
             responseKeys.forEach(k => {
-                if (responseObject[k]) {
+                if (responseObject.hasOwnProperty(k)) {
                     responseObject[k.charAt(0).toLowerCase() + k.slice(1)] = responseObject[k];
                     delete responseObject[k];
                 }
