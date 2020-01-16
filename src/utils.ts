@@ -17,7 +17,7 @@ export const formatDate = (value: string, formatString = 'M/d/yyyy'): string => 
     const parsedValue: Date = parseISO(value);
 
     // TODO: Pending format
-    return isNaN(parsedValue.getTime()) ? parsedValue.toLocaleDateString() : '';
+    return isNaN(parsedValue.getTime()) ? '' : parsedValue.toLocaleDateString();
 };
 
 export const getColumnAlign = (column: ColumnModel): 'inherit' | 'left' | 'center' | 'right' | 'justify' => {
