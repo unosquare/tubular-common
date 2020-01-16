@@ -1,4 +1,4 @@
-import parseISO from 'date-fns/parseISO';
+import { parseISO } from 'uno-js';
 import { AggregateFunctions, ColumnSortDirection, CompareOperators, ColumnDataType } from './Models';
 import ColumnModel from './Models/ColumnModel';
 import GridRequest from './Models/GridRequest';

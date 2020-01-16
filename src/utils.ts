@@ -1,6 +1,4 @@
-import format from 'date-fns/format';
-import getYear from 'date-fns/getYear';
-import parseISO from 'date-fns/parseISO';
+import { parseISO } from 'uno-js';
 import { ColumnDataType, ColumnModel } from '.';
 
 export const parsePayload = (row: {}, columns: ColumnModel[]): {} => {
@@ -16,8 +14,10 @@ export const formatDate = (value: string, formatString = 'M/d/yyyy'): string => 
         return '';
     }
 
-    const parsedValue = parseISO(value);
-    return getYear(parsedValue) > 0 ? format(parsedValue, formatString) : '';
+    const parsedValue: Date = parseISO(value);
+
+    // TODO: Pending format
+    return isNaN(parsedValue.getTime()) ? parsedValue.toLocaleDateString() : '';
 };
 
 export const getColumnAlign = (column: ColumnModel): 'inherit' | 'left' | 'center' | 'right' | 'justify' => {
