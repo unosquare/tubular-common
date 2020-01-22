@@ -13,13 +13,13 @@ const responseKeys = [
 ];
 
 const expectedStructureKeys = JSON.stringify([
-    'aggregationPayload',
+    'aggregationpayload',
     'counter',
-    'currentPage',
-    'filteredRecordCount',
+    'currentpage',
+    'filteredrecordcount',
     'payload',
-    'totalPages',
-    'totalRecordCount',
+    'totalpages',
+    'totalrecordcount',
 ]);
 
 export class TubularHttpClient implements TubularHttpClientAbstract {
@@ -52,7 +52,15 @@ export class TubularHttpClient implements TubularHttpClientAbstract {
     }
 
     public static isValidResponse(data: {}): boolean {
-        return data && expectedStructureKeys === JSON.stringify(Object.keys(data).sort());
+        return (
+            data &&
+            expectedStructureKeys ===
+                JSON.stringify(
+                    Object.keys(data)
+                        .map(x => x.toLowerCase())
+                        .sort(),
+                )
+        );
     }
 
     public request: string | Request;
