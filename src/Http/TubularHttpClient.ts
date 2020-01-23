@@ -63,6 +63,15 @@ export class TubularHttpClient implements TubularHttpClientAbstract {
         );
     }
 
+    public static fixResponse(responseObject: {}): void {
+        responseKeys.forEach(k => {
+            if (responseObject.hasOwnProperty(k)) {
+                responseObject[k.charAt(0).toLowerCase() + k.slice(1)] = responseObject[k];
+                delete responseObject[k];
+            }
+        });
+    }
+
     public request: string | Request;
 
     public constructor(request: string | Request | TubularHttpClientAbstract) {
@@ -76,12 +85,7 @@ export class TubularHttpClient implements TubularHttpClientAbstract {
             const responseBody: string = await response.text();
             const responseObject: GridResponse = responseBody ? JSON.parse(responseBody) : {};
 
-            responseKeys.forEach(k => {
-                if (responseObject.hasOwnProperty(k)) {
-                    responseObject[k.charAt(0).toLowerCase() + k.slice(1)] = responseObject[k];
-                    delete responseObject[k];
-                }
-            });
+            TubularHttpClient.fixResponse(responseObject);
 
             return responseObject;
         }
