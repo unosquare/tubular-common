@@ -150,10 +150,7 @@ export default class ColumnModel {
         this.sortOrder = (options && this.sortDirection !== ColumnSortDirection.None && options.sortOrder) || -1;
         this.sortable = (options && options.sortable) || false;
         this.visible = options && typeof options.visible === 'boolean' ? options.visible : true;
-        this.filter =
-            options && options.filterable === true
-                ? filterProps(name)
-                : { argument: [], operator: CompareOperators.None, hasFilter: false };
+        this.filter = options && options.filterable === true ? options.filter || filterProps(name) : filterProps(name);
         this.filterable = (options && options.filterable) || false;
 
         this.filter.hasFilter = this.hasFilter;
