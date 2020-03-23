@@ -12,7 +12,7 @@ function filterProps(name: string): FilterWrapper {
     };
 }
 
-const NumericOperators = [
+const NumericOperators: CompareOperator[] = [
     { value: CompareOperators.None, title: 'None' },
     { value: CompareOperators.Equals, title: 'Equals' },
     { value: CompareOperators.Between, title: 'Between' },
@@ -22,7 +22,7 @@ const NumericOperators = [
     { value: CompareOperators.Lt, title: '<' },
 ];
 
-const StringOperators = [
+const StringOperators: CompareOperator[] = [
     { value: CompareOperators.None, title: 'None' },
     { value: CompareOperators.Equals, title: 'Equals' },
     { value: CompareOperators.NotEquals, title: 'Not Equals' },
@@ -34,16 +34,21 @@ const StringOperators = [
     { value: CompareOperators.NotEndsWith, title: 'Not Ends With' },
 ];
 
-const BooleanOperators = [
+const BooleanOperators: CompareOperator[] = [
     { value: CompareOperators.None, title: 'None' },
     { value: CompareOperators.Equals, title: 'Equals' },
     { value: CompareOperators.NotEquals, title: 'Not Equals' },
 ];
 
+export interface CompareOperator {
+    value: CompareOperators;
+    title: string;
+}
+
 export default class ColumnModel {
     public static createFilterPatch(column: ColumnModel): FilterWrapper {
         let filterText = column.filter.text;
-        let filterArgument = column.filter.argument[0];
+        let filterArgument = column.filter.argument && column.filter.argument[0];
 
         if (column.dataType === ColumnDataType.Numeric) {
             filterText = parseFloat(filterText).toString();
@@ -62,7 +67,7 @@ export default class ColumnModel {
         };
     }
 
-    public static getOperators(column: ColumnModel): {}[] {
+    public static getOperators(column: ColumnModel): CompareOperator[] {
         switch (column.dataType) {
             case ColumnDataType.String:
                 return StringOperators;
@@ -142,13 +147,13 @@ export default class ColumnModel {
     constructor(name: string, options?: IColumnModelOptions) {
         this.aggregate = (options && options.aggregate) || AggregateFunctions.None;
         this.dataType = (options && options.dataType) || ColumnDataType.String;
-        this.isKey = (options && options.isKey) || false;
+        this.isKey = !!(options && options.isKey);
         this.label = (options && options.label) || (name || '').replace(/([a-z])([A-Z])/g, '$1 $2');
         this.name = name;
-        this.searchable = (options && options.searchable) || false;
+        this.searchable = !!(options && options.searchable);
         this.sortDirection = (options && options.sortable && options.sortDirection) || ColumnSortDirection.None;
         this.sortOrder = (options && this.sortDirection !== ColumnSortDirection.None && options.sortOrder) || -1;
-        this.sortable = (options && options.sortable) || false;
+        this.sortable = !!(options && options.sortable);
         this.visible = options && typeof options.visible === 'boolean' ? options.visible : true;
         this.filter = options && options.filterable === true ? options.filter || filterProps(name) : filterProps(name);
         this.filterable = (options && options.filterable) || false;
