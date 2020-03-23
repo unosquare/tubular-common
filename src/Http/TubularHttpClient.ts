@@ -57,14 +57,14 @@ export class TubularHttpClient implements TubularHttpClientAbstract {
             expectedStructureKeys ===
                 JSON.stringify(
                     Object.keys(data)
-                        .map(x => x.toLowerCase())
+                        .map((x) => x.toLowerCase())
                         .sort(),
                 )
         );
     }
 
     public static fixResponse(responseObject: {}): void {
-        responseKeys.forEach(k => {
+        responseKeys.forEach((k) => {
             if (responseObject.hasOwnProperty(k)) {
                 responseObject[k.charAt(0).toLowerCase() + k.slice(1)] = responseObject[k];
                 delete responseObject[k];
