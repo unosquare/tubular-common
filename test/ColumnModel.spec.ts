@@ -1,4 +1,4 @@
-import { ColumnModel, CompareOperators, FilterWrapper } from '../src';
+import { ColumnModel, CompareOperators, FilterWrapper, ColumnDataType } from '../src';
 
 describe('New ColumnModel instance', () => {
     it('should have property Visible = false values', () => {
@@ -65,5 +65,74 @@ describe('New ColumnModel instance', () => {
         });
 
         expect(actual.filter).not.toMatchObject(filterData);
+    });
+
+    it('should create filter patch for String column', () => {
+        const expected: FilterWrapper = {
+            hasFilter: true,
+            name: 'Test',
+            operator: CompareOperators.None,
+            text: null,
+        };
+
+        const column = new ColumnModel('Test', {
+            isKey: true,
+            filterable: true,
+        });
+
+        const actual = ColumnModel.createFilterPatch(column);
+
+        expect(actual).toMatchObject(expected);
+    });
+
+    it('should create filter patch for Numeric column', () => {
+        const expected: FilterWrapper = {
+            hasFilter: true,
+            name: 'Test',
+            operator: CompareOperators.Equals,
+            text: '10',
+        };
+
+        const column = new ColumnModel('Test', {
+            isKey: true,
+            filterable: true,
+            dataType: ColumnDataType.Numeric,
+            filter: {
+                hasFilter: true,
+                operator: CompareOperators.Equals,
+                text: '10',
+                name: 'Test',
+                argument: [null],
+            },
+        });
+
+        const actual = ColumnModel.createFilterPatch(column);
+
+        expect(actual).toMatchObject(expected);
+    });
+
+    it('should create filter patch for Boolean column', () => {
+        const expected: FilterWrapper = {
+            hasFilter: true,
+            name: 'Test',
+            operator: CompareOperators.Equals,
+            text: 'true',
+        };
+
+        const column = new ColumnModel('Test', {
+            isKey: true,
+            filterable: true,
+            dataType: ColumnDataType.Boolean,
+            filter: {
+                hasFilter: true,
+                operator: CompareOperators.Equals,
+                text: 'true',
+                name: 'Test',
+            },
+        });
+
+        const actual = ColumnModel.createFilterPatch(column);
+
+        expect(actual).toMatchObject(expected);
     });
 });
