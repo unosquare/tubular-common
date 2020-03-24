@@ -64,7 +64,7 @@ export default class Transformer {
 
     private static applyFiltering(request: GridRequest, subset: {}[]): {}[] {
         request.columns
-            .filter((column: ColumnModel) => column.hasFilter)
+            .filter((column: ColumnModel) => column.hasFilter())
             .forEach((column: ColumnModel) => {
                 const isDate =
                     column.dataType === ColumnDataType.Date ||
