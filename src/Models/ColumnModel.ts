@@ -5,7 +5,6 @@ import { FilterWrapper } from './FilterWrapper';
 function filterProps(name: string): FilterWrapper {
     return {
         argument: [],
-        hasFilter: false,
         name: name,
         operator: 'None',
         text: null,
@@ -61,7 +60,6 @@ export default class ColumnModel {
         return {
             name: column.name,
             argument: [filterArgument],
-            hasFilter: true,
             operator: column.filter.operator || CompareOperators.Auto,
             text: filterText,
         };
@@ -122,7 +120,6 @@ export default class ColumnModel {
     public static clearFilterPatch(): FilterWrapper {
         return {
             argument: [''],
-            hasFilter: false,
             operator: CompareOperators.None,
             text: '',
         };
@@ -141,7 +138,7 @@ export default class ColumnModel {
     public sortable: boolean;
     public visible: boolean;
 
-    public hasFilter =
+    public hasFilter = (): boolean =>
         this.filter && (this.filter.text || this.filter.argument) && this.filter.operator !== CompareOperators.None;
 
     constructor(name: string, options?: IColumnModelOptions) {
@@ -157,7 +154,5 @@ export default class ColumnModel {
         this.visible = options && typeof options.visible === 'boolean' ? options.visible : true;
         this.filter = options && options.filterable === true ? options.filter || filterProps(name) : filterProps(name);
         this.filterable = (options && options.filterable) || false;
-
-        this.filter.hasFilter = this.hasFilter;
     }
 }

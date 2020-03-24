@@ -19,7 +19,6 @@ describe('New ColumnModel instance', () => {
 
     it('should set filter information when filterable is true', () => {
         const filterData: FilterWrapper = {
-            hasFilter: true,
             name: 'Test',
             operator: CompareOperators.Contains,
             text: 'Criteria',
@@ -36,7 +35,6 @@ describe('New ColumnModel instance', () => {
 
     it('should not set filter information when filterable is false', () => {
         const filterData: FilterWrapper = {
-            hasFilter: true,
             name: 'Test',
             operator: CompareOperators.Contains,
             text: 'Criteria',
@@ -53,7 +51,6 @@ describe('New ColumnModel instance', () => {
 
     it('should set default filter information when no filter param', () => {
         const filterData: FilterWrapper = {
-            hasFilter: false,
             name: 'Test',
             operator: CompareOperators.None,
             text: '',
@@ -69,7 +66,6 @@ describe('New ColumnModel instance', () => {
 
     it('should create filter patch for String column', () => {
         const expected: FilterWrapper = {
-            hasFilter: true,
             name: 'Test',
             operator: CompareOperators.None,
             text: null,
@@ -87,7 +83,6 @@ describe('New ColumnModel instance', () => {
 
     it('should create filter patch for Numeric column', () => {
         const expected: FilterWrapper = {
-            hasFilter: true,
             name: 'Test',
             operator: CompareOperators.Equals,
             text: '10',
@@ -98,7 +93,6 @@ describe('New ColumnModel instance', () => {
             filterable: true,
             dataType: ColumnDataType.Numeric,
             filter: {
-                hasFilter: true,
                 operator: CompareOperators.Equals,
                 text: '10',
                 name: 'Test',
@@ -113,7 +107,6 @@ describe('New ColumnModel instance', () => {
 
     it('should create filter patch for Boolean column', () => {
         const expected: FilterWrapper = {
-            hasFilter: true,
             name: 'Test',
             operator: CompareOperators.Equals,
             text: 'true',
@@ -124,7 +117,6 @@ describe('New ColumnModel instance', () => {
             filterable: true,
             dataType: ColumnDataType.Boolean,
             filter: {
-                hasFilter: true,
                 operator: CompareOperators.Equals,
                 text: 'true',
                 name: 'Test',
