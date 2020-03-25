@@ -43,11 +43,11 @@ export class Transformer {
     }
 
     private static applyFreeTextSearch(request: GridRequest, subset: {}[]): {}[] {
-        if (request.search && request.search.operator.toLowerCase() === CompareOperators.Auto.toLowerCase()) {
+        if (!!request.searchText) {
             const searchableColumns = request.columns.filter((x: ColumnModel) => x.searchable);
 
             if (searchableColumns.length > 0) {
-                const filter = request.search.text.toLowerCase();
+                const filter = request.searchText.toLowerCase();
                 if (filter === '') {
                     return subset;
                 }
@@ -62,9 +62,9 @@ export class Transformer {
                     }),
                 );
             }
-
-            return subset;
         }
+
+        return subset;
     }
 
     private static applyFiltering(request: GridRequest, subset: {}[]): {}[] {
