@@ -68,6 +68,7 @@ export const getOperators = (column: ColumnModel): CompareOperator[] => {
 
 export const sortColumnArray = (columnName: string, columns: ColumnModel[], multiSort: boolean): ColumnModel[] => {
     const column = columns.find((c: ColumnModel) => c.name === columnName);
+
     if (!column) {
         return;
     }
@@ -107,6 +108,7 @@ export const columnHasFilter = (column): boolean =>
 
 export const createColumn = (name: string, options?: Partial<ColumnModel>): ColumnModel => {
     const sortDirection = (options && options.sortable && options.sortDirection) || ColumnSortDirection.None;
+
     return {
         aggregate: (options && options.aggregate) || AggregateFunctions.None,
         dataType: (options && options.dataType) || ColumnDataType.String,

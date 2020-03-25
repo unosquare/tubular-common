@@ -52,7 +52,7 @@ export class Transformer {
                     return subset;
                 }
 
-                return subset.filter(item =>
+                return subset.filter((item) =>
                     searchableColumns.some((x: ColumnModel) => {
                         if (typeof item[x.name] === 'undefined') {
                             return false;
@@ -86,14 +86,14 @@ export class Transformer {
                 switch (column.filterOperator) {
                     case CompareOperators.Equals:
                         if (isDate) {
-                            subset = subset.filter(row => isEqual(row[column.name], column.filterText));
+                            subset = subset.filter((row) => isEqual(row[column.name], column.filterText));
                         } else if (column.dataType === ColumnDataType.String) {
                             subset = partialfiltering(
                                 subset,
                                 (x: string) => x.toLowerCase() === column.filterText.toLowerCase(),
                             );
                         } else {
-                            subset = subset.filter(row => row[column.name] === column.filterText);
+                            subset = subset.filter((row) => row[column.name] === column.filterText);
                         }
                         break;
                     case CompareOperators.NotEquals:
@@ -103,13 +103,13 @@ export class Transformer {
                                 (x: string) => x.toLowerCase() !== column.filterText.toLowerCase(),
                             );
                         } else {
-                            subset = subset.filter(row => row[column.name] !== column.filterText);
+                            subset = subset.filter((row) => row[column.name] !== column.filterText);
                         }
                         break;
                     case CompareOperators.Contains:
                         subset = partialfiltering(
                             subset,
-                            x => x.toLowerCase().indexOf(column.filterText.toLowerCase()) >= 0,
+                            (x) => x.toLowerCase().indexOf(column.filterText.toLowerCase()) >= 0,
                         );
                         subset = partialfiltering(
                             subset,
@@ -145,44 +145,44 @@ export class Transformer {
                         break;
                     case CompareOperators.Gt:
                         if (isDate) {
-                            subset = subset.filter(row => isAfter(row[column.name], column.filterText));
+                            subset = subset.filter((row) => isAfter(row[column.name], column.filterText));
                         } else {
-                            subset = subset.filter(row => row[column.name] > column.filterText);
+                            subset = subset.filter((row) => row[column.name] > column.filterText);
                         }
                         break;
                     case CompareOperators.Gte:
                         if (isDate) {
                             subset = subset.filter(
-                                row =>
+                                (row) =>
                                     isEqual(row[column.name], column.filterText) ||
                                     isAfter(row[column.name], column.filterText),
                             );
                         } else {
-                            subset = subset.filter(row => row[column.name] >= column.filterText);
+                            subset = subset.filter((row) => row[column.name] >= column.filterText);
                         }
                         break;
                     case CompareOperators.Lt:
                         if (isDate) {
-                            subset = subset.filter(row => isBefore(row[column.name], column.filterText));
+                            subset = subset.filter((row) => isBefore(row[column.name], column.filterText));
                         } else {
-                            subset = subset.filter(row => row[column.name] < column.filterText);
+                            subset = subset.filter((row) => row[column.name] < column.filterText);
                         }
                         break;
                     case CompareOperators.Lte:
                         if (isDate) {
                             subset = subset.filter(
-                                row =>
+                                (row) =>
                                     isEqual(row[column.name], column.filterText) ||
                                     isBefore(row[column.name], column.filterText),
                             );
                         } else {
-                            subset = subset.filter(row => row[column.name] <= column.filterText);
+                            subset = subset.filter((row) => row[column.name] <= column.filterText);
                         }
                         break;
                     case CompareOperators.Between:
                         if (isDate) {
                             subset = subset.filter(
-                                row =>
+                                (row) =>
                                     (isEqual(row[column.name], column.filterText) ||
                                         isAfter(row[column.name], column.filterText)) &&
                                     (isEqual(row[column.name], column.filterArgument[0]) ||
@@ -190,7 +190,7 @@ export class Transformer {
                             );
                         } else {
                             subset = subset.filter(
-                                row =>
+                                (row) =>
                                     row[column.name] >= column.filterText &&
                                     row[column.name] <= column.filterArgument[0],
                             );
