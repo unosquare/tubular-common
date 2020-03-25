@@ -1,15 +1,4 @@
 import { AggregateFunctions, ColumnDataType, ColumnSortDirection, CompareOperators } from './Column';
-import { FilterWrapper } from './FilterWrapper';
-import { ColumnModelOptions } from './ColumnModelOptions';
-
-const filterProps = (name: string): FilterWrapper => {
-    return {
-        argument: [],
-        name: name,
-        operator: 'None',
-        text: null,
-    };
-};
 
 const NumericOperators: CompareOperator[] = [
     { value: CompareOperators.None, title: 'None' },
@@ -47,7 +36,9 @@ export interface CompareOperator {
 export interface ColumnModel {
     aggregate: AggregateFunctions;
     dataType: ColumnDataType;
-    filter: FilterWrapper;
+    filterArgument: any[];
+    filterOperator: CompareOperators;
+    filterText: string;
     filterable: boolean;
     isKey: boolean;
     label: string;
@@ -58,26 +49,6 @@ export interface ColumnModel {
     sortable: boolean;
     visible: boolean;
 }
-
-export const createFilterPatch = (column: ColumnModel): FilterWrapper => {
-    let filterText = column.filter.text;
-    let filterArgument = column.filter.argument && column.filter.argument[0];
-
-    if (column.dataType === ColumnDataType.Numeric) {
-        filterText = parseFloat(filterText).toString();
-        filterArgument = parseFloat(filterArgument).toString();
-    } else if (column.dataType === ColumnDataType.Boolean) {
-        filterText = (filterText === 'true').toString();
-        filterArgument = '';
-    }
-
-    return {
-        name: column.name,
-        argument: [filterArgument],
-        operator: column.filter.operator || CompareOperators.Auto,
-        text: filterText,
-    };
-};
 
 export const getOperators = (column: ColumnModel): CompareOperator[] => {
     switch (column.dataType) {
@@ -131,10 +102,10 @@ export const sortColumnArray = (columnName: string, columns: ColumnModel[], mult
     return columns;
 };
 
-export const hasFilter = (column): boolean =>
-    column.filter && (column.filter.text || column.filter.argument) && column.filter.operator !== CompareOperators.None;
+export const columnHasFilter = (column): boolean =>
+    column.filter && (column.filterText || column.filterArgument) && column.filterOperator !== CompareOperators.None;
 
-export const createColumn = (name: string, options?: ColumnModelOptions): ColumnModel => {
+export const createColumn = (name: string, options?: Partial<ColumnModel>): ColumnModel => {
     const sortDirection = (options && options.sortable && options.sortDirection) || ColumnSortDirection.None;
     return {
         aggregate: (options && options.aggregate) || AggregateFunctions.None,
@@ -147,7 +118,9 @@ export const createColumn = (name: string, options?: ColumnModelOptions): Column
         sortOrder: (options && sortDirection !== ColumnSortDirection.None && options.sortOrder) || -1,
         sortable: !!(options && options.sortable),
         visible: options && typeof options.visible === 'boolean' ? options.visible : true,
-        filter: options && options.filterable === true ? options.filter || filterProps(name) : filterProps(name),
+        filterArgument: options && options.filterArgument,
+        filterOperator: options && options.filterOperator,
+        filterText: options && options.filterText,
         filterable: (options && options.filterable) || false,
     };
 };

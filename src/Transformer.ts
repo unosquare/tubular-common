@@ -7,7 +7,7 @@ import {
     GridRequest,
     GridResponse,
 } from './Models';
-import { hasFilter, ColumnModel } from './Models/ColumnModel';
+import { columnHasFilter, ColumnModel } from './Models/ColumnModel';
 import { parsePayload } from './utils';
 
 const isEqual = (date1: string, date2: string): boolean => parseISO(date1).getTime() === parseISO(date2).getTime();
@@ -69,7 +69,7 @@ export class Transformer {
 
     private static applyFiltering(request: GridRequest, subset: {}[]): {}[] {
         request.columns
-            .filter((column: ColumnModel) => hasFilter(column))
+            .filter((column: ColumnModel) => columnHasFilter(column))
             .forEach((column: ColumnModel) => {
                 const isDate =
                     column.dataType === ColumnDataType.Date ||
@@ -83,116 +83,116 @@ export class Transformer {
                             : action(row[column.name]),
                     );
 
-                switch (column.filter.operator) {
+                switch (column.filterOperator) {
                     case CompareOperators.Equals:
                         if (isDate) {
-                            subset = subset.filter(row => isEqual(row[column.name], column.filter.text));
+                            subset = subset.filter(row => isEqual(row[column.name], column.filterText));
                         } else if (column.dataType === ColumnDataType.String) {
                             subset = partialfiltering(
                                 subset,
-                                (x: string) => x.toLowerCase() === column.filter.text.toLowerCase(),
+                                (x: string) => x.toLowerCase() === column.filterText.toLowerCase(),
                             );
                         } else {
-                            subset = subset.filter(row => row[column.name] === column.filter.text);
+                            subset = subset.filter(row => row[column.name] === column.filterText);
                         }
                         break;
                     case CompareOperators.NotEquals:
                         if (column.dataType === 'string') {
                             subset = partialfiltering(
                                 subset,
-                                (x: string) => x.toLowerCase() !== column.filter.text.toLowerCase(),
+                                (x: string) => x.toLowerCase() !== column.filterText.toLowerCase(),
                             );
                         } else {
-                            subset = subset.filter(row => row[column.name] !== column.filter.text);
+                            subset = subset.filter(row => row[column.name] !== column.filterText);
                         }
                         break;
                     case CompareOperators.Contains:
                         subset = partialfiltering(
                             subset,
-                            x => x.toLowerCase().indexOf(column.filter.text.toLowerCase()) >= 0,
+                            x => x.toLowerCase().indexOf(column.filterText.toLowerCase()) >= 0,
                         );
                         subset = partialfiltering(
                             subset,
-                            (x: string) => x.toLowerCase().indexOf(column.filter.text.toLowerCase()) >= 0,
+                            (x: string) => x.toLowerCase().indexOf(column.filterText.toLowerCase()) >= 0,
                         );
                         break;
                     case CompareOperators.NotContains:
                         subset = partialfiltering(
                             subset,
-                            (x: string) => x.toLowerCase().indexOf(column.filter.text.toLowerCase()) < 0,
+                            (x: string) => x.toLowerCase().indexOf(column.filterText.toLowerCase()) < 0,
                         );
                         break;
                     case CompareOperators.StartsWith:
                         subset = partialfiltering(subset, (x: string) =>
-                            x.toLowerCase().startsWith(column.filter.text.toLowerCase()),
+                            x.toLowerCase().startsWith(column.filterText.toLowerCase()),
                         );
                         break;
                     case CompareOperators.NotStartsWith:
                         subset = partialfiltering(
                             subset,
-                            (x: string) => !x.toLowerCase().startsWith(column.filter.text.toLowerCase()),
+                            (x: string) => !x.toLowerCase().startsWith(column.filterText.toLowerCase()),
                         );
                         break;
                     case CompareOperators.EndsWith:
                         subset = partialfiltering(subset, (x: string) =>
-                            x.toLowerCase().endsWith(column.filter.text.toLowerCase()),
+                            x.toLowerCase().endsWith(column.filterText.toLowerCase()),
                         );
                     case CompareOperators.NotEndsWith:
                         subset = partialfiltering(
                             subset,
-                            (x: string) => !x.toLowerCase().endsWith(column.filter.text.toLowerCase()),
+                            (x: string) => !x.toLowerCase().endsWith(column.filterText.toLowerCase()),
                         );
                         break;
                     case CompareOperators.Gt:
                         if (isDate) {
-                            subset = subset.filter(row => isAfter(row[column.name], column.filter.text));
+                            subset = subset.filter(row => isAfter(row[column.name], column.filterText));
                         } else {
-                            subset = subset.filter(row => row[column.name] > column.filter.text);
+                            subset = subset.filter(row => row[column.name] > column.filterText);
                         }
                         break;
                     case CompareOperators.Gte:
                         if (isDate) {
                             subset = subset.filter(
                                 row =>
-                                    isEqual(row[column.name], column.filter.text) ||
-                                    isAfter(row[column.name], column.filter.text),
+                                    isEqual(row[column.name], column.filterText) ||
+                                    isAfter(row[column.name], column.filterText),
                             );
                         } else {
-                            subset = subset.filter(row => row[column.name] >= column.filter.text);
+                            subset = subset.filter(row => row[column.name] >= column.filterText);
                         }
                         break;
                     case CompareOperators.Lt:
                         if (isDate) {
-                            subset = subset.filter(row => isBefore(row[column.name], column.filter.text));
+                            subset = subset.filter(row => isBefore(row[column.name], column.filterText));
                         } else {
-                            subset = subset.filter(row => row[column.name] < column.filter.text);
+                            subset = subset.filter(row => row[column.name] < column.filterText);
                         }
                         break;
                     case CompareOperators.Lte:
                         if (isDate) {
                             subset = subset.filter(
                                 row =>
-                                    isEqual(row[column.name], column.filter.text) ||
-                                    isBefore(row[column.name], column.filter.text),
+                                    isEqual(row[column.name], column.filterText) ||
+                                    isBefore(row[column.name], column.filterText),
                             );
                         } else {
-                            subset = subset.filter(row => row[column.name] <= column.filter.text);
+                            subset = subset.filter(row => row[column.name] <= column.filterText);
                         }
                         break;
                     case CompareOperators.Between:
                         if (isDate) {
                             subset = subset.filter(
                                 row =>
-                                    (isEqual(row[column.name], column.filter.text) ||
-                                        isAfter(row[column.name], column.filter.text)) &&
-                                    (isEqual(row[column.name], column.filter.argument[0]) ||
-                                        isBefore(row[column.name], column.filter.argument[0])),
+                                    (isEqual(row[column.name], column.filterText) ||
+                                        isAfter(row[column.name], column.filterText)) &&
+                                    (isEqual(row[column.name], column.filterArgument[0]) ||
+                                        isBefore(row[column.name], column.filterArgument[0])),
                             );
                         } else {
                             subset = subset.filter(
                                 row =>
-                                    row[column.name] >= column.filter.text &&
-                                    row[column.name] <= column.filter.argument[0],
+                                    row[column.name] >= column.filterText &&
+                                    row[column.name] <= column.filterArgument[0],
                             );
                         }
                         break;
