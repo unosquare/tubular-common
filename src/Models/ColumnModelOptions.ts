@@ -1,7 +1,7 @@
 import { AggregateFunctions, ColumnDataType, ColumnSortDirection } from './Column';
 import { FilterWrapper } from './FilterWrapper';
 
-export default interface ColumnModelOptions {
+export interface ColumnModelOptions {
     aggregate?: AggregateFunctions;
     dataType?: ColumnDataType;
     filterable?: boolean;

@@ -1,4 +1,4 @@
-import { GridRequest } from '../src';
+import { GridRequest } from '../src/Models/GridRequest';
 
 describe('New GridRequest instance', () => {
     it('should have default values', () => {

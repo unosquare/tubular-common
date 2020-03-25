@@ -1,8 +1,9 @@
-import { ColumnModel, CompareOperators, FilterWrapper, ColumnDataType } from '../src';
+import { CompareOperators, FilterWrapper, ColumnDataType } from '../src';
+import { createColumn, createFilterPatch } from '../src/Models/ColumnModel';
 
 describe('New ColumnModel instance', () => {
     it('should have property Visible = false values', () => {
-        const actual = new ColumnModel('Test', {
+        const actual = createColumn('Test', {
             visible: false,
         });
 
@@ -10,7 +11,7 @@ describe('New ColumnModel instance', () => {
     });
 
     it('should have property Visible = true values', () => {
-        const actual = new ColumnModel('Test', {
+        const actual = createColumn('Test', {
             isKey: true,
         });
 
@@ -24,7 +25,7 @@ describe('New ColumnModel instance', () => {
             text: 'Criteria',
         };
 
-        const actual = new ColumnModel('Test', {
+        const actual = createColumn('Test', {
             isKey: false,
             filterable: true,
             filter: filterData,
@@ -40,7 +41,7 @@ describe('New ColumnModel instance', () => {
             text: 'Criteria',
         };
 
-        const actual = new ColumnModel('Test', {
+        const actual = createColumn('Test', {
             isKey: true,
             filterable: false,
             filter: filterData,
@@ -56,7 +57,7 @@ describe('New ColumnModel instance', () => {
             text: '',
         };
 
-        const actual = new ColumnModel('Test', {
+        const actual = createColumn('Test', {
             isKey: true,
             filterable: true,
         });
@@ -71,12 +72,12 @@ describe('New ColumnModel instance', () => {
             text: null,
         };
 
-        const column = new ColumnModel('Test', {
+        const column = createColumn('Test', {
             isKey: true,
             filterable: true,
         });
 
-        const actual = ColumnModel.createFilterPatch(column);
+        const actual = createFilterPatch(column);
 
         expect(actual).toMatchObject(expected);
     });
@@ -88,7 +89,7 @@ describe('New ColumnModel instance', () => {
             text: '10',
         };
 
-        const column = new ColumnModel('Test', {
+        const column = createColumn('Test', {
             isKey: true,
             filterable: true,
             dataType: ColumnDataType.Numeric,
@@ -100,7 +101,7 @@ describe('New ColumnModel instance', () => {
             },
         });
 
-        const actual = ColumnModel.createFilterPatch(column);
+        const actual = createFilterPatch(column);
 
         expect(actual).toMatchObject(expected);
     });
@@ -112,7 +113,7 @@ describe('New ColumnModel instance', () => {
             text: 'true',
         };
 
-        const column = new ColumnModel('Test', {
+        const column = createColumn('Test', {
             isKey: true,
             filterable: true,
             dataType: ColumnDataType.Boolean,
@@ -123,7 +124,7 @@ describe('New ColumnModel instance', () => {
             },
         });
 
-        const actual = ColumnModel.createFilterPatch(column);
+        const actual = createFilterPatch(column);
 
         expect(actual).toMatchObject(expected);
     });

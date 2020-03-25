@@ -1,4 +1,4 @@
-import ColumnModel from './ColumnModel';
+import { ColumnModel } from './ColumnModel';
 
 const currentTimezone = new Date().getTimezoneOffset();
 
@@ -7,7 +7,7 @@ export interface SearchOptions {
     text?: string;
 }
 
-export default class GridRequest {
+export class GridRequest {
     protected static counter = 0;
 
     public columns: ColumnModel[];

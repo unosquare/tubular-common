@@ -1,9 +1,8 @@
-import { AggregateFunctions, ColumnDataType, ColumnModel, ColumnSortDirection } from '../../src/Models';
-import GridRequest from '../../src/Models/GridRequest';
+import { AggregateFunctions, ColumnDataType, ColumnSortDirection, GridRequest, createColumn } from '../../src/Models';
 
 const simpleRequest = new GridRequest(
     [
-        new ColumnModel('OrderID', {
+        createColumn('OrderID', {
             dataType: ColumnDataType.Numeric,
             isKey: true,
             label: 'Order ID',
@@ -11,18 +10,18 @@ const simpleRequest = new GridRequest(
             sortOrder: 1,
             sortable: true,
         }),
-        new ColumnModel('CustomerName', {
+        createColumn('CustomerName', {
             aggregate: AggregateFunctions.None,
             searchable: true,
             sortable: false,
         }),
-        new ColumnModel('ShippedDate', {
+        createColumn('ShippedDate', {
             dataType: ColumnDataType.DateTime,
             filterable: true,
             sortable: false,
         }),
-        new ColumnModel('ShipperCity'),
-        new ColumnModel('Amount', {
+        createColumn('ShipperCity'),
+        createColumn('Amount', {
             dataType: ColumnDataType.Numeric,
             sortable: false,
         }),
@@ -34,7 +33,7 @@ const simpleRequest = new GridRequest(
 
 const microsoftSearchRequest = new GridRequest(
     [
-        new ColumnModel('OrderID', {
+        createColumn('OrderID', {
             dataType: ColumnDataType.Numeric,
             isKey: true,
             label: 'Order ID',
@@ -42,18 +41,18 @@ const microsoftSearchRequest = new GridRequest(
             sortOrder: 1,
             sortable: true,
         }),
-        new ColumnModel('CustomerName', {
+        createColumn('CustomerName', {
             aggregate: AggregateFunctions.None,
             searchable: true,
             sortable: false,
         }),
-        new ColumnModel('ShippedDate', {
+        createColumn('ShippedDate', {
             dataType: ColumnDataType.DateTime,
             filterable: true,
             sortable: false,
         }),
-        new ColumnModel('ShipperCity'),
-        new ColumnModel('Amount', {
+        createColumn('ShipperCity'),
+        createColumn('Amount', {
             dataType: ColumnDataType.Numeric,
             sortable: false,
         }),
@@ -65,7 +64,7 @@ const microsoftSearchRequest = new GridRequest(
 
 const page2Request = new GridRequest(
     [
-        new ColumnModel('OrderID', {
+        createColumn('OrderID', {
             dataType: ColumnDataType.Numeric,
             isKey: true,
             label: 'Order ID',
@@ -73,18 +72,18 @@ const page2Request = new GridRequest(
             sortOrder: 1,
             sortable: true,
         }),
-        new ColumnModel('CustomerName', {
+        createColumn('CustomerName', {
             aggregate: AggregateFunctions.None,
             searchable: true,
             sortable: false,
         }),
-        new ColumnModel('ShippedDate', {
+        createColumn('ShippedDate', {
             dataType: ColumnDataType.DateTime,
             filterable: true,
             sortable: false,
         }),
-        new ColumnModel('ShipperCity'),
-        new ColumnModel('Amount', {
+        createColumn('ShipperCity'),
+        createColumn('Amount', {
             dataType: ColumnDataType.Numeric,
             sortable: false,
         }),
@@ -96,7 +95,7 @@ const page2Request = new GridRequest(
 
 const pageSize20Request = new GridRequest(
     [
-        new ColumnModel('OrderID', {
+        createColumn('OrderID', {
             dataType: ColumnDataType.Numeric,
             isKey: true,
             label: 'Order ID',
@@ -104,18 +103,18 @@ const pageSize20Request = new GridRequest(
             sortOrder: 1,
             sortable: true,
         }),
-        new ColumnModel('CustomerName', {
+        createColumn('CustomerName', {
             aggregate: AggregateFunctions.None,
             searchable: true,
             sortable: false,
         }),
-        new ColumnModel('ShippedDate', {
+        createColumn('ShippedDate', {
             dataType: ColumnDataType.DateTime,
             filterable: true,
             sortable: false,
         }),
-        new ColumnModel('ShipperCity'),
-        new ColumnModel('Amount', {
+        createColumn('ShipperCity'),
+        createColumn('Amount', {
             dataType: ColumnDataType.Numeric,
             sortable: false,
         }),
@@ -127,7 +126,7 @@ const pageSize20Request = new GridRequest(
 
 const desendingOrderIdRequest = new GridRequest(
     [
-        new ColumnModel('OrderID', {
+        createColumn('OrderID', {
             dataType: ColumnDataType.Numeric,
             isKey: true,
             label: 'Order ID',
@@ -135,18 +134,18 @@ const desendingOrderIdRequest = new GridRequest(
             sortOrder: 1,
             sortable: true,
         }),
-        new ColumnModel('CustomerName', {
+        createColumn('CustomerName', {
             aggregate: AggregateFunctions.None,
             searchable: true,
             sortable: false,
         }),
-        new ColumnModel('ShippedDate', {
+        createColumn('ShippedDate', {
             dataType: ColumnDataType.DateTime,
             filterable: true,
             sortable: false,
         }),
-        new ColumnModel('ShipperCity'),
-        new ColumnModel('Amount', {
+        createColumn('ShipperCity'),
+        createColumn('Amount', {
             dataType: ColumnDataType.Numeric,
             sortable: false,
         }),
@@ -158,7 +157,7 @@ const desendingOrderIdRequest = new GridRequest(
 
 const aggregateCountRequest = new GridRequest(
     [
-        new ColumnModel('OrderID', {
+        createColumn('OrderID', {
             dataType: ColumnDataType.Numeric,
             isKey: true,
             label: 'Order ID',
@@ -166,18 +165,18 @@ const aggregateCountRequest = new GridRequest(
             sortOrder: 1,
             sortable: true,
         }),
-        new ColumnModel('CustomerName', {
+        createColumn('CustomerName', {
             aggregate: AggregateFunctions.Count,
             searchable: true,
             sortable: false,
         }),
-        new ColumnModel('ShippedDate', {
+        createColumn('ShippedDate', {
             dataType: ColumnDataType.DateTime,
             filterable: true,
             sortable: false,
         }),
-        new ColumnModel('ShipperCity'),
-        new ColumnModel('Amount', {
+        createColumn('ShipperCity'),
+        createColumn('Amount', {
             dataType: ColumnDataType.Numeric,
             sortable: false,
         }),
@@ -189,7 +188,7 @@ const aggregateCountRequest = new GridRequest(
 
 const aggregateSumRequest = new GridRequest(
     [
-        new ColumnModel('OrderID', {
+        createColumn('OrderID', {
             dataType: ColumnDataType.Numeric,
             isKey: true,
             label: 'Order ID',
@@ -197,18 +196,18 @@ const aggregateSumRequest = new GridRequest(
             sortOrder: 1,
             sortable: true,
         }),
-        new ColumnModel('CustomerName', {
+        createColumn('CustomerName', {
             aggregate: AggregateFunctions.None,
             searchable: true,
             sortable: false,
         }),
-        new ColumnModel('ShippedDate', {
+        createColumn('ShippedDate', {
             dataType: ColumnDataType.DateTime,
             filterable: true,
             sortable: false,
         }),
-        new ColumnModel('ShipperCity'),
-        new ColumnModel('Amount', {
+        createColumn('ShipperCity'),
+        createColumn('Amount', {
             aggregate: AggregateFunctions.Sum,
             dataType: ColumnDataType.Numeric,
             sortable: false,
@@ -221,7 +220,7 @@ const aggregateSumRequest = new GridRequest(
 
 const aggregateAverageRequest = new GridRequest(
     [
-        new ColumnModel('OrderID', {
+        createColumn('OrderID', {
             dataType: ColumnDataType.Numeric,
             isKey: true,
             label: 'Order ID',
@@ -229,18 +228,18 @@ const aggregateAverageRequest = new GridRequest(
             sortOrder: 1,
             sortable: true,
         }),
-        new ColumnModel('CustomerName', {
+        createColumn('CustomerName', {
             aggregate: AggregateFunctions.None,
             searchable: true,
             sortable: false,
         }),
-        new ColumnModel('ShippedDate', {
+        createColumn('ShippedDate', {
             dataType: ColumnDataType.DateTime,
             filterable: true,
             sortable: false,
         }),
-        new ColumnModel('ShipperCity'),
-        new ColumnModel('Amount', {
+        createColumn('ShipperCity'),
+        createColumn('Amount', {
             aggregate: AggregateFunctions.Average,
             dataType: ColumnDataType.Numeric,
             sortable: false,
@@ -253,7 +252,7 @@ const aggregateAverageRequest = new GridRequest(
 
 const aggregateDistinctRequest = new GridRequest(
     [
-        new ColumnModel('OrderID', {
+        createColumn('OrderID', {
             dataType: ColumnDataType.Numeric,
             isKey: true,
             label: 'Order ID',
@@ -261,16 +260,16 @@ const aggregateDistinctRequest = new GridRequest(
             sortOrder: 1,
             sortable: true,
         }),
-        new ColumnModel('CustomerName', {
+        createColumn('CustomerName', {
             aggregate: AggregateFunctions.None,
             searchable: true,
         }),
-        new ColumnModel('ShippedDate', {
+        createColumn('ShippedDate', {
             dataType: ColumnDataType.DateTime,
             filterable: true,
         }),
-        new ColumnModel('ShipperCity'),
-        new ColumnModel('Amount', {
+        createColumn('ShipperCity'),
+        createColumn('Amount', {
             aggregate: AggregateFunctions.DistinctCount,
             dataType: ColumnDataType.Numeric,
         }),
@@ -282,7 +281,7 @@ const aggregateDistinctRequest = new GridRequest(
 
 const aggregateMaxRequest = new GridRequest(
     [
-        new ColumnModel('OrderID', {
+        createColumn('OrderID', {
             dataType: ColumnDataType.Numeric,
             isKey: true,
             label: 'Order ID',
@@ -290,18 +289,18 @@ const aggregateMaxRequest = new GridRequest(
             sortOrder: 1,
             sortable: true,
         }),
-        new ColumnModel('CustomerName', {
+        createColumn('CustomerName', {
             aggregate: AggregateFunctions.None,
             searchable: true,
             sortable: false,
         }),
-        new ColumnModel('ShippedDate', {
+        createColumn('ShippedDate', {
             dataType: ColumnDataType.DateTime,
             filterable: true,
             sortable: false,
         }),
-        new ColumnModel('ShipperCity'),
-        new ColumnModel('Amount', {
+        createColumn('ShipperCity'),
+        createColumn('Amount', {
             aggregate: AggregateFunctions.Max,
             dataType: ColumnDataType.Numeric,
             sortable: false,
@@ -314,7 +313,7 @@ const aggregateMaxRequest = new GridRequest(
 
 const aggregateMinRequest = new GridRequest(
     [
-        new ColumnModel('OrderID', {
+        createColumn('OrderID', {
             dataType: ColumnDataType.Numeric,
             isKey: true,
             label: 'Order ID',
@@ -322,18 +321,18 @@ const aggregateMinRequest = new GridRequest(
             sortOrder: 1,
             sortable: true,
         }),
-        new ColumnModel('CustomerName', {
+        createColumn('CustomerName', {
             aggregate: AggregateFunctions.None,
             searchable: true,
             sortable: false,
         }),
-        new ColumnModel('ShippedDate', {
+        createColumn('ShippedDate', {
             dataType: ColumnDataType.DateTime,
             filterable: true,
             sortable: false,
         }),
-        new ColumnModel('ShipperCity'),
-        new ColumnModel('Amount', {
+        createColumn('ShipperCity'),
+        createColumn('Amount', {
             aggregate: AggregateFunctions.Min,
             dataType: ColumnDataType.Numeric,
             sortable: false,
@@ -346,7 +345,7 @@ const aggregateMinRequest = new GridRequest(
 
 const pageMinus1Request = new GridRequest(
     [
-        new ColumnModel('OrderID', {
+        createColumn('OrderID', {
             dataType: ColumnDataType.Numeric,
             isKey: true,
             label: 'Order ID',
@@ -354,18 +353,18 @@ const pageMinus1Request = new GridRequest(
             sortOrder: 1,
             sortable: true,
         }),
-        new ColumnModel('CustomerName', {
+        createColumn('CustomerName', {
             aggregate: AggregateFunctions.None,
             searchable: true,
             sortable: false,
         }),
-        new ColumnModel('ShippedDate', {
+        createColumn('ShippedDate', {
             dataType: ColumnDataType.DateTime,
             filterable: true,
             sortable: false,
         }),
-        new ColumnModel('ShipperCity'),
-        new ColumnModel('Amount', {
+        createColumn('ShipperCity'),
+        createColumn('Amount', {
             dataType: ColumnDataType.Numeric,
             sortable: false,
         }),

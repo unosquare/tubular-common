@@ -1,6 +1,6 @@
-import GridResponse from '../Models/GridResponse';
-import GridRequest from '../Models/GridRequest';
 import { TubularHttpClientAbstract } from './TubularHttpClientAbstract';
+import { GridRequest } from '../Models/GridRequest';
+import { GridResponse } from '../Models/GridResponse';
 
 const responseKeys = [
     'AggregationPayload',
@@ -57,14 +57,14 @@ export class TubularHttpClient implements TubularHttpClientAbstract {
             expectedStructureKeys ===
                 JSON.stringify(
                     Object.keys(data)
-                        .map((x) => x.toLowerCase())
+                        .map(x => x.toLowerCase())
                         .sort(),
                 )
         );
     }
 
     public static fixResponse(responseObject: {}): void {
-        responseKeys.forEach((k) => {
+        responseKeys.forEach(k => {
             if (responseObject.hasOwnProperty(k)) {
                 responseObject[k.charAt(0).toLowerCase() + k.slice(1)] = responseObject[k];
                 delete responseObject[k];

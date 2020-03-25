@@ -1,5 +1,5 @@
-import GridRequest from '../Models/GridRequest';
-import GridResponse from '../Models/GridResponse';
+import { GridRequest } from '../Models/GridRequest';
+import { GridResponse } from '../Models/GridResponse';
 
 export interface TubularHttpClientAbstract {
     request: string | Request;
