@@ -1,6 +1,6 @@
-import GridResponse from '../Models/GridResponse';
-import GridRequest from '../Models/GridRequest';
 import { TubularHttpClientAbstract } from './TubularHttpClientAbstract';
+import { GridRequest } from '../Models/GridRequest';
+import { GridResponse } from '../Models/GridResponse';
 
 const responseKeys = [
     'AggregationPayload',

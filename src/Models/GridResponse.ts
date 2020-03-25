@@ -1,4 +1,4 @@
-export default class GridResponse {
+export class GridResponse {
     public aggregationPayload: object;
     public counter: number;
     public currentPage = 0;

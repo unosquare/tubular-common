@@ -1,4 +1,3 @@
-import Transformer from '../src';
 import { localData } from './utils/localData';
 import { payloadUndefined } from './utils/payloadUndefined';
 import {
@@ -45,6 +44,7 @@ import {
     payloadWithMissingValuesResponse,
     searchTextMicrosoftMissingValuesResponse,
 } from './utils/responsesUndefined';
+import { Transformer } from '../src/Transformer';
 
 const cases = [
     { name: 'simple', request: simpleRequest, response: simpleResponse },
