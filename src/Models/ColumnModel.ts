@@ -104,7 +104,7 @@ export const sortColumnArray = (columnName: string, columns: ColumnModel[], mult
 };
 
 export const columnHasFilter = (column): boolean =>
-    column.filter && (column.filterText || column.filterArgument) && column.filterOperator !== CompareOperators.None;
+    (column.filterText || column.filterArgument) && column.filterOperator !== CompareOperators.None;
 
 export const createColumn = (name: string, options?: Partial<ColumnModel>): ColumnModel => {
     const sortDirection = (options && options.sortable && options.sortDirection) || ColumnSortDirection.None;
