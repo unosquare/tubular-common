@@ -2,14 +2,12 @@ import { AggregateFunctions, ColumnDataType, ColumnSortDirection, CompareOperato
 import { FilterWrapper } from './FilterWrapper';
 import { ColumnModelOptions } from './ColumnModelOptions';
 
-const filterProps = (name: string): FilterWrapper => {
-    return {
-        argument: [],
-        name: name,
-        operator: 'None',
-        text: null,
-    };
-};
+const filterProps = (name: string): FilterWrapper => ({
+    argument: [],
+    name: name,
+    operator: 'None',
+    text: null,
+});
 
 const NumericOperators: CompareOperator[] = [
     { value: CompareOperators.None, title: 'None' },
@@ -97,6 +95,7 @@ export const getOperators = (column: ColumnModel): CompareOperator[] => {
 
 export const sortColumnArray = (columnName: string, columns: ColumnModel[], multiSort: boolean): ColumnModel[] => {
     const column = columns.find((c: ColumnModel) => c.name === columnName);
+
     if (!column) {
         return;
     }
@@ -131,11 +130,12 @@ export const sortColumnArray = (columnName: string, columns: ColumnModel[], mult
     return columns;
 };
 
-export const hasFilter = (column): boolean =>
+export const hasFilter = (column: ColumnModel): boolean =>
     column.filter && (column.filter.text || column.filter.argument) && column.filter.operator !== CompareOperators.None;
 
 export const createColumn = (name: string, options?: ColumnModelOptions): ColumnModel => {
     const sortDirection = (options && options.sortable && options.sortDirection) || ColumnSortDirection.None;
+
     return {
         aggregate: (options && options.aggregate) || AggregateFunctions.None,
         dataType: (options && options.dataType) || ColumnDataType.String,
