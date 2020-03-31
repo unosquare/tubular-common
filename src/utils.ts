@@ -51,7 +51,7 @@ const objToArray = (row: {} | []): any[] =>
 const processRow = (row: {}, columns: ColumnModel[], ignoreType: boolean): string => {
     const finalVal = objToArray(row).reduce((prev: string, value: [], i: number) => {
         if (!columns[i].visible) {
-            return;
+            return prev;
         }
 
         let result = getCellValue(ignoreType ? ColumnDataType.String : columns[i].dataType, value).replace(/"/g, '""');
