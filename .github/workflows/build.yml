@@ -13,7 +13,7 @@ jobs:
       run: |
         npm ci
         npm run build
-        npm run cest
+        npm test
     - uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}

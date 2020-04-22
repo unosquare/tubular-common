@@ -4,8 +4,7 @@
   "description": "Tubular Common Models and Data Transformer",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest",
-    "cest": "jest --collectCoverage",
+    "test": "jest --runInBand",
     "lint": "eslint src/**/*.{js,ts}",
     "lint:fix": "eslint src/**/*.{js,ts} --fix",
     "build": "tsc",
@@ -31,6 +30,15 @@
         "diagnostics": false,
         "tsConfig": "tsconfig.json"
       }
+    },
+    "collectCoverage": true,
+    "coverageThreshold": {
+        "global": {
+            "branches": 45,
+            "functions": 35,
+            "lines": 65,
+            "statements": -160
+        }
     }
   },
   "files": [
@@ -54,17 +62,17 @@
   "homepage": "https://github.com/unosquare/tubular-common#readme",
   "devDependencies": {
     "@types/jest": "^25.2.1",
-    "@typescript-eslint/eslint-plugin": "^2.27.0",
-    "@typescript-eslint/parser": "^2.27.0",
+    "@typescript-eslint/eslint-plugin": "^2.29.0",
+    "@typescript-eslint/parser": "^2.29.0",
     "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.10.1",
-    "eslint-plugin-prettier": "^3.1.2",
-    "jest": "^25.3.0",
-    "prettier": "^2.0.4",
-    "ts-jest": "^25.3.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "jest": "^25.4.0",
+    "prettier": "^2.0.5",
+    "ts-jest": "^25.4.0",
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "uno-js": "^0.7.8"
+    "uno-js": "^0.7.10"
   }
 }
