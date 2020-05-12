@@ -117,13 +117,11 @@ const casesWithMissingValues = [
 ];
 
 describe('Transformer', () => {
-    cases.forEach(i =>
-        it(`should return response ${i.name}`, () =>
-            expect({ ...Transformer.getResponse(i.request, localData) }).toEqual(i.response)),
+    it.each(cases)('should return response %s', (i) =>
+        expect({ ...Transformer.getResponse(i.request, localData) }).toEqual(i.response),
     );
 
-    casesWithMissingValues.forEach(i =>
-        it(`should return response with missing data and ${i.name}`, () =>
-            expect({ ...Transformer.getResponse(i.request, payloadUndefined) }).toEqual(i.response)),
+    it.each(casesWithMissingValues)('should return response with missing data and %s', (i) =>
+        expect({ ...Transformer.getResponse(i.request, payloadUndefined) }).toEqual(i.response),
     );
 });

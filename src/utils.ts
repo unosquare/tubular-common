@@ -1,15 +1,14 @@
 import { parseISO } from 'uno-js';
 import { ColumnDataType, ColumnModel } from '.';
 
-export const parsePayload = (row: {}, columns: ColumnModel[]): {} => {
-    return columns.reduce((obj: {}, column: ColumnModel, key: number) => {
+export const parsePayload = (row: {}, columns: ColumnModel[]): {} =>
+    columns.reduce((obj: {}, column: ColumnModel, key: number) => {
         obj[column.name] = row[key] || row[column.name];
 
         return obj;
     }, {});
-};
 
-export const formatDate = (value: string, formatString = 'M/d/yyyy'): string => {
+export const formatDate = (value: string, _formatString = 'M/d/yyyy'): string => {
     if (!value) {
         return '';
     }
