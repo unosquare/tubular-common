@@ -16,4 +16,3 @@ export const mockColumnModel: ColumnModel = {
     sortable: false,
     visible: false
 };
-
