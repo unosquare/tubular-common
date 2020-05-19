@@ -1,14 +1,14 @@
 import { ColumnDataType, createColumn, getCsv, formatDate, getColumnAlign, parsePayload, getHtml } from '../src';
 import { mockColumnModel } from './mock';
 
-//started
-describe('getCsv', () => {
-    
+describe('parsePayload', ()=> {
     it('parsePayload should return an empty string', ()=>
     {
         expect(parsePayload(mockColumnModel, [mockColumnModel])).toBeTruthy();
     });
+});
 
+describe('formatDate', ()=> {
     it('formatDate should return', ()=>
     {
         expect(formatDate('')).toBe('');
@@ -18,7 +18,9 @@ describe('getCsv', () => {
     {
         expect(formatDate('2010-01-01T06:00:00.000Z')).toBe('1/1/2010');
     });
+});
 
+describe('getColumnAlign', ()=> {
     it('getColumnAlign should return center', ()=> {
         expect(getColumnAlign(mockColumnModel)).toBe('center');
     });
@@ -30,8 +32,11 @@ describe('getCsv', () => {
     it('getColumnAlign should return inherit', ()=> {
         expect(getColumnAlign({...mockColumnModel, dataType: ColumnDataType.String})).toBe('inherit');
     });
+});
 
-    it('should not return undefined if a column is not visible', () => {
+describe('getCsv', () => {  
+
+    it('should a CSV and not return undefined if a column is not visible', () => {
         const columns = [
             createColumn('first', {
                 label: 'first column',
@@ -74,8 +79,10 @@ describe('getCsv', () => {
             'first column,second column\nfirst value 1!,second value 1!\nfirst value 2!,second value 2!\nfirst value 3!,second value 3!\n',
         );
     });
+});
 
-    it('getHtml', () => {
+describe('getHTML', ()=> {
+    it('Should return an HTML with data values', () => {
         const columns = [
             createColumn('first', {
                 label: 'first column',
