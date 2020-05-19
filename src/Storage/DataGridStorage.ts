@@ -1,4 +1,4 @@
-import { ColumnModel } from '../Models/ColumnModel';
+import { ColumnModel } from '../Models';
 
 export interface DataGridStorage {
     setTextSearch: (textSearch: string) => void;
