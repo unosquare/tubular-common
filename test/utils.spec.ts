@@ -1,6 +1,36 @@
-import { ColumnDataType, createColumn, getCsv } from '../src';
+import { ColumnDataType, createColumn, getCsv, formatDate, getColumnAlign, parsePayload } from '../src';
+import { mockColumnModel } from './mock';
+
 //started
 describe('getCsv', () => {
+    
+    it('parsePayload should return an empty string', ()=>
+    {
+        expect(parsePayload(mockColumnModel, [mockColumnModel])).toBeTruthy();
+    });
+
+    it('formatDate should return', ()=>
+    {
+        expect(formatDate('')).toBe('');
+    });
+
+    it('formatDate should return m/d/yyy', ()=>
+    {
+        expect(formatDate('2010-01-01T06:00:00.000Z')).toBe('1/1/2010');
+    });
+
+    it('getColumnAlign should return center', ()=> {
+        expect(getColumnAlign(mockColumnModel)).toBe('center');
+    });
+
+    it('getColumnAlign should return right', ()=> {
+        expect(getColumnAlign({...mockColumnModel, dataType: ColumnDataType.Numeric})).toBe('right');
+    });
+
+    it('getColumnAlign should return inherit', ()=> {
+        expect(getColumnAlign({...mockColumnModel, dataType: ColumnDataType.String})).toBe('inherit');
+    });
+
     it('should not return undefined if a column is not visible', () => {
         const columns = [
             createColumn('first', {
