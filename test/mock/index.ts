@@ -33,9 +33,10 @@ export const simpleRequestWithFilters1 = new GridRequest(
         }),
         createColumn('CustomerName', {
             aggregate: AggregateFunctions.None,
+            dataType: ColumnDataType.String,
             filterOperator: CompareOperators.NotEquals,
             filterArgument: [],
-            filterText: 'XXXXXXXXXX',
+            filterText: '',
             searchable: true,
             sortable: false,
         }),
@@ -134,7 +135,7 @@ export const simpleRequestWithFilters3 = new GridRequest(
             dataType: ColumnDataType.DateTime,
             filterOperator: CompareOperators.Gte,
             filterArgument: [],
-            filterText: '0',
+            filterText: '05/02/2020',
             filterable: true,
             sortable: false,
         }),
@@ -285,13 +286,20 @@ export const simpleRequestWithFilters7 = new GridRequest(
             sortable: false,
         }),
         createColumn('ShipperCity', {
+            dataType: ColumnDataType.String,
+            filterOperator: CompareOperators.Equals,
+            filterText: 'simple',
         }),
         createColumn('Amount', {
             dataType: ColumnDataType.Numeric,
             sortable: false,
+            filterOperator: CompareOperators.NotEquals,
+            filterArgument: [],
+            filterText: '0',
         }),
     ],
     10,
     0,
     '',
 );
+
