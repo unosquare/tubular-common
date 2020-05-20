@@ -2,7 +2,7 @@ import { AggregateFunctions, ColumnDataType, ColumnSortDirection, CompareOperato
 import { CompareOperator } from './CompareOperator';
 import { ColumnModel } from './ColumnModel';
 
-const NumericOperators: CompareOperator[] = [
+export const NumericOperators: CompareOperator[] = [
     { value: CompareOperators.None, title: 'None' },
     { value: CompareOperators.Equals, title: 'Equals' },
     { value: CompareOperators.Between, title: 'Between' },
@@ -12,7 +12,7 @@ const NumericOperators: CompareOperator[] = [
     { value: CompareOperators.Lt, title: '<' },
 ];
 
-const StringOperators: CompareOperator[] = [
+export const StringOperators: CompareOperator[] = [
     { value: CompareOperators.None, title: 'None' },
     { value: CompareOperators.Equals, title: 'Equals' },
     { value: CompareOperators.NotEquals, title: 'Not Equals' },
@@ -24,7 +24,7 @@ const StringOperators: CompareOperator[] = [
     { value: CompareOperators.NotEndsWith, title: 'Not Ends With' },
 ];
 
-const BooleanOperators: CompareOperator[] = [
+export const BooleanOperators: CompareOperator[] = [
     { value: CompareOperators.None, title: 'None' },
     { value: CompareOperators.Equals, title: 'Equals' },
     { value: CompareOperators.NotEquals, title: 'Not Equals' },

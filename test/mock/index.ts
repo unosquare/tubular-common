@@ -302,31 +302,3 @@ export const simpleRequestWithFilters7 = new GridRequest(
     0,
     '',
 );
-
-export const mockNumericOperators: CompareOperator[] = [
-    { value: CompareOperators.None, title: 'None' },
-    { value: CompareOperators.Equals, title: 'Equals' },
-    { value: CompareOperators.Between, title: 'Between' },
-    { value: CompareOperators.Gte, title: '>=' },
-    { value: CompareOperators.Gt, title: '>' },
-    { value: CompareOperators.Lte, title: '<=' },
-    { value: CompareOperators.Lt, title: '<' },
-];
-
-export const mockStringOperators: CompareOperator[] = [
-    { value: CompareOperators.None, title: 'None' },
-    { value: CompareOperators.Equals, title: 'Equals' },
-    { value: CompareOperators.NotEquals, title: 'Not Equals' },
-    { value: CompareOperators.Contains, title: 'Contains' },
-    { value: CompareOperators.NotContains, title: 'Not Contains' },
-    { value: CompareOperators.StartsWith, title: 'Starts With' },
-    { value: CompareOperators.NotStartsWith, title: 'Not Starts With' },
-    { value: CompareOperators.EndsWith, title: 'Ends With' },
-    { value: CompareOperators.NotEndsWith, title: 'Not Ends With' },
-];
-
-export const mockBooleanOperators: CompareOperator[] = [
-    { value: CompareOperators.None, title: 'None' },
-    { value: CompareOperators.Equals, title: 'Equals' },
-    { value: CompareOperators.NotEquals, title: 'Not Equals' },
-];
