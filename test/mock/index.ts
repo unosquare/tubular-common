@@ -70,9 +70,6 @@ export const simpleRequestWithFilters2 = new GridRequest(
         createColumn('OrderID', {
             dataType: ColumnDataType.Numeric,
             isKey: true,
-            filterOperator: CompareOperators.NotStartsWith,
-            filterArgument: [],
-            filterText: '_',
             label: 'Order ID',
             sortDirection: ColumnSortDirection.Ascending,
             sortOrder: 1,
@@ -135,23 +132,163 @@ export const simpleRequestWithFilters3 = new GridRequest(
         }),
         createColumn('ShippedDate', {
             dataType: ColumnDataType.DateTime,
-            filterOperator: CompareOperators.Between,
+            filterOperator: CompareOperators.Gte,
             filterArgument: [],
-            filterText: '.',
+            filterText: '0',
             filterable: true,
             sortable: false,
         }),
-        createColumn('ShipperCity', {            
-            filterOperator: CompareOperators.Gt,
+        createColumn('ShipperCity', {
+            filterOperator: CompareOperators.NotStartsWith,
             filterArgument: [],
-            filterText: '*',
+            filterText: ',',
         }),
         createColumn('Amount', {
             dataType: ColumnDataType.Numeric,
             sortable: false,
-            filterOperator: CompareOperators.Gte,
+            filterOperator: CompareOperators.Between,
+            filterArgument: [0, 10000],
+            filterText: '',
+        }),
+    ],
+    10,
+    0,
+    '',
+);
+
+export const simpleRequestWithFilters4 = new GridRequest(
+    [
+        createColumn('OrderID', {
+            dataType: ColumnDataType.Numeric,
+            isKey: true,
+            label: 'Order ID',
+            sortDirection: ColumnSortDirection.Ascending,
+            sortOrder: 1,
+            sortable: true,
+        }),
+        createColumn('CustomerName', {
+            aggregate: AggregateFunctions.None,
+            searchable: true,
+            sortable: false,
+        }),
+        createColumn('ShippedDate', {
+            dataType: ColumnDataType.DateTime,
+            filterOperator: CompareOperators.Gt,
             filterArgument: [],
-            filterText: '$',
+            filterText: '0',
+            filterable: true,
+            sortable: false,
+        }),
+        createColumn('ShipperCity', {
+        }),
+        createColumn('Amount', {
+            dataType: ColumnDataType.Numeric,
+            sortable: false,
+        }),
+    ],
+    10,
+    0,
+    '',
+);
+
+export const simpleRequestWithFilters5 = new GridRequest(
+    [
+        createColumn('OrderID', {
+            dataType: ColumnDataType.Numeric,
+            isKey: true,
+            label: 'Order ID',
+            sortDirection: ColumnSortDirection.Ascending,
+            sortOrder: 1,
+            sortable: true,
+        }),
+        createColumn('CustomerName', {
+            aggregate: AggregateFunctions.None,
+            searchable: true,
+            sortable: false,
+        }),
+        createColumn('ShippedDate', {
+            dataType: ColumnDataType.DateTime,
+            filterOperator: CompareOperators.Between,
+            filterArgument: ['00/00/0000', '12/12/2020'],
+            filterText: '0',
+            filterable: true,
+            sortable: false,
+        }),
+        createColumn('ShipperCity', {
+        }),
+        createColumn('Amount', {
+            dataType: ColumnDataType.Numeric,
+            sortable: false,
+        }),
+    ],
+    10,
+    0,
+    '',
+);
+
+export const simpleRequestWithFilters6 = new GridRequest(
+    [
+        createColumn('OrderID', {
+            dataType: ColumnDataType.Numeric,
+            isKey: true,
+            label: 'Order ID',
+            sortDirection: ColumnSortDirection.Ascending,
+            sortOrder: 1,
+            sortable: true,
+        }),
+        createColumn('CustomerName', {
+            aggregate: AggregateFunctions.None,
+            searchable: true,
+            sortable: false,
+        }),
+        createColumn('ShippedDate', {
+            dataType: ColumnDataType.DateTime,
+            filterOperator: CompareOperators.Lt,
+            filterArgument: [],
+            filterText: '12/12/2020',
+            filterable: true,
+            sortable: false,
+        }),
+        createColumn('ShipperCity', {
+        }),
+        createColumn('Amount', {
+            dataType: ColumnDataType.Numeric,
+            sortable: false,
+        }),
+    ],
+    10,
+    0,
+    '',
+);
+
+export const simpleRequestWithFilters7 = new GridRequest(
+    [
+        createColumn('OrderID', {
+            dataType: ColumnDataType.Numeric,
+            isKey: true,
+            label: 'Order ID',
+            sortDirection: ColumnSortDirection.Ascending,
+            sortOrder: 1,
+            sortable: true,
+        }),
+        createColumn('CustomerName', {
+            aggregate: AggregateFunctions.None,
+            searchable: true,
+            sortable: false,
+        }),
+        createColumn('ShippedDate', {
+            dataType: ColumnDataType.DateTime,
+            filterOperator: CompareOperators.Lte,
+            filterArgument: [],
+            filterText: '12/12/2020',
+            filterable: true,
+            sortable: false,
+        }),
+        createColumn('ShipperCity', {
+        }),
+        createColumn('Amount', {
+            dataType: ColumnDataType.Numeric,
+            sortable: false,
         }),
     ],
     10,

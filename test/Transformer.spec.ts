@@ -45,12 +45,16 @@ import {
     searchTextMicrosoftMissingValuesResponse,
 } from './utils/responsesUndefined';
 import { Transformer } from '../src/Transformer';
-import { simpleRequestWithFilters1, simpleRequestWithFilters2, simpleRequestWithFilters3 } from './mock';
+import { simpleRequestWithFilters1, simpleRequestWithFilters2, simpleRequestWithFilters3, simpleRequestWithFilters4, simpleRequestWithFilters5, simpleRequestWithFilters6, simpleRequestWithFilters7 } from './mock';
 
 const casesWithFilter = [
     { name: 'simple', request: simpleRequestWithFilters1, response: simpleResponse },
     { name: 'simple', request: simpleRequestWithFilters2, response: simpleResponse },
     { name: 'simple', request: simpleRequestWithFilters3, response: simpleResponse },
+    { name: 'simple', request: simpleRequestWithFilters4, response: simpleResponse },
+    { name: 'simple', request: simpleRequestWithFilters5, response: simpleResponse },
+    { name: 'simple', request: simpleRequestWithFilters6, response: simpleResponse },
+    { name: 'simple', request: simpleRequestWithFilters7, response: simpleResponse },
 ];
 
 const cases = [
