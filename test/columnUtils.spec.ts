@@ -1,5 +1,5 @@
-import { getOperators, ColumnDataType, sortColumnArray, NumericOperators, StringOperators, BooleanOperators } from '../src/Models';
-import { mockColumnModel} from './mock';
+import { getOperators, ColumnDataType, columnHasFilter, NumericOperators, StringOperators, BooleanOperators, CompareOperators, sortColumnArray } from '../src/Models';
+import { simpleRequestWithFilters1, mockColumnModel} from './mock';
 
 describe('getOperators', ()=>{
     it('Should return StringOperators', () => {
@@ -20,5 +20,17 @@ describe('getOperators', ()=>{
 });
 
 describe('sortColumnArray', () => {
+    it('Should returnundefined', () => {
+        expect(sortColumnArray('OrderID', [], false)).toBeUndefined();
+    });
 
+    it('Should return columns ordered', () => {
+        expect(sortColumnArray('OrderID', simpleRequestWithFilters1.columns, false)).not.toBeNull();
+    });
+});
+
+describe('columnHasFilter', () => {
+    it('Should return True if column has a filter', () => {
+        expect(columnHasFilter({...mockColumnModel, filterOperator: CompareOperators.Equals })).toBeTruthy();
+    });
 });
