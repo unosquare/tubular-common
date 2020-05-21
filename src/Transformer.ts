@@ -6,8 +6,9 @@ import {
     ColumnDataType,
     GridRequest,
     GridResponse,
+    ColumnModel,
+    columnHasFilter,
 } from './Models';
-import { columnHasFilter, ColumnModel } from './Models/ColumnModel';
 import { parsePayload } from './utils';
 
 const isEqual = (date1: string, date2: string): boolean => parseISO(date1).getTime() === parseISO(date2).getTime();

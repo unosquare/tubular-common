@@ -1,4 +1,4 @@
-import { createColumn } from '../src/Models/ColumnModel';
+import { createColumn } from '../src/Models';
 
 describe('New ColumnModel instance', () => {
     it('should have property Visible = false values', () => {
