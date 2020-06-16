@@ -16,7 +16,7 @@ const isAfter = (date1: string, date2: string): boolean => parseISO(date1).getTi
 const isBefore = (date1: string, date2: string): boolean => parseISO(date1).getTime() < parseISO(date2).getTime();
 
 export class Transformer {
-    public static getResponse(request: GridRequest, dataSource: {}[]): GridResponse {
+    public static getResponse(request: GridRequest, dataSource: any[]): GridResponse {
         const response = new GridResponse(request.counter);
         response.totalRecordCount = dataSource.length;
 
@@ -38,12 +38,12 @@ export class Transformer {
 
         response.payload = data
             .slice(request.skip, request.skip + request.take)
-            .map((row: {}) => parsePayload(row, request.columns));
+            .map((row: Record<string, unknown>) => parsePayload(row, request.columns));
 
         return response;
     }
 
-    private static applyFreeTextSearch(request: GridRequest, subset: {}[]): {}[] {
+    private static applyFreeTextSearch(request: GridRequest, subset: any[]): any[] {
         if (!!request.searchText) {
             const searchableColumns = request.columns.filter((x: ColumnModel) => x.searchable);
 
@@ -68,7 +68,7 @@ export class Transformer {
         return subset;
     }
 
-    private static applyFiltering(request: GridRequest, subset: {}[]): {}[] {
+    private static applyFiltering(request: GridRequest, subset: any[]): any[] {
         request.columns
             .filter((column: ColumnModel) => columnHasFilter(column))
             .forEach((column: ColumnModel) => {
@@ -77,8 +77,8 @@ export class Transformer {
                     column.dataType === ColumnDataType.DateTime ||
                     column.dataType === ColumnDataType.DateTimeUtc;
 
-                const partialfiltering = (data: {}[], action: (f: string) => boolean): {}[] =>
-                    data.filter((row: {}) =>
+                const partialfiltering = (data: any[], action: (f: string) => boolean): any[] =>
+                    data.filter((row: any) =>
                         typeof row[column.name] === 'undefined' || row[column.name] === null
                             ? false
                             : action(row[column.name]),
@@ -205,7 +205,7 @@ export class Transformer {
         return subset;
     }
 
-    private static applySorting(request: GridRequest, subset: {}[]): {}[] {
+    private static applySorting(request: GridRequest, subset: any[]): any[] {
         const sortedColumns = request.columns.filter((column: ColumnModel) => column.sortOrder > 0);
 
         let sorts: { name: string; asc: boolean }[] = [{ name: request.columns[0].name, asc: true }];
@@ -246,13 +246,13 @@ export class Transformer {
         return subset;
     }
 
-    private static getAggregatePayload(request: GridRequest, subset: {}[]): {} {
+    private static getAggregatePayload(request: GridRequest, subset: any[]): any {
         const aggregateColumns = request.columns.filter(
             (column: ColumnModel) =>
                 column.aggregate && column.aggregate.toLowerCase() !== AggregateFunctions.None.toLowerCase(),
         );
 
-        return aggregateColumns.reduce((prev: {}, column: ColumnModel) => {
+        return aggregateColumns.reduce((prev: any, column: ColumnModel) => {
             switch (column.aggregate.toLowerCase()) {
                 case AggregateFunctions.Sum.toLowerCase():
                     prev[column.name] =
@@ -297,7 +297,7 @@ export class Transformer {
                     prev[column.name] =
                         subset.length === 0
                             ? 0
-                            : (subset.reduce((list: {}[], r: {}) => {
+                            : (subset.reduce((list: any[], r: any) => {
                                   if (list.indexOf(r[column.name]) === -1) {
                                       list.push(r[column.name]);
                                   }

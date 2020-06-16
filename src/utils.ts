@@ -1,8 +1,8 @@
 import { parseISO } from 'uno-js';
 import { ColumnDataType, ColumnModel } from '.';
 
-export const parsePayload = (row: {}, columns: ColumnModel[]): {} =>
-    columns.reduce((obj: {}, column: ColumnModel, key: number) => {
+export const parsePayload = (row: Record<string, unknown>, columns: ColumnModel[]): Record<string, unknown> =>
+    columns.reduce((obj: Record<string, unknown>, column: ColumnModel, key: number) => {
         obj[column.name] = row[key] || row[column.name];
 
         return obj;
@@ -30,7 +30,7 @@ export const getColumnAlign = (column: ColumnModel): 'inherit' | 'left' | 'cente
     }
 };
 
-const getCellValue = (cellDataType: string, cell: any): string => {
+const getCellValue = (cellDataType: ColumnDataType, cell: any): string => {
     switch (cellDataType) {
         case ColumnDataType.Date:
             return formatDate(cell, 'M/d/yyyy');
@@ -44,10 +44,9 @@ const getCellValue = (cellDataType: string, cell: any): string => {
     }
 };
 
-const objToArray = (row: {} | []): any[] =>
-    row instanceof Object ? Object.keys(row).map((key: string) => row[key]) : row;
+const objToArray = (row: any): any[] => (row instanceof Object ? Object.keys(row).map((key: string) => row[key]) : row);
 
-const processRow = (row: {}, columns: ColumnModel[], ignoreType: boolean): string => {
+const processRow = (row: any, columns: ColumnModel[], ignoreType: boolean): string => {
     const finalVal = objToArray(row).reduce((prev: string, value: [], i: number) => {
         if (!columns[i].visible) {
             return prev;
@@ -67,7 +66,7 @@ const processRow = (row: {}, columns: ColumnModel[], ignoreType: boolean): strin
 
 export const getCsv = (gridResult: [], columns: ColumnModel[]): string =>
     gridResult.reduce(
-        (prev: string, row: {}) => prev + processRow(row, columns, false),
+        (prev: string, row: any) => prev + processRow(row, columns, false),
         processRow(
             columns.map((x: ColumnModel) => x.label),
             columns,
@@ -82,9 +81,9 @@ export const getHtml = (gridResult: [], columns: ColumnModel[]): string =>
             (prev: string, el: ColumnModel) => `${prev}<th>${el.label || el.name}</th>`,
             '',
         )}</tr></thead><tbody>${gridResult.reduce(
-        (prevRow: string, row: {}) =>
+        (prevRow: string, row: any) =>
             `${prevRow}<tr>${objToArray(row).reduce(
-                (prev: string, cell: {}, index: number) =>
+                (prev: string, cell: ColumnModel, index: number) =>
                     !columns[index].visible ? prev : `${prev}<td>${getCellValue(columns[index].dataType, cell)}</td>`,
                 '',
             )}</tr>`,

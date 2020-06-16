@@ -51,7 +51,7 @@ export class TubularHttpClient implements TubularHttpClientAbstract {
         });
     }
 
-    public static isValidResponse(data: {}): boolean {
+    public static isValidResponse(data: Record<string, unknown>): boolean {
         return (
             data &&
             expectedStructureKeys ===
@@ -63,7 +63,7 @@ export class TubularHttpClient implements TubularHttpClientAbstract {
         );
     }
 
-    public static fixResponse(responseObject: {}): void {
+    public static fixResponse(responseObject: GridResponse): void {
         responseKeys.forEach((k) => {
             if (responseObject.hasOwnProperty(k)) {
                 responseObject[k.charAt(0).toLowerCase() + k.slice(1)] = responseObject[k];
