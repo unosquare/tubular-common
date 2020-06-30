@@ -13,6 +13,7 @@ import {
     pageMinus1Request,
     pageSize20Request,
     simpleRequest,
+    searchLocalRequest
 } from './utils/requests';
 
 import {
@@ -26,7 +27,7 @@ import {
     page2Response,
     pageMinus1Response,
     pageSize20Response,
-    searchTextMicrosoftResponse,
+    searchTextMicrosoftResponse,    
     simpleResponse,
 } from './utils/responses';
 
@@ -43,6 +44,7 @@ import {
     pageSize20WithMissingValuesResponse,
     payloadWithMissingValuesResponse,
     searchTextMicrosoftMissingValuesResponse,
+    searchLocalValuesResponse
 } from './utils/responsesUndefined';
 import { Transformer } from '../src/Transformer';
 import { simpleRequestWithFilters1, simpleRequestWithFilters2, simpleRequestWithFilters3, simpleRequestWithFilters4, simpleRequestWithFilters5, simpleRequestWithFilters6, simpleRequestWithFilters7 } from './mock';
@@ -124,6 +126,11 @@ const casesWithMissingValues = [
         name: 'with Sort Id Descending',
         request: desendingOrderIdRequest,
         response: descendingMissingValuesResponse,
+    },
+    {
+        name: 'All Local Data',
+        request: searchLocalRequest,
+        response: searchLocalValuesResponse,
     },
 ];
 

@@ -374,6 +374,37 @@ const pageMinus1Request = new GridRequest(
     '',
 );
 
+const searchLocalRequest = new GridRequest(
+    [
+        createColumn('OrderID', {
+            dataType: ColumnDataType.Numeric,
+            isKey: true,
+            label: 'Order ID',
+            sortDirection: ColumnSortDirection.Ascending,
+            sortOrder: 1,
+            sortable: true,
+        }),
+        createColumn('CustomerName', {
+            aggregate: AggregateFunctions.None,
+            searchable: true,
+            sortable: false,
+        }),
+        createColumn('ShippedDate', {
+            dataType: ColumnDataType.DateTime,
+            filterable: true,
+            sortable: false,
+        }),
+        createColumn('ShipperCity'),
+        createColumn('Amount', {
+            dataType: ColumnDataType.Numeric,
+            sortable: false,
+        }),
+    ],
+    10,
+    0,
+    '',
+);
+
 export {
     aggregateAverageRequest,
     aggregateCountRequest,
@@ -387,4 +418,5 @@ export {
     page2Request,
     pageSize20Request,
     simpleRequest,
+    searchLocalRequest
 };

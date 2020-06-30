@@ -36,9 +36,18 @@ export class Transformer {
 
         response.aggregationPayload = this.getAggregatePayload(request, data);
 
+        if(request.take > 0)
+        {
         response.payload = data
             .slice(request.skip, request.skip + request.take)
             .map((row: Record<string, unknown>) => parsePayload(row, request.columns));
+        }
+        else
+        {
+            response.payload = data
+            .slice(request.skip, request.skip)
+            .map((row: Record<string, unknown>) => parsePayload(row, request.columns));
+        }
 
         return response;
     }
