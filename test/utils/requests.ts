@@ -418,5 +418,5 @@ export {
     page2Request,
     pageSize20Request,
     simpleRequest,
-    searchLocalRequest
+    searchLocalRequest,
 };

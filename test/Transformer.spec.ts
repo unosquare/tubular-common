@@ -13,7 +13,7 @@ import {
     pageMinus1Request,
     pageSize20Request,
     simpleRequest,
-    searchLocalRequest
+    searchLocalRequest,
 } from './utils/requests';
 
 import {
@@ -27,7 +27,7 @@ import {
     page2Response,
     pageMinus1Response,
     pageSize20Response,
-    searchTextMicrosoftResponse,    
+    searchTextMicrosoftResponse,
     simpleResponse,
 } from './utils/responses';
 

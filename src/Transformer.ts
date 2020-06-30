@@ -36,7 +36,7 @@ export class Transformer {
 
         response.aggregationPayload = this.getAggregatePayload(request, data);
 
-        const toTake = request.take > 0 ? request.skip + request.take : 0;
+        const toTake = request.take > -1 ? request.skip + request.take : 0;
 
         response.payload = data
             .slice(request.skip, toTake)

@@ -795,5 +795,5 @@ export {
     page2WithMissingValuesResponse,
     pageSize20WithMissingValuesResponse,
     searchTextMicrosoftMissingValuesResponse,
-    searchLocalValuesResponse
+    searchLocalValuesResponse,
 };
