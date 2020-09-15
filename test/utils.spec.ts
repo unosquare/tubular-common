@@ -36,12 +36,12 @@ describe('getCsv', () => {
             createColumn('first', {
                 label: 'first column',
                 visible: true,
-                dataType: ColumnDataType.Date,
+                dataType: ColumnDataType.String,
             }),
             createColumn('second', {
                 label: 'second column',
                 visible: true,
-                dataType: ColumnDataType.DateTime,
+                dataType: ColumnDataType.String,
             }),
             createColumn('hidden', {
                 label: 'hidden column',
