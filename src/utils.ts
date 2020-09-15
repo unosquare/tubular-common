@@ -58,10 +58,10 @@ const processRow = (row: any, columns: ColumnModel[], ignoreType: boolean): stri
             result = `"${result}"`;
         }
 
-        return `${prev !== undefined ? prev : ''}${i > 0 && prev !== undefined ? ',' : ''}${result}`;
+        return `${prev}${result},`;
     }, '');
 
-    return `${finalVal}\n`;
+    return `${finalVal.replace(/(^,)|(,$)/g, '')}\n`;
 };
 
 export const getCsv = (gridResult: [], columns: ColumnModel[]): string =>
