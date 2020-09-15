@@ -7,6 +7,7 @@ export interface ColumnModel {
     filterOperator: CompareOperators;
     filterText: string;
     filterable: boolean;
+    exportable: boolean;
     isKey: boolean;
     label: string;
     name: string;

@@ -4,7 +4,8 @@
     "description": "Tubular Common Models and Data Transformer",
     "main": "dist/index.js",
     "scripts": {
-        "test": "jest --runInBand",
+        "test": "jest",
+        "cest": "jest --collectCoverage --runInBand",
         "lint": "eslint src/**/*.{js,ts}",
         "lint:fix": "eslint src/**/*.{js,ts} --fix",
         "prettier": "prettier --check src/**/*.ts*",
@@ -16,7 +17,8 @@
     "jest": {
         "automock": false,
         "setupFiles": [
-            "./setupJest.ts"
+            "./setupJest.ts",
+            "./test/browserMocks.js"
         ],
         "coverageReporters": [
             "lcov",
@@ -38,7 +40,6 @@
                 "tsConfig": "tsconfig.json"
             }
         },
-        "collectCoverage": true,
         "coverageThreshold": {
             "global": {
                 "branches": 73,
