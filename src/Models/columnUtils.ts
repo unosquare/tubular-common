@@ -87,22 +87,23 @@ export const columnHasFilter = (column): boolean =>
     (!!column.filterText || !!column.filterArgument) && column.filterOperator !== CompareOperators.None;
 
 export const createColumn = (name: string, options?: Partial<ColumnModel>): ColumnModel => {
-    const sortDirection = (options && options.sortable && options.sortDirection) || ColumnSortDirection.None;
-
+    const temp = options || {};
+    const sortDirection = (temp.sortable && temp.sortDirection) || ColumnSortDirection.None;
     return {
-        aggregate: (options && options.aggregate) || AggregateFunctions.None,
-        dataType: (options && options.dataType) || ColumnDataType.String,
-        isKey: !!(options && options.isKey),
-        label: (options && options.label) || (name || '').replace(/([a-z])([A-Z])/g, '$1 $2'),
+        aggregate: temp.aggregate || AggregateFunctions.None,
+        dataType: temp.dataType || ColumnDataType.String,
+        isKey: !!temp.isKey,
+        label: temp.label || (name || '').replace(/([a-z])([A-Z])/g, '$1 $2'),
         name: name,
-        searchable: !!(options && options.searchable),
-        sortDirection: (options && options.sortable && options.sortDirection) || ColumnSortDirection.None,
-        sortOrder: (options && sortDirection !== ColumnSortDirection.None && options.sortOrder) || -1,
-        sortable: !!(options && options.sortable),
-        visible: options && typeof options.visible === 'boolean' ? options.visible : true,
-        filterArgument: options && options.filterArgument,
-        filterOperator: options && options.filterOperator,
-        filterText: options && options.filterText,
-        filterable: (options && options.filterable) || false,
+        searchable: !!temp.searchable,
+        sortDirection: (temp.sortable && temp.sortDirection) || ColumnSortDirection.None,
+        sortOrder: (sortDirection !== ColumnSortDirection.None && temp.sortOrder) || -1,
+        sortable: !!temp.sortable,
+        visible: temp.visible === undefined ? true : temp.visible,
+        filterArgument: temp.filterArgument,
+        filterOperator: temp.filterOperator,
+        filterText: temp.filterText,
+        filterable: temp.filterable === undefined ? false : temp.filterable,
+        exportable: temp.exportable === undefined ? true : temp.exportable,
     };
 };

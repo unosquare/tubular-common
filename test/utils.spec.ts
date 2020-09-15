@@ -31,6 +31,57 @@ describe('getColumnAlign', () => {
 });
 
 describe('getCsv', () => {
+    it('should export only exportable columns', () => {
+        const columns = [
+            createColumn('first', {
+                label: 'first column',
+                visible: true,
+                dataType: ColumnDataType.Date,
+            }),
+            createColumn('second', {
+                label: 'second column',
+                visible: true,
+                dataType: ColumnDataType.DateTime,
+            }),
+            createColumn('hidden', {
+                label: 'hidden column',
+                visible: false,
+                dataType: ColumnDataType.String,
+            }),
+            createColumn('actions', {
+                label: 'non exportable',
+                visible: true,
+                exportable: false,
+                dataType: ColumnDataType.String,
+            }),
+        ];
+
+        const data = [
+            {
+                first: 'first value 1!',
+                second: 'second value 1!',
+                hidden: 'hidden value 1!',
+                actions: 'hidden value 1!',
+            },
+            {
+                first: 'first value 2!',
+                second: 'second value 2!',
+                hidden: 'hidden value 2!',
+                actions: 'hidden value 2!',
+            },
+            {
+                first: 'first value 3!',
+                second: 'second value 3!',
+                hidden: 'hidden value 3!',
+                actions: 'hidden value 3!',
+            },
+        ] as any;
+
+        const output = getCsv(data, columns);
+
+        expect(output).not.toContain('actions');
+    });
+
     it('should a CSV and not return undefined if a column is not visible', () => {
         const columns = [
             createColumn('first', {

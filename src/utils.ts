@@ -48,7 +48,7 @@ const objToArray = (row: any): any[] => (row instanceof Object ? Object.keys(row
 
 const processRow = (row: any, columns: ColumnModel[], ignoreType: boolean): string => {
     const finalVal = objToArray(row).reduce((prev: string, value: [], i: number) => {
-        if (!columns[i].visible) {
+        if (!columns[i].visible || !columns[i].exportable) {
             return prev;
         }
 
