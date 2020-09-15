@@ -39,7 +39,7 @@ describe('getCsv', () => {
                 dataType: ColumnDataType.String,
             }),
             createColumn('second', {
-                label: 'second column',
+                label: 'second "column"',
                 visible: true,
                 dataType: ColumnDataType.String,
             }),
@@ -58,7 +58,7 @@ describe('getCsv', () => {
 
         const data = [
             {
-                first: 'first value 1!',
+                first: 'first value| 1!',
                 second: 'second value 1!',
                 hidden: 'hidden value 1!',
                 actions: 'hidden value 1!',
