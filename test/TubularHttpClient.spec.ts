@@ -6,4 +6,9 @@ describe('TubularHttpClient', () => {
         const result = TubularHttpClient.getRequest('', simpleRequest);
         expect(result).toBeInstanceOf(Request);
     });
+
+    it('resolveRequest returns the same string when a string param', () => {
+        const result = TubularHttpClient.resolveRequest('');
+        expect(result).toBe('');
+    });
 });
