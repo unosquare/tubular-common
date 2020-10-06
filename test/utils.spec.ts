@@ -1,15 +1,8 @@
-import { ColumnDataType, createColumn, getCsv, formatDate, getColumnAlign, parsePayload, getHtml } from '../src';
+import { ColumnDataType, createColumn, getCsv, formatDate, getColumnAlign, getHtml } from '../src';
 import { mockColumnModel } from './mock';
 
-describe('parsePayload', () => {
-    it('parsePayload should return an empty string', () => {
-        expect(parsePayload(mockColumnModel, [mockColumnModel])).toBeTruthy();
-    });
-});
-
 describe('formatDate', () => {
-    it('formatDate should return', () =>
-        expect(formatDate('')).toBe(''));
+    it('formatDate should return', () => expect(formatDate('')).toBe(''));
 
     it('formatDate should return m/d/yyy', () => {
         // TODO: This is not OK, it should return "1/1/2010"
