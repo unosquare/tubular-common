@@ -1,5 +1,5 @@
 import { ColumnModel, ColumnDataType } from '../../src';
-import { createColumn, GridRequest, ColumnSortDirection, AggregateFunctions, CompareOperators, CompareOperator } from '../../src/Models';
+import { createColumn, GridRequest, ColumnSortDirection, AggregateFunctions, CompareOperators } from '../../src/Models';
 
 export const mockColumnModel: ColumnModel = {
     aggregate: null,
@@ -15,7 +15,8 @@ export const mockColumnModel: ColumnModel = {
     sortDirection: null,
     sortOrder: 0,
     sortable: false,
-    visible: false
+    visible: false,
+    exportable: false,
 };
 
 export const simpleRequestWithFilters1 = new GridRequest(
@@ -48,7 +49,7 @@ export const simpleRequestWithFilters1 = new GridRequest(
             filterable: true,
             sortable: false,
         }),
-        createColumn('ShipperCity', {            
+        createColumn('ShipperCity', {
             filterOperator: CompareOperators.NotContains,
             filterArgument: [],
             filterText: '*',
@@ -92,7 +93,7 @@ export const simpleRequestWithFilters2 = new GridRequest(
             filterable: true,
             sortable: false,
         }),
-        createColumn('ShipperCity', {            
+        createColumn('ShipperCity', {
             filterOperator: CompareOperators.Gt,
             filterArgument: [],
             filterText: '*',
@@ -180,8 +181,7 @@ export const simpleRequestWithFilters4 = new GridRequest(
             filterable: true,
             sortable: false,
         }),
-        createColumn('ShipperCity', {
-        }),
+        createColumn('ShipperCity', {}),
         createColumn('Amount', {
             dataType: ColumnDataType.Numeric,
             sortable: false,
@@ -215,8 +215,7 @@ export const simpleRequestWithFilters5 = new GridRequest(
             filterable: true,
             sortable: false,
         }),
-        createColumn('ShipperCity', {
-        }),
+        createColumn('ShipperCity', {}),
         createColumn('Amount', {
             dataType: ColumnDataType.Numeric,
             sortable: false,
@@ -250,8 +249,7 @@ export const simpleRequestWithFilters6 = new GridRequest(
             filterable: true,
             sortable: false,
         }),
-        createColumn('ShipperCity', {
-        }),
+        createColumn('ShipperCity', {}),
         createColumn('Amount', {
             dataType: ColumnDataType.Numeric,
             sortable: false,
