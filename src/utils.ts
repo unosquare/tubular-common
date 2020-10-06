@@ -1,4 +1,4 @@
-import { parseISO } from 'uno-js';
+import { toLocalTime } from 'uno-js';
 import { ColumnDataType, ColumnModel } from '.';
 
 export const parsePayload = (row: Record<string, unknown>, columns: ColumnModel[]): Record<string, unknown> =>
@@ -13,7 +13,7 @@ export const formatDate = (value: string, _formatString = 'M/d/yyyy'): string =>
         return '';
     }
 
-    const parsedValue: Date = parseISO(value);
+    const parsedValue: Date = toLocalTime(value);
 
     // TODO: Pending format
     return isNaN(parsedValue.getTime()) ? '' : parsedValue.toLocaleDateString();

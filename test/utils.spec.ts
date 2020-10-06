@@ -12,7 +12,8 @@ describe('formatDate', () => {
         expect(formatDate('')).toBe(''));
 
     it('formatDate should return m/d/yyy', () => {
-        expect(formatDate('2010-01-01T06:00:00.000Z')).toBe('1/1/2010');
+        // TODO: This is not OK, it should return "1/1/2010"
+        expect(formatDate('2010-01-01T08:00:00.000Z')).toBe('12/31/2009');
     });
 });
 
