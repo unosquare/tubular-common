@@ -1,14 +1,5 @@
-import { ColumnDataType, createColumn, getCsv, formatDate, getColumnAlign, getHtml } from '../src';
+import { ColumnDataType, createColumn, getCsv, getColumnAlign, getHtml } from '../src';
 import { mockColumnModel } from './mock';
-
-describe('formatDate', () => {
-    it('formatDate should return', () => expect(formatDate('')).toBe(''));
-
-    it('formatDate should return m/d/yyy', () => {
-        // TODO: This is not OK, it should return "1/1/2010"
-        expect(formatDate('2010-01-01T08:00:00.000Z')).toBe('12/31/2009');
-    });
-});
 
 describe('getColumnAlign', () => {
     it('getColumnAlign should return center', () => {
@@ -24,7 +15,46 @@ describe('getColumnAlign', () => {
     });
 });
 
-describe('getCsv', () => {
+describe.only('getCsv', () => {
+    it('should export dates properly', () => {
+        const columns = [
+            createColumn('first', {
+                label: 'first column',
+                visible: true,
+                dataType: ColumnDataType.String,
+            }),
+            createColumn('date', {
+                label: 'date column',
+                visible: true,
+                dataType: ColumnDataType.Date,
+            }),
+            createColumn('datetime', {
+                label: 'datetime',
+                visible: true,
+                dataType: ColumnDataType.DateTime,
+            }),
+            createColumn('datetimeutc', {
+                label: 'datetime utc',
+                visible: true,
+                dataType: ColumnDataType.DateTimeUtc,
+            }),
+        ];
+
+        const data = [
+            {
+                first: '1',
+                date: '2020-09-29T19:00:00.00',
+                datetime: '2020-09-29T19:00:58.31',
+                datetimeutc: '2020-09-29T19:00:58.31',
+            },
+        ] as any;
+
+        const output = getCsv(data, columns);
+        console.log(output);
+
+        expect(output).toContain('1,2020-09-29,2020-09-29T19:00:58,2020-09-30T00:00:58');
+    });
+
     it('should export only exportable columns', () => {
         const columns = [
             createColumn('first', {
