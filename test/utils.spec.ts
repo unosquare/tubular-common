@@ -15,7 +15,7 @@ describe('getColumnAlign', () => {
     });
 });
 
-describe.only('getCsv', () => {
+describe('getCsv', () => {
     it('should export dates properly', () => {
         const columns = [
             createColumn('first', {
