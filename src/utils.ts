@@ -1,5 +1,10 @@
-import { toLocalTime } from 'uno-js';
+import dayjs = require('dayjs');
+import customParseFormat = require('dayjs/plugin/customParseFormat');
+import utc = require('dayjs/plugin/utc');
 import { ColumnDataType, ColumnModel } from '.';
+
+dayjs.extend(utc);
+dayjs.extend(customParseFormat);
 
 export const parsePayload = (row: Record<string, unknown>, columns: ColumnModel[]): Record<string, unknown> =>
     columns.reduce((obj: Record<string, unknown>, column: ColumnModel, key: number) => {
@@ -7,17 +12,6 @@ export const parsePayload = (row: Record<string, unknown>, columns: ColumnModel[
 
         return obj;
     }, {});
-
-export const formatDate = (value: string, _formatString = 'M/d/yyyy'): string => {
-    if (!value) {
-        return '';
-    }
-
-    const parsedValue: Date = toLocalTime(value);
-
-    // TODO: Pending format
-    return isNaN(parsedValue.getTime()) ? '' : parsedValue.toLocaleDateString();
-};
 
 export const getColumnAlign = (column: ColumnModel): 'inherit' | 'left' | 'center' | 'right' | 'justify' => {
     switch (column.dataType) {
@@ -30,13 +24,20 @@ export const getColumnAlign = (column: ColumnModel): 'inherit' | 'left' | 'cente
     }
 };
 
+// 2020-09-29T19:00:58.31
+const defaultOriginDateFormat = 'YYYY-MM-DD';
+const defaultOriginDateTimeFormat = 'YYYY-MM-DDTHH:mm:ss';
+const defaultDateFormat = 'YYYY-MM-DD';
+const defaultDateTimeFormat = 'YYYY-MM-DDTHH:mm:ss';
+
 const getCellValue = (cellDataType: ColumnDataType, cell: any): string => {
     switch (cellDataType) {
         case ColumnDataType.Date:
-            return formatDate(cell, 'M/d/yyyy');
+            return dayjs(cell, defaultOriginDateFormat).format(defaultDateFormat);
         case ColumnDataType.DateTime:
+            return dayjs(cell, defaultOriginDateTimeFormat).format(defaultDateTimeFormat);
         case ColumnDataType.DateTimeUtc:
-            return formatDate(cell, 'M/d/yyyy h:mm a');
+            return dayjs(cell, defaultOriginDateTimeFormat).utc().format(defaultDateTimeFormat);
         case ColumnDataType.Boolean:
             return cell === true ? 'Yes' : 'No';
         default:
