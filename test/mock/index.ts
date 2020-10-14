@@ -243,9 +243,10 @@ export const simpleRequestWithFilters6 = new GridRequest(
         }),
         createColumn('ShippedDate', {
             dataType: ColumnDataType.DateTime,
+            dateTimeOriginFormat: 'YYYY-MM-DD',
             filterOperator: CompareOperators.Lt,
             filterArgument: [],
-            filterText: '12/12/2020',
+            filterText: '2016-03-19',
             filterable: true,
             sortable: false,
         }),
@@ -259,6 +260,47 @@ export const simpleRequestWithFilters6 = new GridRequest(
     0,
     '',
 );
+
+export const createRequestWithDatesFilter = (
+    dateType: ColumnDataType,
+    originFormat: string,
+    operator: CompareOperators,
+    value: string,
+): GridRequest =>
+    new GridRequest(
+        [
+            createColumn('OrderID', {
+                dataType: ColumnDataType.Numeric,
+                isKey: true,
+                label: 'Order ID',
+                sortDirection: ColumnSortDirection.Ascending,
+                sortOrder: 1,
+                sortable: true,
+            }),
+            createColumn('CustomerName', {
+                aggregate: AggregateFunctions.None,
+                searchable: true,
+                sortable: false,
+            }),
+            createColumn('ShippedDate', {
+                dataType: dateType,
+                dateTimeOriginFormat: originFormat,
+                filterOperator: operator,
+                filterArgument: [],
+                filterText: value,
+                filterable: true,
+                sortable: false,
+            }),
+            createColumn('ShipperCity', {}),
+            createColumn('Amount', {
+                dataType: ColumnDataType.Numeric,
+                sortable: false,
+            }),
+        ],
+        100,
+        0,
+        '',
+    );
 
 export const simpleRequestWithFilters7 = new GridRequest(
     [

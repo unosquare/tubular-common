@@ -24,36 +24,34 @@ export const getColumnAlign = (column: ColumnModel): 'inherit' | 'left' | 'cente
     }
 };
 
-// 2020-09-29T19:00:58.31
-const defaultOriginDateFormat = 'YYYY-MM-DD';
-const defaultOriginDateTimeFormat = 'YYYY-MM-DDTHH:mm:ss';
-const defaultDateFormat = 'YYYY-MM-DD';
-const defaultDateTimeFormat = 'YYYY-MM-DDTHH:mm:ss';
+const getCellValue = (column: ColumnModel, value: any, isHeader = false): string => {
+    if (isHeader) {
+        return (value || '').toString();
+    }
 
-const getCellValue = (cellDataType: ColumnDataType, cell: any): string => {
-    switch (cellDataType) {
+    switch (column.dataType) {
         case ColumnDataType.Date:
-            return dayjs(cell, defaultOriginDateFormat).format(defaultDateFormat);
+            return dayjs(value, column.dateOriginFormat).format(column.dateDisplayFormat);
         case ColumnDataType.DateTime:
-            return dayjs(cell, defaultOriginDateTimeFormat).format(defaultDateTimeFormat);
+            return dayjs(value, column.dateTimeOriginFormat).format(column.dateTimeDisplayFormat);
         case ColumnDataType.DateTimeUtc:
-            return dayjs(cell, defaultOriginDateTimeFormat).utc().format(defaultDateTimeFormat);
+            return dayjs(value, column.dateTimeOriginFormat).utc().format(column.dateTimeDisplayFormat);
         case ColumnDataType.Boolean:
-            return cell === true ? 'Yes' : 'No';
+            return value === true ? 'Yes' : 'No';
         default:
-            return (cell || '').toString();
+            return (value || '').toString();
     }
 };
 
 const objToArray = (row: any): any[] => (row instanceof Object ? Object.keys(row).map((key: string) => row[key]) : row);
 
-const processRow = (row: any, columns: ColumnModel[], ignoreType: boolean): string => {
+const processRow = (row: any, columns: ColumnModel[], isHeader: boolean): string => {
     const finalVal = objToArray(row).reduce((prev: string, value: [], i: number) => {
         if (!columns[i].visible || !columns[i].exportable) {
             return prev;
         }
 
-        let result = getCellValue(ignoreType ? ColumnDataType.String : columns[i].dataType, value).replace(/"/g, '""');
+        let result = getCellValue(columns[i], value, isHeader).replace(/"/g, '""');
 
         if (result.search(/("|,|\n)/g) >= 0) {
             result = `"${result}"`;
@@ -85,7 +83,7 @@ export const getHtml = (gridResult: [], columns: ColumnModel[]): string =>
         (prevRow: string, row: any) =>
             `${prevRow}<tr>${objToArray(row).reduce(
                 (prev: string, cell: ColumnModel, index: number) =>
-                    !columns[index].visible ? prev : `${prev}<td>${getCellValue(columns[index].dataType, cell)}</td>`,
+                    !columns[index].visible ? prev : `${prev}<td>${getCellValue(columns[index], cell)}</td>`,
                 '',
             )}</tr>`,
         '',

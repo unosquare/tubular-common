@@ -2,6 +2,11 @@ import { AggregateFunctions, ColumnDataType, ColumnSortDirection, CompareOperato
 import { CompareOperator } from './CompareOperator';
 import { ColumnModel } from './ColumnModel';
 
+const defaultOriginDateFormat = 'YYYY-MM-DD';
+const defaultOriginDateTimeFormat = 'YYYY-MM-DDTHH:mm:ss';
+const defaultDisplayDateFormat = 'YYYY-MM-DD';
+const defaultDisplayDateTimeFormat = 'YYYY-MM-DDTHH:mm:ss';
+
 export const NumericOperators: CompareOperator[] = [
     { value: CompareOperators.None, title: 'None' },
     { value: CompareOperators.Equals, title: 'Equals' },
@@ -83,7 +88,7 @@ export const sortColumnArray = (columnName: string, columns: ColumnModel[], mult
     return columns;
 };
 
-export const columnHasFilter = (column): boolean =>
+export const columnHasFilter = (column: ColumnModel): boolean =>
     (!!column.filterText || !!column.filterArgument) && column.filterOperator !== CompareOperators.None;
 
 export const createColumn = (name: string, options?: Partial<ColumnModel>): ColumnModel => {
@@ -92,6 +97,10 @@ export const createColumn = (name: string, options?: Partial<ColumnModel>): Colu
     return {
         aggregate: temp.aggregate || AggregateFunctions.None,
         dataType: temp.dataType || ColumnDataType.String,
+        dateDisplayFormat: temp.dateDisplayFormat || defaultDisplayDateFormat,
+        dateOriginFormat: temp.dateOriginFormat || defaultOriginDateFormat,
+        dateTimeDisplayFormat: temp.dateTimeDisplayFormat || defaultDisplayDateTimeFormat,
+        dateTimeOriginFormat: temp.dateTimeOriginFormat || defaultOriginDateTimeFormat,
         isKey: !!temp.isKey,
         label: temp.label || (name || '').replace(/([a-z])([A-Z])/g, '$1 $2'),
         name: name,

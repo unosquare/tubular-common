@@ -3,6 +3,10 @@ import { AggregateFunctions, ColumnDataType, ColumnSortDirection, CompareOperato
 export interface ColumnModel {
     aggregate: AggregateFunctions;
     dataType: ColumnDataType;
+    dateOriginFormat: string; // YYYY-MM-DD (default)
+    dateDisplayFormat: string; // YYYY-MM-DD (default)
+    dateTimeOriginFormat: string; // YYYY-MM-DDTHH:mm:ss (default)
+    dateTimeDisplayFormat: string; // YYYY-MM-DDTHH:mm:ss (default)
     filterArgument: any[];
     filterOperator: CompareOperators;
     filterText: string;

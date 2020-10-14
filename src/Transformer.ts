@@ -1,4 +1,8 @@
-import { parseISO } from 'uno-js';
+import dayjs = require('dayjs');
+import customParseFormat = require('dayjs/plugin/customParseFormat');
+import isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
+import isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
+import isBetween = require('dayjs/plugin/isBetween');
 import {
     AggregateFunctions,
     ColumnSortDirection,
@@ -11,9 +15,45 @@ import {
 } from './Models';
 import { parsePayload } from './utils';
 
-const isEqual = (date1: string, date2: string): boolean => parseISO(date1).getTime() === parseISO(date2).getTime();
-const isAfter = (date1: string, date2: string): boolean => parseISO(date1).getTime() > parseISO(date2).getTime();
-const isBefore = (date1: string, date2: string): boolean => parseISO(date1).getTime() < parseISO(date2).getTime();
+dayjs.extend(customParseFormat);
+dayjs.extend(isSameOrBefore);
+dayjs.extend(isSameOrAfter);
+
+const areDatesEqual = (column: ColumnModel, date1: string, date2: string): boolean => {
+    switch (column.dataType) {
+        case ColumnDataType.Date:
+            return dayjs(date1, column.dateOriginFormat).isSame(dayjs(date2, column.dateOriginFormat), 'd');
+        case ColumnDataType.DateTime:
+        case ColumnDataType.DateTimeUtc:
+            return dayjs(date1, column.dateOriginFormat).isSame(dayjs(date2, column.dateOriginFormat), 'd');
+    }
+};
+
+const isDateAfter = (column: ColumnModel, date1: string, date2: string, inclusive = false): boolean => {
+    if (inclusive) {
+        return dayjs(date1, column.dateOriginFormat).isSameOrAfter(dayjs(date2, column.dateOriginFormat), 'd');
+    }
+
+    return dayjs(date1, column.dateOriginFormat).isAfter(dayjs(date2, column.dateOriginFormat), 'd');
+};
+
+const isDateBefore = (column: ColumnModel, date1: string, date2: string, inclusive = false): boolean => {
+    if (inclusive) {
+        return dayjs(date1, column.dateOriginFormat).isSameOrBefore(dayjs(date2, column.dateOriginFormat), 'd');
+    }
+
+    return dayjs(date1, column.dateOriginFormat).isBefore(dayjs(date2, column.dateOriginFormat), 'd');
+};
+
+const dateIsBetween = (column: ColumnModel, from: string, to: string, value: string): boolean => {
+    dayjs.extend(isBetween);
+    return dayjs(dayjs(value, column.dateOriginFormat)).isBetween(
+        dayjs(from, column.dateOriginFormat),
+        dayjs(to, column.dateOriginFormat),
+        null,
+        '[]',
+    );
+};
 
 export class Transformer {
     public static getResponse(request: GridRequest, dataSource: any[]): GridResponse {
@@ -87,7 +127,7 @@ export class Transformer {
                 switch (column.filterOperator) {
                     case CompareOperators.Equals:
                         if (isDate) {
-                            subset = subset.filter((row) => isEqual(row[column.name], column.filterText));
+                            subset = subset.filter((row) => areDatesEqual(column, row[column.name], column.filterText));
                         } else if (column.dataType === ColumnDataType.String) {
                             subset = partialfiltering(
                                 subset,
@@ -146,17 +186,15 @@ export class Transformer {
                         break;
                     case CompareOperators.Gt:
                         if (isDate) {
-                            subset = subset.filter((row) => isAfter(row[column.name], column.filterText));
+                            subset = subset.filter((row) => isDateAfter(column, row[column.name], column.filterText));
                         } else {
                             subset = subset.filter((row) => row[column.name] > column.filterText);
                         }
                         break;
                     case CompareOperators.Gte:
                         if (isDate) {
-                            subset = subset.filter(
-                                (row) =>
-                                    isEqual(row[column.name], column.filterText) ||
-                                    isAfter(row[column.name], column.filterText),
+                            subset = subset.filter((row) =>
+                                isDateAfter(column, row[column.name], column.filterText, true),
                             );
                         } else {
                             subset = subset.filter((row) => row[column.name] >= column.filterText);
@@ -164,17 +202,15 @@ export class Transformer {
                         break;
                     case CompareOperators.Lt:
                         if (isDate) {
-                            subset = subset.filter((row) => isBefore(row[column.name], column.filterText));
+                            subset = subset.filter((row) => isDateBefore(column, row[column.name], column.filterText));
                         } else {
                             subset = subset.filter((row) => row[column.name] < column.filterText);
                         }
                         break;
                     case CompareOperators.Lte:
                         if (isDate) {
-                            subset = subset.filter(
-                                (row) =>
-                                    isEqual(row[column.name], column.filterText) ||
-                                    isBefore(row[column.name], column.filterText),
+                            subset = subset.filter((row) =>
+                                isDateBefore(column, row[column.name], column.filterText, true),
                             );
                         } else {
                             subset = subset.filter((row) => row[column.name] <= column.filterText);
@@ -182,12 +218,8 @@ export class Transformer {
                         break;
                     case CompareOperators.Between:
                         if (isDate) {
-                            subset = subset.filter(
-                                (row) =>
-                                    (isEqual(row[column.name], column.filterText) ||
-                                        isAfter(row[column.name], column.filterText)) &&
-                                    (isEqual(row[column.name], column.filterArgument[0]) ||
-                                        isBefore(row[column.name], column.filterArgument[0])),
+                            subset = subset.filter((row) =>
+                                dateIsBetween(column, column.filterText, column.filterArgument[0], row[column.name]),
                             );
                         } else {
                             subset = subset.filter(
