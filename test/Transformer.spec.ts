@@ -54,6 +54,7 @@ import {
     simpleRequestWithFilters6,
     simpleRequestWithFilters7,
 } from './mock';
+import { filterDateCases } from './utils/filterDateCases';
 
 const casesWithFilter = [
     { name: 'simple', request: simpleRequestWithFilters1, response: simpleResponse },
@@ -140,9 +141,16 @@ describe('Transformer', () => {
         expect({ ...Transformer.getResponse(i.request, localData) }).toEqual(i.response),
     );
 
-    it.each(casesWithFilter)('should return response %s', (i) =>
-        expect({ ...Transformer.getResponse(i.request, localData) }).not.toBeNull(),
-    );
+    it.each(casesWithFilter)('should return response %s', (i) => {
+        const result = Transformer.getResponse(i.request, localData);
+        expect(result).not.toBeNull();
+    });
+
+    it.each(filterDateCases)('should return rows: %s', (i) => {
+        const result = Transformer.getResponse(i.request, localData);
+        expect(result).not.toBeNull();
+        expect(result.payload.length).toBe(i.expectedResults);
+    });
 
     it.each(casesWithMissingValues)('should return response with missing data and %s', (i) =>
         expect({ ...Transformer.getResponse(i.request, payloadUndefined) }).toEqual(i.response),
