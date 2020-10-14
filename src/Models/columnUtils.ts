@@ -137,6 +137,6 @@ export const parseDateColumnValue = (column: ColumnModel, value: string): string
         case ColumnDataType.DateTime:
             return dayjs(value, column.dateTimeOriginFormat).format(column.dateTimeDisplayFormat);
         case ColumnDataType.DateTimeUtc:
-            return dayjs(value, column.dateTimeOriginFormat).utc().format(column.dateTimeDisplayFormat);
+            return dayjs.utc(value, column.dateTimeOriginFormat).local().format(column.dateTimeDisplayFormat);
     }
 };
