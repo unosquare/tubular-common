@@ -35,7 +35,7 @@ const getCellValue = (column: ColumnModel, value: any, isHeader = false): string
         case ColumnDataType.DateTime:
             return dayjs(value, column.dateTimeOriginFormat).format(column.dateTimeDisplayFormat);
         case ColumnDataType.DateTimeUtc:
-            return dayjs(value, column.dateTimeOriginFormat).utc().format(column.dateTimeDisplayFormat);
+            return dayjs.utc(value, column.dateTimeOriginFormat).local().format(column.dateTimeDisplayFormat);
         case ColumnDataType.Boolean:
             return value === true ? 'Yes' : 'No';
         default:
