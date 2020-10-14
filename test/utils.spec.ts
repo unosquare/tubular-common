@@ -51,7 +51,7 @@ describe('getCsv', () => {
 
         const output = getCsv(data, columns);
 
-        expect(output).toContain('1,2020-09-29,2020-09-29T19:00:58,2020-09-30T00:00:58');
+        expect(output).toContain('1,2020-09-29,2020-09-29T19:00:58,2020-09-29T19:00:58');
     });
 
     it('should export dates properly with custom format', () => {
