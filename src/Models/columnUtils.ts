@@ -1,6 +1,12 @@
 import { AggregateFunctions, ColumnDataType, ColumnSortDirection, CompareOperators } from './Column';
 import { CompareOperator } from './CompareOperator';
 import { ColumnModel } from './ColumnModel';
+import dayjs = require('dayjs');
+import customParseFormat = require('dayjs/plugin/customParseFormat');
+import utc = require('dayjs/plugin/utc');
+
+dayjs.extend(utc);
+dayjs.extend(customParseFormat);
 
 const defaultOriginDateFormat = 'YYYY-MM-DD';
 const defaultOriginDateTimeFormat = 'YYYY-MM-DDTHH:mm:ss';
@@ -115,4 +121,22 @@ export const createColumn = (name: string, options?: Partial<ColumnModel>): Colu
         filterable: temp.filterable === undefined ? false : temp.filterable,
         exportable: temp.exportable === undefined ? true : temp.exportable,
     };
+};
+
+export const parseDateColumnValue = (column: ColumnModel, value: string): string => {
+    if (
+        column.dataType !== ColumnDataType.Date &&
+        column.dataType !== ColumnDataType.DateTime &&
+        column.dataType !== ColumnDataType.DateTimeUtc
+    )
+        return '';
+
+    switch (column.dataType) {
+        case ColumnDataType.Date:
+            return dayjs(value, column.dateOriginFormat).format(column.dateDisplayFormat);
+        case ColumnDataType.DateTime:
+            return dayjs(value, column.dateTimeOriginFormat).format(column.dateTimeDisplayFormat);
+        case ColumnDataType.DateTimeUtc:
+            return dayjs(value, column.dateTimeOriginFormat).utc().format(column.dateTimeDisplayFormat);
+    }
 };

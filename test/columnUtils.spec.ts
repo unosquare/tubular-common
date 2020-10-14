@@ -7,6 +7,8 @@ import {
     BooleanOperators,
     CompareOperators,
     sortColumnArray,
+    parseDateColumnValue,
+    ColumnModel,
 } from '../src/Models';
 import { simpleRequestWithFilters1, mockColumnModel } from './mock';
 
@@ -41,5 +43,27 @@ describe('sortColumnArray', () => {
 describe('columnHasFilter', () => {
     it('Should return True if column has a filter', () => {
         expect(columnHasFilter({ ...mockColumnModel, filterOperator: CompareOperators.Equals })).toBeTruthy();
+    });
+});
+
+describe('parseDateColumnValue', () => {
+    it('Should parse "2020-01-14" as "01 14 - 2020"', () => {
+        const dateColumn: ColumnModel = {
+            ...mockColumnModel,
+            dataType: ColumnDataType.Date,
+            dateDisplayFormat: 'MM DD - YYYY',
+        };
+        expect(parseDateColumnValue(dateColumn, '2020-01-14')).toBe('01 14 - 2020');
+    });
+
+    it('Should parse "2020-01-14T23:00:00" as "Month: 01 Year: 2020 Day: 14, 11:00:00 PM"', () => {
+        const dateColumn: ColumnModel = {
+            ...mockColumnModel,
+            dataType: ColumnDataType.DateTime,
+            dateTimeDisplayFormat: '[Month:] MM [Year:] YYYY [Day:] DD, hh:mm:ss A',
+        };
+        expect(parseDateColumnValue(dateColumn, '2020-01-14T23:00:00')).toBe(
+            'Month: 01 Year: 2020 Day: 14, 11:00:00 PM',
+        );
     });
 });
