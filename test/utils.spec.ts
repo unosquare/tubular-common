@@ -36,7 +36,7 @@ describe('getCsv', () => {
             createColumn('datetimeutc', {
                 label: 'datetime utc',
                 visible: true,
-                dataType: ColumnDataType.DateTimeUtc,
+                dataType: ColumnDataType.DateTime,
             }),
         ];
 
@@ -50,10 +50,50 @@ describe('getCsv', () => {
         ] as any;
 
         const output = getCsv(data, columns);
-        console.log(output);
 
         expect(output).toContain('1,2020-09-29,2020-09-29T19:00:58,2020-09-30T00:00:58');
     });
+
+    it('should export dates properly with custom format', () => {
+        const columns = [
+            createColumn('first', {
+                label: 'first column',
+                visible: true,
+                dataType: ColumnDataType.String,
+            }),
+            createColumn('date', {
+                label: 'date column',
+                visible: true,
+                dataType: ColumnDataType.Date,
+                dateDisplayFormat: 'MM DD - YYYY',
+            }),
+            createColumn('datetime', {
+                label: 'datetime',
+                visible: true,
+                dataType: ColumnDataType.DateTime,
+                dateTimeDisplayFormat: 'MM DD - YYYY',
+            }),
+            createColumn('datetimeutc', {
+                label: 'datetime utc',
+                visible: true,
+                dataType: ColumnDataType.DateTime,
+                dateTimeDisplayFormat: 'MM DD - YYYY',
+            }),
+        ];
+
+        const data = [
+            {
+                first: '1',
+                date: '2020-09-29T19:00:00.00',
+                datetime: '2020-09-29T19:00:58.31',
+                datetimeutc: '2020-09-30T19:00:58.31',
+            },
+        ] as any;
+
+        const output = getCsv(data, columns);
+        expect(output).toContain('1,09 29 - 2020,09 29 - 2020,09 30 - 2020');
+    });
+
 
     it('should export only exportable columns', () => {
         const columns = [
