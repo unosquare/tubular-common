@@ -28,6 +28,11 @@ describe('getCsv', () => {
                 visible: true,
                 dataType: ColumnDataType.Date,
             }),
+            createColumn('datenullable', {
+                label: 'date nullable column',
+                visible: true,
+                dataType: ColumnDataType.Date,
+            }),
             createColumn('datetime', {
                 label: 'datetime',
                 visible: true,
@@ -44,6 +49,7 @@ describe('getCsv', () => {
             {
                 first: '1',
                 date: '2020-09-29T19:00:00.00',
+                datenullable: null,
                 datetime: '2020-09-29T19:00:58.31',
                 datetimeutc: '2020-09-29T19:00:58.31',
             },
@@ -51,7 +57,7 @@ describe('getCsv', () => {
 
         const output = getCsv(data, columns);
 
-        expect(output).toContain('1,2020-09-29,2020-09-29T19:00:58,2020-09-29T19:00:58');
+        expect(output).toContain('1,2020-09-29,,2020-09-29T19:00:58,2020-09-29T19:00:58');
     });
 
     it('should export dates properly with custom format', () => {

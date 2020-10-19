@@ -131,6 +131,10 @@ export const parseDateColumnValue = (column: ColumnModel, value: string): string
     )
         return '';
 
+    if (!value) {
+        return '';
+    }
+
     switch (column.dataType) {
         case ColumnDataType.Date:
             return dayjs(value, column.dateOriginFormat).format(column.dateDisplayFormat);
