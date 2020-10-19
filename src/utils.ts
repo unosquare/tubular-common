@@ -1,10 +1,4 @@
-import dayjs = require('dayjs');
-import customParseFormat = require('dayjs/plugin/customParseFormat');
-import utc = require('dayjs/plugin/utc');
-import { ColumnDataType, ColumnModel } from '.';
-
-dayjs.extend(utc);
-dayjs.extend(customParseFormat);
+import { ColumnDataType, ColumnModel, parseDateColumnValue } from '.';
 
 export const parsePayload = (row: Record<string, unknown>, columns: ColumnModel[]): Record<string, unknown> =>
     columns.reduce((obj: Record<string, unknown>, column: ColumnModel, key: number) => {
@@ -31,11 +25,9 @@ const getCellValue = (column: ColumnModel, value: any, isHeader = false): string
 
     switch (column.dataType) {
         case ColumnDataType.Date:
-            return dayjs(value, column.dateOriginFormat).format(column.dateDisplayFormat);
         case ColumnDataType.DateTime:
-            return dayjs(value, column.dateTimeOriginFormat).format(column.dateTimeDisplayFormat);
         case ColumnDataType.DateTimeUtc:
-            return dayjs.utc(value, column.dateTimeOriginFormat).local().format(column.dateTimeDisplayFormat);
+            return parseDateColumnValue(column, value);
         case ColumnDataType.Boolean:
             return value === true ? 'Yes' : 'No';
         default:
