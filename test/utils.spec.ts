@@ -200,11 +200,6 @@ describe('getCsv', () => {
                 visible: true,
                 dataType: ColumnDataType.Numeric,
             }),
-            createColumn('second', {
-                label: 'second column',
-                visible: true,
-                dataType: ColumnDataType.String,
-            }),
             createColumn('computed', {
                 label: 'computed column',
                 visible: true,
@@ -216,6 +211,24 @@ describe('getCsv', () => {
                     }
 
                     return `${row.first} + ${row.second}`;
+                },
+            }),
+            createColumn('second', {
+                label: 'second column',
+                visible: true,
+                dataType: ColumnDataType.String,
+            }),
+            createColumn('computed2', {
+                label: 'computed column2',
+                visible: true,
+                dataType: ColumnDataType.String,
+                isComputed: true,
+                getComputedStringValue: (column, row, isHeader) => {
+                    if (isHeader) {
+                        return column.label;
+                    }
+
+                    return `${row.first} + ${row.second} 2`;
                 },
             }),
             createColumn('hidden', {
@@ -244,8 +257,7 @@ describe('getCsv', () => {
         ] as any;
 
         const output = getCsv(data, columns);
-
-        expect(output).toContain('first column,second column,computed column');
+        expect(output).toContain('first column,computed column,second column,computed column2');
     });
 });
 
@@ -291,6 +303,74 @@ describe('getHTML', () => {
 
         expect(output).toEqual(
             '<table class="table table-bordered table-striped"><thead><tr><th>first column</th><th>second column</th></tr></thead><tbody><tr><td>first value 1!</td><td>second value 1!</td></tr><tr><td>first value 2!</td><td>second value 2!</td></tr><tr><td>first value 3!</td><td>second value 3!</td></tr></tbody></table>',
+        );
+    });
+    it('should export valid computed columns', () => {
+        const columns = [
+            createColumn('first', {
+                label: 'first column',
+                visible: true,
+                dataType: ColumnDataType.Numeric,
+            }),
+            createColumn('computed', {
+                label: 'computed column',
+                visible: true,
+                dataType: ColumnDataType.String,
+                isComputed: true,
+                getComputedStringValue: (column, row, isHeader) => {
+                    if (isHeader) {
+                        return column.label;
+                    }
+
+                    return `${row.first} + ${row.second}`;
+                },
+            }),
+            createColumn('second', {
+                label: 'second column',
+                visible: true,
+                dataType: ColumnDataType.String,
+            }),
+            createColumn('hidden', {
+                label: 'hidden column',
+                visible: false,
+                dataType: ColumnDataType.String,
+            }),
+            createColumn('computed2', {
+                label: 'computed column2',
+                visible: true,
+                dataType: ColumnDataType.String,
+                isComputed: true,
+                getComputedStringValue: (column, row, isHeader) => {
+                    if (isHeader) {
+                        return column.label;
+                    }
+
+                    return `${row.first} + ${row.second} 2`;
+                },
+            }),
+        ];
+
+        const data = [
+            {
+                first: 'first value 1!',
+                second: 'second value 1!',
+                hidden: 'hidden value 1!',
+            },
+            {
+                first: 'first value 2!',
+                second: 'second value 2!',
+                hidden: 'hidden value 2!',
+            },
+            {
+                first: 'first value 3!',
+                second: 'second value 3!',
+                hidden: 'hidden value 3!',
+            },
+        ] as any;
+
+        const output = getHtml(data, columns);
+        expect(output).toBe(
+            '<table class="table table-bordered table-striped"><thead><tr><th>first column</th><th>computed column</th><th>second column</th><th>computed column2</th></tr></thead><tbody><tr><td>first value 1!</td><td>first value 1! + second value 1!</td><td>second value 1!</td><td>first value 1! + second value 1! 2</td></tr><tr><td>first value 2!</td><td>first value 2! + second value 2!</td><td>second value 2!</td><td>first value 2! + second value 2! 2</td></tr><tr><td>first value 3!</td><td>first value 3! + second value 3!</td><td>second value 3!</td><td>first value 3! + second value 3! 2</td></tr></tbody></table>',
         );
     });
 });
