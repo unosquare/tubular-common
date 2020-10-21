@@ -3,10 +3,10 @@ import { AggregateFunctions, ColumnDataType, ColumnSortDirection, CompareOperato
 export interface ColumnModel {
     aggregate: AggregateFunctions;
     dataType: ColumnDataType;
-    dateOriginFormat: string; // YYYY-MM-DD (default)
-    dateDisplayFormat: string; // YYYY-MM-DD (default)
-    dateTimeOriginFormat: string; // YYYY-MM-DDTHH:mm:ss (default)
-    dateTimeDisplayFormat: string; // YYYY-MM-DDTHH:mm:ss (default)
+    dateOriginFormat?: string; // YYYY-MM-DD (default)
+    dateDisplayFormat?: string; // YYYY-MM-DD (default)
+    dateTimeOriginFormat?: string; // YYYY-MM-DDTHH:mm:ss (default)
+    dateTimeDisplayFormat?: string; // YYYY-MM-DDTHH:mm:ss (default)
     filterArgument: any[];
     filterOperator: CompareOperators;
     filterText: string;
@@ -14,6 +14,8 @@ export interface ColumnModel {
     exportable: boolean;
     isKey: boolean;
     label: string;
+    isComputed: boolean;
+    getComputedStringValue?: (column: ColumnModel, row: any, isHeader: boolean) => string;
     name: string;
     searchable: boolean;
     sortDirection: ColumnSortDirection;
