@@ -110,7 +110,7 @@ export const createColumn = (name: string, options?: Partial<ColumnModel>): Colu
         dateOriginFormat: temp.dateOriginFormat || defaultOriginDateFormat,
         dateTimeDisplayFormat: temp.dateTimeDisplayFormat || defaultDisplayDateTimeFormat,
         dateTimeOriginFormat: temp.dateTimeOriginFormat || defaultOriginDateTimeFormat,
-        getComputedCsvValue: temp.getComputedCsvValue || defaultComputedCsvValueGetter,
+        getComputedStringValue: temp.getComputedStringValue || defaultComputedCsvValueGetter,
         isKey: !!temp.isKey,
         isComputed: temp.isComputed === undefined ? false : temp.isComputed,
         label: temp.label || (name || '').replace(/([a-z])([A-Z])/g, '$1 $2'),

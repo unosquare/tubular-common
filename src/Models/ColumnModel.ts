@@ -15,7 +15,7 @@ export interface ColumnModel {
     isKey: boolean;
     label: string;
     isComputed: boolean;
-    getComputedCsvValue?: (column: ColumnModel, row: any, isHeader: boolean) => string;
+    getComputedStringValue?: (column: ColumnModel, row: any, isHeader: boolean) => string;
     name: string;
     searchable: boolean;
     sortDirection: ColumnSortDirection;

@@ -210,7 +210,7 @@ describe('getCsv', () => {
                 visible: true,
                 dataType: ColumnDataType.String,
                 isComputed: true,
-                getComputedCsvValue: (column, row, isHeader) => {
+                getComputedStringValue: (column, row, isHeader) => {
                     if (isHeader) {
                         return column.label;
                     }

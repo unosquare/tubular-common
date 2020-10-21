@@ -40,12 +40,12 @@ const objToArray = (row: any): any[] => (row instanceof Object ? Object.keys(row
 const processRow = (row: any, columns: ColumnModel[], isHeader: boolean): string => {
     const finalVal = objToArray(row).reduce((prev: string, value: [], i: number) => {
         const column = columns[i];
-        if (!column.visible || !column.exportable || (column.isComputed && !column.getComputedCsvValue)) {
+        if (!column.visible || !column.exportable || (column.isComputed && !column.getComputedStringValue)) {
             return prev;
         }
 
         let result = column.isComputed
-            ? column.getComputedCsvValue(column, row, isHeader)
+            ? column.getComputedStringValue(column, row, isHeader)
             : getCellValue(columns[i], value, isHeader).replace(/"/g, '""');
 
         if (result.search(/("|,|\n)/g) >= 0) {
