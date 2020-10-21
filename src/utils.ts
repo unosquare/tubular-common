@@ -39,11 +39,14 @@ const objToArray = (row: any): any[] => (row instanceof Object ? Object.keys(row
 
 const processRow = (row: any, columns: ColumnModel[], isHeader: boolean): string => {
     const finalVal = objToArray(row).reduce((prev: string, value: [], i: number) => {
-        if (!columns[i].visible || !columns[i].exportable) {
+        const column = columns[i];
+        if (!column.visible || !column.exportable || (column.isComputed && !column.getComputedCsvValue)) {
             return prev;
         }
 
-        let result = getCellValue(columns[i], value, isHeader).replace(/"/g, '""');
+        let result = column.isComputed
+            ? column.getComputedCsvValue(column, row, isHeader)
+            : getCellValue(columns[i], value, isHeader).replace(/"/g, '""');
 
         if (result.search(/("|,|\n)/g) >= 0) {
             result = `"${result}"`;

@@ -13,7 +13,7 @@ export class GridRequest {
     public timezoneOffset: number;
 
     constructor(columns: ColumnModel[], itemsPerPage: number, page: number, searchText = '') {
-        this.columns = columns;
+        this.columns = columns.filter((c) => !c.isComputed);
         this.searchText = searchText;
         this.skip = itemsPerPage === -1 ? 0 : page * itemsPerPage;
         this.take = itemsPerPage;

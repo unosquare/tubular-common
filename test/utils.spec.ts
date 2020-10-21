@@ -100,7 +100,6 @@ describe('getCsv', () => {
         expect(output).toContain('1,09 29 - 2020,09 29 - 2020,09 30 - 2020');
     });
 
-
     it('should export only exportable columns', () => {
         const columns = [
             createColumn('first', {
@@ -192,6 +191,61 @@ describe('getCsv', () => {
         const output = getCsv(data, columns);
 
         expect(output).toContain('first column,second column');
+    });
+
+    it('should export valid computed columns', () => {
+        const columns = [
+            createColumn('first', {
+                label: 'first column',
+                visible: true,
+                dataType: ColumnDataType.Numeric,
+            }),
+            createColumn('second', {
+                label: 'second column',
+                visible: true,
+                dataType: ColumnDataType.String,
+            }),
+            createColumn('computed', {
+                label: 'computed column',
+                visible: true,
+                dataType: ColumnDataType.String,
+                isComputed: true,
+                getComputedCsvValue: (column, row, isHeader) => {
+                    if (isHeader) {
+                        return column.label;
+                    }
+
+                    return `${row.first} + ${row.second}`;
+                },
+            }),
+            createColumn('hidden', {
+                label: 'hidden column',
+                visible: false,
+                dataType: ColumnDataType.String,
+            }),
+        ];
+
+        const data = [
+            {
+                first: 'first value 1!',
+                second: 'second value 1!',
+                hidden: 'hidden value 1!',
+            },
+            {
+                first: 'first value 2!',
+                second: 'second value 2!',
+                hidden: 'hidden value 2!',
+            },
+            {
+                first: 'first value 3!',
+                second: 'second value 3!',
+                hidden: 'hidden value 3!',
+            },
+        ] as any;
+
+        const output = getCsv(data, columns);
+
+        expect(output).toContain('first column,second column,computed column');
     });
 });
 

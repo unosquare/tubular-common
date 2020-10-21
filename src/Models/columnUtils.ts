@@ -97,9 +97,12 @@ export const sortColumnArray = (columnName: string, columns: ColumnModel[], mult
 export const columnHasFilter = (column: ColumnModel): boolean =>
     (!!column.filterText || !!column.filterArgument) && column.filterOperator !== CompareOperators.None;
 
+const defaultComputedCsvValueGetter = (column: ColumnModel, row: any, isHeader = false) => '';
+
 export const createColumn = (name: string, options?: Partial<ColumnModel>): ColumnModel => {
     const temp = options || {};
     const sortDirection = (temp.sortable && temp.sortDirection) || ColumnSortDirection.None;
+
     return {
         aggregate: temp.aggregate || AggregateFunctions.None,
         dataType: temp.dataType || ColumnDataType.String,
@@ -107,7 +110,9 @@ export const createColumn = (name: string, options?: Partial<ColumnModel>): Colu
         dateOriginFormat: temp.dateOriginFormat || defaultOriginDateFormat,
         dateTimeDisplayFormat: temp.dateTimeDisplayFormat || defaultDisplayDateTimeFormat,
         dateTimeOriginFormat: temp.dateTimeOriginFormat || defaultOriginDateTimeFormat,
+        getComputedCsvValue: temp.getComputedCsvValue || defaultComputedCsvValueGetter,
         isKey: !!temp.isKey,
+        isComputed: temp.isComputed === undefined ? false : temp.isComputed,
         label: temp.label || (name || '').replace(/([a-z])([A-Z])/g, '$1 $2'),
         name: name,
         searchable: !!temp.searchable,
