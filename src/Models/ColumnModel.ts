@@ -7,7 +7,7 @@ export interface ColumnModel {
     dateDisplayFormat?: string; // YYYY-MM-DD (default)
     dateTimeOriginFormat?: string; // YYYY-MM-DDTHH:mm:ss (default)
     dateTimeDisplayFormat?: string; // YYYY-MM-DDTHH:mm:ss (default)
-    filterArgument: any[];
+    filterArgument: string[] | number[];
     filterOperator: CompareOperators;
     filterText: string;
     filterable: boolean;

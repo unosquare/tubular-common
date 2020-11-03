@@ -97,7 +97,7 @@ export const sortColumnArray = (columnName: string, columns: ColumnModel[], mult
 export const columnHasFilter = (column: ColumnModel): boolean =>
     (!!column.filterText || !!column.filterArgument) && column.filterOperator !== CompareOperators.None;
 
-const defaultComputedCsvValueGetter = (column: ColumnModel, row: any, isHeader = false) => '';
+const defaultComputedCsvValueGetter = (_column: ColumnModel, _row: any, _isHeader = false) => '';
 
 export const createColumn = (name: string, options?: Partial<ColumnModel>): ColumnModel => {
     const temp = options || {};
@@ -128,15 +128,13 @@ export const createColumn = (name: string, options?: Partial<ColumnModel>): Colu
     };
 };
 
-export const parseDateColumnValue = (column: ColumnModel, value: string): string => {
-    if (
-        column.dataType !== ColumnDataType.Date &&
-        column.dataType !== ColumnDataType.DateTime &&
-        column.dataType !== ColumnDataType.DateTimeUtc
-    )
-        return '';
+export const isDateColum = (column: ColumnModel): boolean =>
+    column.dataType === ColumnDataType.Date ||
+    column.dataType === ColumnDataType.DateTime ||
+    column.dataType === ColumnDataType.DateTimeUtc;
 
-    if (!value) {
+export const parseDateColumnValue = (column: ColumnModel, value: string): string => {
+    if (!isDateColum(column) || !value) {
         return '';
     }
 

@@ -21,6 +21,7 @@ export const mockColumnModel: ColumnModel = {
     dateDisplayFormat: 'YYYY-MM-DD',
     dateTimeOriginFormat: 'YYYY-MM-DDTHH:mm:ss',
     dateTimeDisplayFormat: 'YYYY-MM-DDTHH:mm:ss',
+    isComputed: false
 };
 
 export const simpleRequestWithFilters1 = new GridRequest(
