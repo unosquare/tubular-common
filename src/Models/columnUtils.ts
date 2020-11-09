@@ -3,9 +3,6 @@ import { CompareOperator } from './CompareOperator';
 import { ColumnModel } from './ColumnModel';
 import dayjs = require('dayjs');
 import customParseFormat = require('dayjs/plugin/customParseFormat');
-import utc = require('dayjs/plugin/utc');
-
-dayjs.extend(utc);
 dayjs.extend(customParseFormat);
 
 const defaultOriginDateFormat = 'YYYY-MM-DD';
@@ -142,8 +139,7 @@ export const parseDateColumnValue = (column: ColumnModel, value: string): string
         case ColumnDataType.Date:
             return dayjs(value, column.dateOriginFormat).format(column.dateDisplayFormat);
         case ColumnDataType.DateTime:
-            return dayjs(value, column.dateTimeOriginFormat).format(column.dateTimeDisplayFormat);
         case ColumnDataType.DateTimeUtc:
-            return dayjs.utc(value, column.dateTimeOriginFormat).local().format(column.dateTimeDisplayFormat);
+            return dayjs(value, column.dateTimeOriginFormat).format(column.dateTimeDisplayFormat);
     }
 };
