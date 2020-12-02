@@ -68,7 +68,7 @@
     },
     "homepage": "https://github.com/unosquare/tubular-common#readme",
     "devDependencies": {
-        "@types/jest": "^26.0.15",
+        "@types/jest": "^26.0.16",
         "@typescript-eslint/eslint-plugin": "^4.9.0",
         "@typescript-eslint/parser": "^4.9.0",
         "eslint": "^7.14.0",
@@ -82,6 +82,6 @@
     },
     "dependencies": {
         "dayjs": "^1.9.6",
-        "uno-js": "^1.0.7"
+        "uno-js": "^2.0.0"
     }
 }
