@@ -219,7 +219,12 @@ export class Transformer {
                     case CompareOperators.Between:
                         if (isDate) {
                             subset = subset.filter((row) =>
-                                dateIsBetween(column, column.filterText, column.filterArgument[0].toString(), row[column.name]),
+                                dateIsBetween(
+                                    column,
+                                    column.filterText,
+                                    column.filterArgument[0].toString(),
+                                    row[column.name],
+                                ),
                             );
                         } else {
                             subset = subset.filter(
