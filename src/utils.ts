@@ -1,4 +1,4 @@
-import { ColumnDataType, ColumnModel, parseDateColumnValue } from '.';
+import { ColumnDataType, ColumnModel, parseDateColumnValue } from './Models';
 
 export const parsePayload = (row: Record<string, unknown>, columns: ColumnModel[]): Record<string, unknown> =>
     columns.reduce((obj: Record<string, unknown>, column: ColumnModel, key: number) => {
