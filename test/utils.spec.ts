@@ -1,4 +1,4 @@
-import { ColumnDataType, createColumn, getCsv, getColumnAlign, getHtml } from '../src';
+import { ColumnDataType, createColumn, getCsv, getColumnAlign, getHtml, getPages } from '../src';
 import { mockColumnModel } from './mock';
 
 describe('getColumnAlign', () => {
@@ -372,5 +372,35 @@ describe('getHTML', () => {
         expect(output).toBe(
             '<table class="table table-bordered table-striped"><thead><tr><th>first column</th><th>computed column</th><th>second column</th><th>computed column2</th></tr></thead><tbody><tr><td>first value 1!</td><td>first value 1! + second value 1!</td><td>second value 1!</td><td>first value 1! + second value 1! 2</td></tr><tr><td>first value 2!</td><td>first value 2! + second value 2!</td><td>second value 2!</td><td>first value 2! + second value 2! 2</td></tr><tr><td>first value 3!</td><td>first value 3! + second value 3!</td><td>second value 3!</td><td>first value 3! + second value 3! 2</td></tr></tbody></table>',
         );
+    });
+
+    describe('getPages', () => {
+        it('Should export pages properly between max limit by page.', () => {
+            const currentPage = 1;
+            const totalRows = 50;
+            const rowsPerPage = 10;
+
+            const output = getPages(currentPage, totalRows, rowsPerPage);
+
+            expect(output).toEqual([0, 1, 2, 3, 4]);
+        });
+        it('Should export pages properly more than max limit by page.', () => {
+            const currentPage = 1;
+            const totalRows = 70;
+            const rowsPerPage = 10;
+
+            const output = getPages(currentPage, totalRows, rowsPerPage);
+
+            expect(output).toEqual([0, 1, 2, 3, 4, 5]);
+        });
+        it('Should export pages properly not being in first current page.', () => {
+            const currentPage = 3;
+            const totalRows = 70;
+            const rowsPerPage = 10;
+
+            const output = getPages(currentPage, totalRows, rowsPerPage);
+
+            expect(output).toEqual([0, 1, 2, 3, 4, 5]);
+        });
     });
 });
