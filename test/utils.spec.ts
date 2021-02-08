@@ -394,13 +394,13 @@ describe('getHTML', () => {
             expect(output).toEqual([0, 1, 2, 3, 4, 5]);
         });
         it('Should export pages properly not being in first current page.', () => {
-            const currentPage = 3;
+            const currentPage = 6;
             const totalRows = 70;
             const rowsPerPage = 10;
 
             const output = getPages(currentPage, totalRows, rowsPerPage);
 
-            expect(output).toEqual([0, 1, 2, 3, 4, 5]);
+            expect(output).toEqual([1, 2, 3, 4, 5, 6]);
         });
     });
 });
