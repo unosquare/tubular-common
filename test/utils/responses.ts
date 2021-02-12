@@ -708,6 +708,13 @@ const pageMinus1Response = {
             ShippedDate: '2015-11-04T18:00:00',
             ShipperCity: 'Guadalajara, JAL, Mexico',
         },
+        {
+            OrderID: 22,
+            CustomerName: 'Google',
+            ShippedDate: '2016-01-04T18:00:00',
+            ShipperCity: 'Monterrey, NL, Mexico',
+            Amount: 150.0,
+        },
     ],
     totalPages: 1,
     totalRecordCount: 22,
