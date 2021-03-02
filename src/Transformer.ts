@@ -1,8 +1,3 @@
-import dayjs = require('dayjs');
-import customParseFormat = require('dayjs/plugin/customParseFormat');
-import isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
-import isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
-import isBetween = require('dayjs/plugin/isBetween');
 import {
     AggregateFunctions,
     ColumnSortDirection,
@@ -14,46 +9,7 @@ import {
     columnHasFilter,
 } from './Models';
 import { parsePayload } from './utils';
-
-dayjs.extend(customParseFormat);
-dayjs.extend(isSameOrBefore);
-dayjs.extend(isSameOrAfter);
-
-const areDatesEqual = (column: ColumnModel, date1: string, date2: string): boolean => {
-    switch (column.dataType) {
-        case ColumnDataType.Date:
-            return dayjs(date1, column.dateOriginFormat).isSame(dayjs(date2, column.dateOriginFormat), 'd');
-        case ColumnDataType.DateTime:
-        case ColumnDataType.DateTimeUtc:
-            return dayjs(date1, column.dateOriginFormat).isSame(dayjs(date2, column.dateOriginFormat), 'd');
-    }
-};
-
-const isDateAfter = (column: ColumnModel, date1: string, date2: string, inclusive = false): boolean => {
-    if (inclusive) {
-        return dayjs(date1, column.dateOriginFormat).isSameOrAfter(dayjs(date2, column.dateOriginFormat), 'd');
-    }
-
-    return dayjs(date1, column.dateOriginFormat).isAfter(dayjs(date2, column.dateOriginFormat), 'd');
-};
-
-const isDateBefore = (column: ColumnModel, date1: string, date2: string, inclusive = false): boolean => {
-    if (inclusive) {
-        return dayjs(date1, column.dateOriginFormat).isSameOrBefore(dayjs(date2, column.dateOriginFormat), 'd');
-    }
-
-    return dayjs(date1, column.dateOriginFormat).isBefore(dayjs(date2, column.dateOriginFormat), 'd');
-};
-
-const dateIsBetween = (column: ColumnModel, from: string, to: string, value: string): boolean => {
-    dayjs.extend(isBetween);
-    return dayjs(dayjs(value, column.dateOriginFormat)).isBetween(
-        dayjs(from, column.dateOriginFormat),
-        dayjs(to, column.dateOriginFormat),
-        null,
-        '[]',
-    );
-};
+import { areDatesEqual, dateIsBetween, isDateAfter, isDateBefore } from './dateUtils';
 
 export class Transformer {
     public static getResponse(request: GridRequest, dataSource: any[]): GridResponse {
@@ -85,7 +41,7 @@ export class Transformer {
     }
 
     private static applyFreeTextSearch(request: GridRequest, subset: any[]): any[] {
-        if (!!request.searchText) {
+        if (request.searchText) {
             const searchableColumns = request.columns.filter((x: ColumnModel) => x.searchable);
 
             if (searchableColumns.length > 0) {
@@ -179,6 +135,7 @@ export class Transformer {
                         subset = partialfiltering(subset, (x: string) =>
                             x.toLowerCase().endsWith(column.filterText.toLowerCase()),
                         );
+                        break;
                     case CompareOperators.NotEndsWith:
                         subset = partialfiltering(
                             subset,

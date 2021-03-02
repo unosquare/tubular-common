@@ -65,7 +65,7 @@ export class TubularHttpClient implements TubularHttpClientAbstract {
 
     public static fixResponse(responseObject: GridResponse): void {
         responseKeys.forEach((k) => {
-            if (responseObject.hasOwnProperty(k)) {
+            if (Object.hasOwnProperty.call(responseObject, k)) {
                 responseObject[k.charAt(0).toLowerCase() + k.slice(1)] = responseObject[k];
                 delete responseObject[k];
             }
