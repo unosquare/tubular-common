@@ -96,7 +96,7 @@ export class Transformer {
 
                 return subset.filter((item) =>
                     searchableColumns.some((x: ColumnModel) => {
-                        if (typeof item[x.name] === 'undefined') {
+                        if (typeof item[x.name] === 'undefined' || item[x.name] === null) {
                             return false;
                         } else {
                             return item[x.name].toLowerCase().indexOf(filter) > -1;
