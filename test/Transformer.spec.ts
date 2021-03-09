@@ -55,6 +55,8 @@ import {
     simpleRequestWithFilters7,
 } from './mock';
 import { filterDateCases } from './utils/filterDateCases';
+import { payloadNull } from './utils/payloadNullValues';
+import { searchTextMicrosoftNullValuesResponse } from './responsesNull';
 
 const casesWithFilter = [
     { name: 'simple', request: simpleRequestWithFilters1, response: simpleResponse },
@@ -155,4 +157,8 @@ describe('Transformer', () => {
     it.each(casesWithMissingValues)('should return response with missing data and %s', (i) =>
         expect({ ...Transformer.getResponse(i.request, payloadUndefined) }).toEqual(i.response),
     );
+
+    it('should handle free text search with null values', () => {
+        expect({ ...Transformer.getResponse(microsoftSearchRequest, payloadNull) }).toEqual(searchTextMicrosoftNullValuesResponse);
+    });
 });
