@@ -1,8 +1,10 @@
-import { GridRequest } from '../Models/GridRequest';
-import { GridResponse } from '../Models/GridResponse';
+import GridRequest from '../Models/GridRequest';
+import GridResponse from '../Models/GridResponse';
 
-export interface TubularHttpClientAbstract {
+interface TubularHttpClientAbstract {
     request: string | Request;
 
     fetch(gridRequest: GridRequest): Promise<GridResponse>;
 }
+
+export default TubularHttpClientAbstract;

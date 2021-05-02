@@ -35,11 +35,10 @@ const getRealCellValue = (column: ColumnModel, value: any, isHeader = false): st
     }
 };
 
-const getCellValue = (column: ColumnModel, row: any, isHeader) => {
-    return column.isComputed
+const getCellValue = (column: ColumnModel, row: any, isHeader) =>
+    column.isComputed
         ? column.getComputedStringValue(column, row, isHeader)
         : getRealCellValue(column, row[column.name], isHeader);
-};
 
 const processRow = (row: any, columns: ColumnModel[], isHeader: boolean): string => {
     const finalVal = columns.reduce<string>((prev: string, currentColumn: ColumnModel) => {
@@ -91,8 +90,8 @@ export const getHtml = (gridResult: [], columns: ColumnModel[]): string => {
     )}</tbody></table>`;
 };
 
-export const getPages = (currentPage: number, totalRows: number, rowsPerPage: number) => {
-    const pages = [];
+export const getPages = (currentPage: number, totalRows: number, rowsPerPage: number): number[] => {
+    const pages: number[] = [];
 
     // Default page limits
     const totalPages = Math.ceil(totalRows / rowsPerPage);

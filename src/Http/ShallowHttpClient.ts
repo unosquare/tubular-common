@@ -1,11 +1,12 @@
-import { GridResponse } from '../Models/GridResponse';
-import { GridRequest } from '../Models/GridRequest';
-import { TubularHttpClientAbstract } from './TubularHttpClientAbstract';
+import GridResponse from '../Models/GridResponse';
+import GridRequest from '../Models/GridRequest';
+import TubularHttpClientAbstract from './TubularHttpClientAbstract';
 
 export type FetchHandler = (request: string, gridRequest: GridRequest) => Promise<GridResponse>;
 
-export class ShallowHttpClient implements TubularHttpClientAbstract {
+class ShallowHttpClient implements TubularHttpClientAbstract {
     public request: string;
+
     public handler: FetchHandler;
 
     public constructor(url: string, handler: FetchHandler) {
@@ -17,3 +18,5 @@ export class ShallowHttpClient implements TubularHttpClientAbstract {
         return this.handler(this.request, gridRequest);
     }
 }
+
+export default ShallowHttpClient;

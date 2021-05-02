@@ -1,3 +1,3 @@
-export * from './DataGridStorage';
-export * from './NullStorage';
-export * from './LocalStorage';
+export { default as DataGridStorage } from './DataGridStorage';
+export { default as NullStorage } from './NullStorage';
+export { default as LocalStorage } from './LocalStorage';

@@ -1,8 +1,9 @@
+import dayjs = require('dayjs');
+import customParseFormat = require('dayjs/plugin/customParseFormat');
 import { AggregateFunctions, ColumnDataType, ColumnSortDirection, CompareOperators } from './Column';
 import { CompareOperator } from './CompareOperator';
 import { ColumnModel } from './ColumnModel';
-import dayjs = require('dayjs');
-import customParseFormat = require('dayjs/plugin/customParseFormat');
+
 dayjs.extend(customParseFormat);
 
 const defaultOriginDateFormat = 'YYYY-MM-DD';
@@ -54,20 +55,19 @@ export const getOperators = (column: ColumnModel): CompareOperator[] => {
     }
 };
 
+const getSortDirection = (sortDirection: ColumnSortDirection) => {
+    if (sortDirection === ColumnSortDirection.None) return ColumnSortDirection.Ascending;
+    return sortDirection === ColumnSortDirection.Ascending ? ColumnSortDirection.Descending : ColumnSortDirection.None;
+};
+
 export const sortColumnArray = (columnName: string, columns: ColumnModel[], multiSort: boolean): ColumnModel[] => {
     const column = columns.find((c: ColumnModel) => c.name === columnName);
 
     if (!column) {
-        return;
+        return undefined;
     }
 
-    column.sortDirection =
-        column.sortDirection === ColumnSortDirection.None
-            ? ColumnSortDirection.Ascending
-            : column.sortDirection === ColumnSortDirection.Ascending
-            ? ColumnSortDirection.Descending
-            : ColumnSortDirection.None;
-
+    column.sortDirection = getSortDirection(column.sortDirection);
     column.sortOrder = column.sortDirection === ColumnSortDirection.None ? -1 : Number.MAX_VALUE;
 
     if (!multiSort) {
@@ -81,9 +81,10 @@ export const sortColumnArray = (columnName: string, columns: ColumnModel[], mult
 
     columns
         .filter((col: ColumnModel) => col.sortOrder > 0)
-        .sort((a: ColumnModel, b: ColumnModel) =>
-            a.sortOrder === b.sortOrder ? 0 : a.sortOrder > b.sortOrder ? 1 : -1,
-        )
+        .sort((a: ColumnModel, b: ColumnModel) => {
+            if (a.sortOrder === b.sortOrder) return 0;
+            return a.sortOrder > b.sortOrder ? 1 : -1;
+        })
         .forEach((col: ColumnModel, i: number) => {
             col.sortOrder = i + 1;
         });
@@ -111,7 +112,7 @@ export const createColumn = (name: string, options?: Partial<ColumnModel>): Colu
         isKey: !!temp.isKey,
         isComputed: temp.isComputed === undefined ? false : temp.isComputed,
         label: temp.label || (name || '').replace(/([a-z])([A-Z])/g, '$1 $2'),
-        name: name,
+        name,
         searchable: !!temp.searchable,
         sortDirection: (temp.sortable && temp.sortDirection) || ColumnSortDirection.None,
         sortOrder: (sortDirection !== ColumnSortDirection.None && temp.sortOrder) || -1,
@@ -136,10 +137,10 @@ export const parseDateColumnValue = (column: ColumnModel, value: string): string
     }
 
     switch (column.dataType) {
-        case ColumnDataType.Date:
-            return dayjs(value, column.dateOriginFormat).format(column.dateDisplayFormat);
         case ColumnDataType.DateTime:
         case ColumnDataType.DateTimeUtc:
             return dayjs(value, column.dateTimeOriginFormat).format(column.dateTimeDisplayFormat);
+        default:
+            return dayjs(value, column.dateOriginFormat).format(column.dateDisplayFormat);
     }
 };

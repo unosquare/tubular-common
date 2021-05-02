@@ -3,15 +3,15 @@ import {
     ColumnSortDirection,
     CompareOperators,
     ColumnDataType,
-    GridRequest,
-    GridResponse,
     ColumnModel,
     columnHasFilter,
 } from './Models';
 import { parsePayload } from './utils';
 import { areDatesEqual, dateIsBetween, isDateAfter, isDateBefore } from './dateUtils';
+import GridRequest from './Models/GridRequest';
+import GridResponse from './Models/GridResponse';
 
-export class Transformer {
+class Transformer {
     public static getResponse(request: GridRequest, dataSource: any[]): GridResponse {
         const response = new GridResponse(request.counter);
         response.totalRecordCount = dataSource.length;
@@ -54,9 +54,8 @@ export class Transformer {
                     searchableColumns.some((x: ColumnModel) => {
                         if (typeof item[x.name] === 'undefined' || item[x.name] === null) {
                             return false;
-                        } else {
-                            return item[x.name].toLowerCase().indexOf(filter) > -1;
                         }
+                        return item[x.name].toLowerCase().indexOf(filter) > -1;
                     }),
                 );
             }
@@ -206,7 +205,10 @@ export class Transformer {
         let sorts: { name: string; asc: boolean }[] = [{ name: request.columns[0].name, asc: true }];
 
         if (sortedColumns.length > 0) {
-            sortedColumns.sort((a, b) => (a.sortOrder > b.sortOrder ? 1 : b.sortOrder > a.sortOrder ? -1 : 0));
+            sortedColumns.sort((a, b) => {
+                if (a.sortOrder > b.sortOrder) return 1;
+                return b.sortOrder > a.sortOrder ? -1 : 0;
+            });
 
             sorts = sortedColumns.map((y: ColumnModel) => ({
                 name: y.name,
@@ -307,3 +309,5 @@ export class Transformer {
         }, {});
     }
 }
+
+export default Transformer;

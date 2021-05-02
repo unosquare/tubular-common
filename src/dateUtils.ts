@@ -1,3 +1,4 @@
+
 import dayjs = require('dayjs');
 import customParseFormat = require('dayjs/plugin/customParseFormat');
 import isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
@@ -11,10 +12,10 @@ dayjs.extend(isSameOrAfter);
 
 export const areDatesEqual = (column: ColumnModel, date1: string, date2: string): boolean => {
     switch (column.dataType) {
-        case ColumnDataType.Date:
-            return dayjs(date1, column.dateOriginFormat).isSame(dayjs(date2, column.dateOriginFormat), 'd');
         case ColumnDataType.DateTime:
         case ColumnDataType.DateTimeUtc:
+            return dayjs(date1, column.dateOriginFormat).isSame(dayjs(date2, column.dateOriginFormat), 'd');
+        default:
             return dayjs(date1, column.dateOriginFormat).isSame(dayjs(date2, column.dateOriginFormat), 'd');
     }
 };

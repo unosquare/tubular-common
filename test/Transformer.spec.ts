@@ -44,7 +44,7 @@ import {
     payloadWithMissingValuesResponse,
     searchTextMicrosoftMissingValuesResponse,
 } from './utils/responsesUndefined';
-import { Transformer } from '../src/Transformer';
+import Transformer from '../src/Transformer';
 import {
     simpleRequestWithFilters1,
     simpleRequestWithFilters2,

@@ -1,6 +1,6 @@
-import { TubularHttpClientAbstract } from './TubularHttpClientAbstract';
-import { GridRequest } from '../Models/GridRequest';
-import { GridResponse } from '../Models/GridResponse';
+import TubularHttpClientAbstract from './TubularHttpClientAbstract';
+import GridRequest from '../Models/GridRequest';
+import GridResponse from '../Models/GridResponse';
 
 const responseKeys = [
     'AggregationPayload',
@@ -22,7 +22,7 @@ const expectedStructureKeys = JSON.stringify([
     'totalrecordcount',
 ]);
 
-export class TubularHttpClient implements TubularHttpClientAbstract {
+class TubularHttpClient implements TubularHttpClientAbstract {
     public static resolveRequest(request: string | Request | TubularHttpClientAbstract): string | Request {
         const httpCast = request as TubularHttpClientAbstract;
 
@@ -93,3 +93,5 @@ export class TubularHttpClient implements TubularHttpClientAbstract {
         throw new Error('Invalid request');
     }
 }
+
+export default TubularHttpClient;

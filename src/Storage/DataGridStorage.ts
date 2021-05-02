@@ -1,6 +1,6 @@
 import { ColumnModel } from '../Models';
 
-export interface DataGridStorage {
+interface DataGridStorage {
     setTextSearch: (textSearch: string) => void;
     setPage: (page: number) => void;
     setColumns: (columns: ColumnModel[]) => void;
@@ -8,3 +8,5 @@ export interface DataGridStorage {
     getPage: () => number;
     getColumns: () => ColumnModel[];
 }
+
+export default DataGridStorage;

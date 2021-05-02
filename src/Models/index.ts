@@ -1,6 +1,6 @@
 export * from './Column';
 export * from './ColumnModel';
-export * from './GridRequest';
+export { default as GridRequest } from './GridRequest';
 export * from './columnUtils';
 export * from './CompareOperator';
-export * from './GridResponse';
+export { default as GridResponse } from './GridResponse';

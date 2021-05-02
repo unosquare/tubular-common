@@ -1,7 +1,7 @@
 import { ColumnModel } from '../Models';
-import { DataGridStorage } from './DataGridStorage';
+import DataGridStorage from './DataGridStorage';
 
-export class NullStorage implements DataGridStorage {
+class NullStorage implements DataGridStorage {
     public setTextSearch(textSearch: string): void {
         // do nothing
     }
@@ -26,3 +26,5 @@ export class NullStorage implements DataGridStorage {
         return null;
     }
 }
+
+export default NullStorage;

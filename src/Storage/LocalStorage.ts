@@ -1,7 +1,7 @@
 import { ColumnModel } from '../Models';
-import { DataGridStorage } from './DataGridStorage';
+import DataGridStorage from './DataGridStorage';
 
-export class LocalStorage implements DataGridStorage {
+class LocalStorage implements DataGridStorage {
     public constructor(private name?: string) {
         if (!window || !window.localStorage) {
             throw new Error('The localStorage is not present.');
@@ -36,3 +36,5 @@ export class LocalStorage implements DataGridStorage {
         return JSON.parse(window.localStorage.getItem(`${this.name}_columns`));
     }
 }
+
+export default LocalStorage;
