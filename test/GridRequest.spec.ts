@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import GridRequest from '../src/Models/GridRequest';
 
 describe('New GridRequest instance', () => {

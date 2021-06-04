@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { createColumn } from '../src/Models';
 
 describe('New ColumnModel instance', () => {

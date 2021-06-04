@@ -1,6 +1,10 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { NullStorage } from '../src';
 
-describe('LocalStorage', () => {
+describe('NullStorage', () => {
     it('Creates instance', () => {
         const sut = new NullStorage();
         expect(sut).toBeInstanceOf(NullStorage);

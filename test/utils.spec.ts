@@ -1,18 +1,18 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { ColumnDataType, createColumn, getCsv, getColumnAlign, getHtml, getPages } from '../src';
 import { mockColumnModel } from './mock';
 
 describe('getColumnAlign', () => {
-    it('getColumnAlign should return center', () => {
-        expect(getColumnAlign(mockColumnModel)).toBe('center');
-    });
+    it('getColumnAlign should return center', () => expect(getColumnAlign(mockColumnModel)).toBe('center'));
 
-    it('getColumnAlign should return right', () => {
-        expect(getColumnAlign({ ...mockColumnModel, dataType: ColumnDataType.Numeric })).toBe('right');
-    });
+    it('getColumnAlign should return right', () =>
+        expect(getColumnAlign({ ...mockColumnModel, dataType: ColumnDataType.Numeric })).toBe('right'));
 
-    it('getColumnAlign should return inherit', () => {
-        expect(getColumnAlign({ ...mockColumnModel, dataType: ColumnDataType.String })).toBe('inherit');
-    });
+    it('getColumnAlign should return inherit', () =>
+        expect(getColumnAlign({ ...mockColumnModel, dataType: ColumnDataType.String })).toBe('inherit'));
 });
 
 describe('getCsv', () => {

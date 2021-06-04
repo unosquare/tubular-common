@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { LocalStorage } from '../src';
 
 describe('LocalStorage', () => {

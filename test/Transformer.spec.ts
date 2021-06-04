@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { localData } from './utils/localData';
 import { payloadUndefined } from './utils/payloadUndefined';
 import {

@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { TubularHttpClient } from '../src';
 import { simpleRequest } from './utils/requests';
 
