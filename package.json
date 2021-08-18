@@ -68,17 +68,17 @@
     },
     "homepage": "https://github.com/unosquare/tubular-common#readme",
     "devDependencies": {
-        "@types/jest": "^26.0.23",
-        "eslint": "^7.27.0",
-        "eslint-config-unosquare": "^0.0.9",
-        "jest": "^27.0.4",
+        "@types/jest": "^27.0.1",
+        "eslint": "^7.32.0",
+        "eslint-config-unosquare": "^0.0.10",
+        "jest": "^27.0.6",
         "jest-fetch-mock": "^3.0.3",
-        "prettier": "^2.3.0",
-        "ts-jest": "^27.0.2",
-        "typescript": "^4.3.2"
+        "prettier": "^2.3.2",
+        "ts-jest": "^27.0.5",
+        "typescript": "^4.3.5"
     },
     "dependencies": {
-        "dayjs": "^1.10.5",
-        "uno-js": "^2.0.24"
+        "dayjs": "^1.10.6",
+        "uno-js": "^2.0.28"
     }
 }
