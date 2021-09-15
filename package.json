@@ -41,10 +41,10 @@
         },
         "coverageThreshold": {
             "global": {
-                "branches": 73,
-                "functions": 63,
-                "lines": 87,
-                "statements": -86
+                "branches": 60,
+                "functions": 60,
+                "lines": 85,
+                "statements": -155
             }
         }
     },
