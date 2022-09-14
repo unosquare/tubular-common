@@ -9,7 +9,7 @@
       "dom"
     ],
     "declaration": true,
-    "sourceMap": false,
+    "sourceMap": true,
     "target": "es5",
     "skipLibCheck": true
   },
