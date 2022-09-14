@@ -57,7 +57,7 @@ describe('getCsv', () => {
 
         const output = getCsv(data, columns);
 
-        expect(output).toContain('1,2020-09-29,,2020-09-29T19:00:58,2020-09-29T19:00:58');
+        expect(output).toContain('"1","2020-09-29","","2020-09-29T19:00:58","2020-09-29T19:00:58"');
     });
 
     it('should export dates properly with custom format', () => {
@@ -97,7 +97,7 @@ describe('getCsv', () => {
         ] as any;
 
         const output = getCsv(data, columns);
-        expect(output).toContain('1,09 29 - 2020,09 29 - 2020,09 30 - 2020');
+        expect(output).toContain('"1","09 29 - 2020","09 29 - 2020","09 30 - 2020"');
     });
 
     it('should export only exportable columns', () => {
@@ -190,7 +190,7 @@ describe('getCsv', () => {
 
         const output = getCsv(data, columns);
 
-        expect(output).toContain('first column,second column');
+        expect(output).toContain('"first column","second column"');
     });
 
     it('should export valid computed columns', () => {
@@ -257,7 +257,7 @@ describe('getCsv', () => {
         ] as any;
 
         const output = getCsv(data, columns);
-        expect(output).toContain('first column,computed column,second column,computed column2');
+        expect(output).toContain('"first column","computed column","second column","computed column2"');
     });
 });
 

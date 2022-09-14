@@ -5,6 +5,7 @@ import {
     ColumnDataType,
     ColumnModel,
     columnHasFilter,
+    isDateColum,
 } from './Models';
 import { parsePayload } from './utils';
 import { areDatesEqual, dateIsBetween, isDateAfter, isDateBefore } from './dateUtils';
@@ -68,10 +69,7 @@ class Transformer {
         request.columns
             .filter((column: ColumnModel) => columnHasFilter(column))
             .forEach((column: ColumnModel) => {
-                const isDate =
-                    column.dataType === ColumnDataType.Date ||
-                    column.dataType === ColumnDataType.DateTime ||
-                    column.dataType === ColumnDataType.DateTimeUtc;
+                const isDate = isDateColum(column);
 
                 const partialfiltering = (data: any[], action: (f: string) => boolean): any[] =>
                     data.filter((row: any) =>

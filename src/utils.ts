@@ -42,11 +42,7 @@ const getCellValue = (column: ColumnModel, row: any, isHeader) =>
 
 const processRow = (row: any, columns: ColumnModel[], isHeader: boolean): string => {
     const finalVal = columns.reduce<string>((prev: string, currentColumn: ColumnModel) => {
-        let result = getCellValue(currentColumn, row, isHeader).replace(/"/g, '""');
-
-        if (result.search(/("|,|\n)/g) >= 0) {
-            result = `"${result}"`;
-        }
+        const result = `"${getCellValue(currentColumn, row, isHeader).replace(/"/g, '""')}"`;
 
         return `${prev}${result},`;
     }, '');

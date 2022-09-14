@@ -42,12 +42,12 @@ class TubularHttpClient implements TubularHttpClientAbstract {
             });
         }
 
-        (objRequest as Request).headers.append('Content-Type', 'application/json;charset=utf-8');
+        objRequest.headers.append('Content-Type', 'application/json;charset=utf-8');
 
         return new Request(objRequest.url, {
             body: JSON.stringify(gridRequest),
-            headers: (objRequest as Request).headers,
-            method: (objRequest as Request).method,
+            headers: objRequest.headers,
+            method: objRequest.method,
         });
     }
 
