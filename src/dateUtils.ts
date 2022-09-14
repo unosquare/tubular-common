@@ -1,24 +1,16 @@
-
 import dayjs = require('dayjs');
 import customParseFormat = require('dayjs/plugin/customParseFormat');
 import isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
 import isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
 import isBetween = require('dayjs/plugin/isBetween');
-import { ColumnModel, ColumnDataType } from './Models';
+import { ColumnModel } from './Models';
 
 dayjs.extend(customParseFormat);
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
 
-export const areDatesEqual = (column: ColumnModel, date1: string, date2: string): boolean => {
-    switch (column.dataType) {
-        case ColumnDataType.DateTime:
-        case ColumnDataType.DateTimeUtc:
-            return dayjs(date1, column.dateOriginFormat).isSame(dayjs(date2, column.dateOriginFormat), 'd');
-        default:
-            return dayjs(date1, column.dateOriginFormat).isSame(dayjs(date2, column.dateOriginFormat), 'd');
-    }
-};
+export const areDatesEqual = (column: ColumnModel, date1: string, date2: string): boolean =>
+    dayjs(date1, column.dateOriginFormat).isSame(dayjs(date2, column.dateOriginFormat), 'd');
 
 export const isDateAfter = (column: ColumnModel, date1: string, date2: string, inclusive = false): boolean => {
     if (inclusive) {

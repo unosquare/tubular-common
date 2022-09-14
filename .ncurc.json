@@ -1,0 +1,4 @@
+{
+    "upgrade": true,
+    "reject": ["jest", "jest-fetch-mock", "ts-jest", "@types/jest"]
+}

@@ -23,7 +23,8 @@ jobs:
           npm ci
           npm run build
           npm run cest
-      - name: 🎯 Coverage
-        uses: codecov/codecov-action@v3.1.0
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets. SONARCLOUD_TOKEN }}

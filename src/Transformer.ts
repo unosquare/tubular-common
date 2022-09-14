@@ -294,12 +294,14 @@ class Transformer {
                     prev[column.name] =
                         subset.length === 0
                             ? 0
-                            : (subset.reduce((list: any[], r: any) => {
-                                  if (list.indexOf(r[column.name]) === -1) {
-                                      list.push(r[column.name]);
-                                  }
-                                  return list;
-                              }, []) as []).length;
+                            : (
+                                  subset.reduce((list: any[], r: any) => {
+                                      if (list.indexOf(r[column.name]) === -1) {
+                                          list.push(r[column.name]);
+                                      }
+                                      return list;
+                                  }, []) as []
+                              ).length;
                     break;
                 default:
                     throw new Error('Unsupported aggregate function');

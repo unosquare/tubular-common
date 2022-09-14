@@ -11,11 +11,12 @@
         "browser": true,
         "jest": true
     },
-    "extends": "eslint-config-unosquare",
+    "extends": ["eslint-config-unosquare", "prettier"],
+    "plugins": ["prettier"],
     "rules": {
-      "no-extend-native": 0,
-      "no-param-reassign": 0,
-      "import/first": 0,
-      "class-methods-use-this": 0
+        "no-extend-native": 0,
+        "no-param-reassign": 0,
+        "import/first": 0,
+        "class-methods-use-this": 0
     }
 }
