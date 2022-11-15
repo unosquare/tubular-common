@@ -1,9 +1,7 @@
-[![codecov](https://codecov.io/gh/unosquare/tubular-common/branch/master/graph/badge.svg)](https://codecov.io/gh/unosquare/tubular-common) 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=unosquare_tubular-common&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=unosquare_tubular-common)
 [![npm version](https://badge.fury.io/js/tubular-common.svg)](https://badge.fury.io/js/tubular-common)
 
 ![Tubular Common](http://unosquare.github.io/tubular-angular/assets/tubular.png)
-
-:star: _Please star this project if you find it useful!_
 
 Tubular Common provides TypeScript and Javascript models and data transformer to use any Tubular DataGrid component with an array of Javascript objects.
 
@@ -17,7 +15,7 @@ $ npm install tubular-common --save
 
 ## Usage
 
-### Tranformer
+### Transformer
 
 The Transformer will resolve a Tubular Grid Request model and a dataset (array of objects) into a Tubulr Grid Response model. When using with another Tubular library (like Tubular React) the UI component should create the request object to transform a dataset in a response object ready to use in your UI.
 
