@@ -1,14 +1,11 @@
 version: 2
-registries:
-  npm-registry-npm-pkg-github-com-unosquare:
-    type: npm-registry
-    url: https://npm.pkg.github.com/unosquare
-    token: "${{secrets.NPM_REGISTRY_NPM_PKG_GITHUB_COM_UNOSQUARE_TOKEN}}"
 
 updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+      interval: "weekly"
 - package-ecosystem: github-actions
   directory: "/"
   schedule:
-    interval: daily
-    time: "11:00"
-  open-pull-requests-limit: 10
+      interval: "weekly"
