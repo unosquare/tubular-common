@@ -12,6 +12,55 @@ import { areDatesEqual, dateIsBetween, isDateAfter, isDateBefore } from './dateU
 import GridRequest from './Models/GridRequest';
 import GridResponse from './Models/GridResponse';
 
+const partialfilteringCurry =
+    (column: ColumnModel) =>
+    (data: any[], action: (f: string) => boolean): any[] =>
+        data.filter((row: any) =>
+            typeof row[column.name] === 'undefined' || row[column.name] === null ? false : action(row[column.name]),
+        );
+
+const equalsDateFilter = (column: ColumnModel) => (row) => areDatesEqual(column, row[column.name], column.filterText);
+const equalsStringFilter = (column: ColumnModel) => (x: string) => x.toLowerCase() === column.filterText.toLowerCase();
+const equalsFilter = (column: ColumnModel) => (row) => row[column.name] === column.filterText;
+
+const sortColumnsByOrder = (a: ColumnModel, b: ColumnModel) => {
+    if (a.sortOrder > b.sortOrder) return 1;
+    return b.sortOrder > a.sortOrder ? -1 : 0;
+};
+
+const distinctReducer = (column: ColumnModel) => (list: any[], r: any) => {
+    if (list.indexOf(r[column.name]) === -1) {
+        list.push(r[column.name]);
+    }
+    return list;
+};
+const minReducer = (column: ColumnModel) => (min, r) => r[column.name] < min ? r[column.name] : min;
+const maxReducer = (column: ColumnModel) => (max, r) => r[column.name] > max ? r[column.name] : max;
+
+const sortData = (sorts: { name: string; asc: boolean }[]) => (a, b) => {
+    let result = 0;
+
+    for (const current of sorts) {
+        const reverse = current.asc ? 1 : -1;
+
+        if (typeof a[current.name] === 'undefined' || typeof b[current.name] === 'undefined') {
+            result = reverse * -1;
+            break;
+        }
+
+        if (a[current.name] < b[current.name]) {
+            result = reverse * -1;
+            break;
+        }
+        if (a[current.name] > b[current.name]) {
+            result = reverse * 1;
+            break;
+        }
+    }
+
+    return result;
+};
+
 class Transformer {
     public static getResponse(request: GridRequest, dataSource: any[]): GridResponse {
         const response = new GridResponse(request.counter);
@@ -34,6 +83,7 @@ class Transformer {
         response.aggregationPayload = this.getAggregatePayload(request, data);
 
         const sliceSize = request.take === -1 ? data.length : request.skip + request.take;
+
         response.payload = data
             .slice(request.skip, sliceSize)
             .map((row: Record<string, unknown>) => parsePayload(row, request.columns));
@@ -70,25 +120,16 @@ class Transformer {
             .filter((column: ColumnModel) => columnHasFilter(column))
             .forEach((column: ColumnModel) => {
                 const isDate = isDateColum(column);
-
-                const partialfiltering = (data: any[], action: (f: string) => boolean): any[] =>
-                    data.filter((row: any) =>
-                        typeof row[column.name] === 'undefined' || row[column.name] === null
-                            ? false
-                            : action(row[column.name]),
-                    );
+                const partialfiltering = partialfilteringCurry(column);
 
                 switch (column.filterOperator) {
                     case CompareOperators.Equals:
                         if (isDate) {
-                            subset = subset.filter((row) => areDatesEqual(column, row[column.name], column.filterText));
+                            subset = subset.filter(equalsDateFilter(column));
                         } else if (column.dataType === ColumnDataType.String) {
-                            subset = partialfiltering(
-                                subset,
-                                (x: string) => x.toLowerCase() === column.filterText.toLowerCase(),
-                            );
+                            subset = partialfiltering(subset, equalsStringFilter(column));
                         } else {
-                            subset = subset.filter((row) => row[column.name] === column.filterText);
+                            subset = subset.filter(equalsFilter(column));
                         }
                         break;
                     case CompareOperators.NotEquals:
@@ -203,10 +244,7 @@ class Transformer {
         let sorts: { name: string; asc: boolean }[] = [{ name: request.columns[0].name, asc: true }];
 
         if (sortedColumns.length > 0) {
-            sortedColumns.sort((a, b) => {
-                if (a.sortOrder > b.sortOrder) return 1;
-                return b.sortOrder > a.sortOrder ? -1 : 0;
-            });
+            sortedColumns.sort(sortColumnsByOrder);
 
             sorts = sortedColumns.map((y: ColumnModel) => ({
                 name: y.name,
@@ -214,29 +252,7 @@ class Transformer {
             }));
         }
 
-        subset.sort((a, b) => {
-            let result = 0;
-
-            for (const current of sorts) {
-                const reverse = current.asc ? 1 : -1;
-
-                if (typeof a[current.name] === 'undefined' || typeof b[current.name] === 'undefined') {
-                    result = reverse * -1;
-                    break;
-                }
-
-                if (a[current.name] < b[current.name]) {
-                    result = reverse * -1;
-                    break;
-                }
-                if (a[current.name] > b[current.name]) {
-                    result = reverse * 1;
-                    break;
-                }
-            }
-
-            return result;
-        });
+        subset.sort(sortData(sorts));
 
         return subset;
     }
@@ -269,37 +285,18 @@ class Transformer {
                     break;
                 case AggregateFunctions.Max.toLowerCase():
                     prev[column.name] =
-                        subset.length === 0
-                            ? 0
-                            : subset.reduce(
-                                  (max, r) => (r[column.name] > max ? r[column.name] : max),
-                                  subset[0][column.name],
-                              );
+                        subset.length === 0 ? 0 : subset.reduce(maxReducer(column), subset[0][column.name]);
                     break;
                 case AggregateFunctions.Min.toLowerCase():
                     prev[column.name] =
-                        subset.length === 0
-                            ? 0
-                            : subset.reduce(
-                                  (min, r) => (r[column.name] < min ? r[column.name] : min),
-                                  subset[0][column.name],
-                              );
+                        subset.length === 0 ? 0 : subset.reduce(minReducer(column), subset[0][column.name]);
                     break;
                 case AggregateFunctions.Count.toLowerCase():
                     prev[column.name] = subset.length;
                     break;
                 case AggregateFunctions.DistinctCount.toLowerCase():
                     prev[column.name] =
-                        subset.length === 0
-                            ? 0
-                            : (
-                                  subset.reduce((list: any[], r: any) => {
-                                      if (list.indexOf(r[column.name]) === -1) {
-                                          list.push(r[column.name]);
-                                      }
-                                      return list;
-                                  }, []) as []
-                              ).length;
+                        subset.length === 0 ? 0 : (subset.reduce(distinctReducer(column), []) as []).length;
                     break;
                 default:
                     throw new Error('Unsupported aggregate function');

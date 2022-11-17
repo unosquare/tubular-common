@@ -11,6 +11,13 @@ const defaultOriginDateTimeFormat = 'YYYY-MM-DDTHH:mm:ss';
 const defaultDisplayDateFormat = 'YYYY-MM-DD';
 const defaultDisplayDateTimeFormat = 'YYYY-MM-DDTHH:mm:ss';
 
+const defaultComputedCsvValueGetter = (_column: ColumnModel, _row: any, _isHeader = false) => '';
+const getSortDirectionFromOptions = (options: Partial<ColumnModel>): ColumnSortDirection =>
+    (options.sortable && options.sortDirection) || ColumnSortDirection.None;
+const getSortOrder = (sortDirection: ColumnSortDirection, options: Partial<ColumnModel>): number =>
+    (sortDirection !== ColumnSortDirection.None && options.sortOrder) || -1;
+const checkUndefined = (value: any, defaultValue = true) => (value === undefined ? defaultValue : value);
+
 export const NumericOperators: CompareOperator[] = [
     { value: CompareOperators.None, title: 'None' },
     { value: CompareOperators.Equals, title: 'Equals' },
@@ -95,11 +102,9 @@ export const sortColumnArray = (columnName: string, columns: ColumnModel[], mult
 export const columnHasFilter = (column: ColumnModel): boolean =>
     (!!column.filterText || !!column.filterArgument) && column.filterOperator !== CompareOperators.None;
 
-const defaultComputedCsvValueGetter = (_column: ColumnModel, _row: any, _isHeader = false) => '';
-
 export const createColumn = (name: string, options?: Partial<ColumnModel>): ColumnModel => {
     const temp = options || {};
-    const sortDirection = (temp.sortable && temp.sortDirection) || ColumnSortDirection.None;
+    const sortDirection = getSortDirectionFromOptions(temp);
 
     return {
         aggregate: temp.aggregate || AggregateFunctions.None,
@@ -110,19 +115,19 @@ export const createColumn = (name: string, options?: Partial<ColumnModel>): Colu
         dateTimeOriginFormat: temp.dateTimeOriginFormat || defaultOriginDateTimeFormat,
         getComputedStringValue: temp.getComputedStringValue || defaultComputedCsvValueGetter,
         isKey: !!temp.isKey,
-        isComputed: temp.isComputed === undefined ? false : temp.isComputed,
+        isComputed: checkUndefined(temp.isComputed, false),
         label: temp.label || (name || '').replace(/([a-z])([A-Z])/g, '$1 $2'),
         name,
         searchable: !!temp.searchable,
-        sortDirection: (temp.sortable && temp.sortDirection) || ColumnSortDirection.None,
-        sortOrder: (sortDirection !== ColumnSortDirection.None && temp.sortOrder) || -1,
+        sortDirection,
+        sortOrder: getSortOrder(sortDirection, temp),
         sortable: !!temp.sortable,
-        visible: temp.visible === undefined ? true : temp.visible,
+        visible: checkUndefined(temp.visible),
         filterArgument: temp.filterArgument,
         filterOperator: temp.filterOperator,
         filterText: temp.filterText,
-        filterable: temp.filterable === undefined ? false : temp.filterable,
-        exportable: temp.exportable === undefined ? true : temp.exportable,
+        filterable: checkUndefined(temp.filterable, false),
+        exportable: checkUndefined(temp.exportable),
     };
 };
 
