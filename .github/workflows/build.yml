@@ -1,4 +1,4 @@
-name: Node CI
+name: Build and Report Sonar
 
 on:
   push:
@@ -8,30 +8,9 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  build:
-    runs-on: [ubuntu-latest]
-    env:
-      CI: true
-
-    steps:
-      - name: 🛎 Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: 📦 Cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            node-
-      - name: 🏗 npm build and coverage
-        run: |
-          npm ci
-          npm run build
-          npm run cest
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  build:    
+    uses: unosquare/bump-npm-version/.github/workflows/build-sonar.yml@master
+    secrets:
+      github-token: ${{ secrets.GPR_ACCESS_TOKEN }}
+      cache-version: ${{ secrets.CACHE_VERSION }}
+      sonar-token: ${{ secrets.SONAR_TOKEN }}

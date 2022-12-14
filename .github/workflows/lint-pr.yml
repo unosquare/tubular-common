@@ -1,27 +1,12 @@
 name: Lint PR
 
-on: pull_request
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
-  eslint:
-    runs-on: ubuntu-latest
-    env:
-      CI: true
-
-    steps:
-      - name: 🛎 Checkout
-        uses: actions/checkout@v3
-      - name: 📦 Cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            node-
-      - name: 🎠 npm install
-        run: npm ci
-      - name: Lint
-        uses: a-b-r-o-w-n/eslint-action@v2.1.0
-        with:
-          repo-token:  ${{ secrets.GITHUB_TOKEN }}
-          files: 'src/**/*'
+  build:    
+    uses: unosquare/bump-npm-version/.github/workflows/lint.yml@master
+    secrets:
+      github-token: ${{ secrets.GPR_ACCESS_TOKEN }}
+      cache-version: ${{ secrets.CACHE_VERSION }}
