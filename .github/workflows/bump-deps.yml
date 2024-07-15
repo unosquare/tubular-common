@@ -2,7 +2,7 @@ name: npm Bump Deps
 
 on:
   schedule:
-    - cron: '0 1 * * 9'
+    - cron: '0 3 * * 6'
   workflow_dispatch:
   
 jobs:
