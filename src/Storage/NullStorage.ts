@@ -2,15 +2,18 @@ import { ColumnModel } from '../Models';
 import DataGridStorage from './DataGridStorage';
 
 class NullStorage implements DataGridStorage {
-    public setTextSearch(textSearch: string): void {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public setTextSearch(_textSearch: string): void {
         // do nothing
     }
 
-    public setPage(page: number): void {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public setPage(_page: number): void {
         // do nothing
     }
 
-    public setColumns(columns: ColumnModel[]): void {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public setColumns(_columns: ColumnModel[]): void {
         // do nothing
     }
 

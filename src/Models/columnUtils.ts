@@ -6,17 +6,18 @@ import { ColumnModel } from './ColumnModel';
 
 dayjs.extend(customParseFormat);
 
+const normalizaRegex = /([a-z])([A-Z])/g;
 const defaultOriginDateFormat = 'YYYY-MM-DD';
 const defaultOriginDateTimeFormat = 'YYYY-MM-DDTHH:mm:ss';
 const defaultDisplayDateFormat = 'YYYY-MM-DD';
 const defaultDisplayDateTimeFormat = 'YYYY-MM-DDTHH:mm:ss';
 
-const defaultComputedCsvValueGetter = (_column: ColumnModel, _row: any, _isHeader = false) => '';
+const defaultComputedCsvValueGetter = () => '';
 const getSortDirectionFromOptions = (options: Partial<ColumnModel>): ColumnSortDirection =>
     (options.sortable && options.sortDirection) || ColumnSortDirection.None;
 const getSortOrder = (sortDirection: ColumnSortDirection, options: Partial<ColumnModel>): number =>
     (sortDirection !== ColumnSortDirection.None && options.sortOrder) || -1;
-const checkUndefined = (value: any, defaultValue = true) => (value === undefined ? defaultValue : value);
+const checkUndefined = (value: unknown, defaultValue = true) => (value === undefined ? defaultValue : value);
 
 export const NumericOperators: CompareOperator[] = [
     { value: CompareOperators.None, title: 'None' },
@@ -115,19 +116,19 @@ export const createColumn = (name: string, options?: Partial<ColumnModel>): Colu
         dateTimeOriginFormat: temp.dateTimeOriginFormat || defaultOriginDateTimeFormat,
         getComputedStringValue: temp.getComputedStringValue || defaultComputedCsvValueGetter,
         isKey: !!temp.isKey,
-        isComputed: checkUndefined(temp.isComputed, false),
-        label: temp.label || (name || '').replace(/([a-z])([A-Z])/g, '$1 $2'),
+        isComputed: Boolean(checkUndefined(temp.isComputed, false)),
+        label: temp.label || (name || '').replace(normalizaRegex, '$1 $2'),
         name,
         searchable: !!temp.searchable,
         sortDirection,
         sortOrder: getSortOrder(sortDirection, temp),
         sortable: !!temp.sortable,
-        visible: checkUndefined(temp.visible),
+        visible: Boolean(checkUndefined(temp.visible)),
         filterArgument: temp.filterArgument,
         filterOperator: temp.filterOperator,
         filterText: temp.filterText,
-        filterable: checkUndefined(temp.filterable, false),
-        exportable: checkUndefined(temp.exportable),
+        filterable: Boolean(checkUndefined(temp.filterable, false)),
+        exportable: Boolean(checkUndefined(temp.exportable)),
     };
 };
 
@@ -137,9 +138,7 @@ export const isDateColum = (column: ColumnModel): boolean =>
     column.dataType === ColumnDataType.DateTimeUtc;
 
 export const parseDateColumnValue = (column: ColumnModel, value: string): string => {
-    if (!isDateColum(column) || !value) {
-        return '';
-    }
+    if (!isDateColum(column) || !value) return '';
 
     switch (column.dataType) {
         case ColumnDataType.DateTime:

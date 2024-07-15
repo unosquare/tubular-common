@@ -14,8 +14,8 @@ import GridResponse from './Models/GridResponse';
 
 const partialfilteringCurry =
     (column: ColumnModel) =>
-    (data: any[], action: (f: string) => boolean): any[] =>
-        data.filter((row: any) =>
+    (data: unknown[], action: (f: string) => boolean) =>
+        data.filter((row) =>
             typeof row[column.name] === 'undefined' || row[column.name] === null ? false : action(row[column.name]),
         );
 
@@ -26,7 +26,7 @@ const equalsFilter = (column: ColumnModel) => (row) => row[column.name] === colu
 const filterBetween = (column: ColumnModel) => (row) =>
     row[column.name] >= column.filterText && row[column.name] <= column.filterArgument[0];
 
-const filterByEquals = (column: ColumnModel, isDate: boolean, subset: any[], partialfiltering) => {
+const filterByEquals = (column: ColumnModel, isDate: boolean, subset: unknown[], partialfiltering) => {
     if (isDate) return subset.filter(equalsDateFilter(column));
 
     if (column.dataType === ColumnDataType.String) return partialfiltering(subset, equalsStringFilter(column));
@@ -39,10 +39,10 @@ const sortColumnsByOrder = (a: ColumnModel, b: ColumnModel) => {
     return b.sortOrder > a.sortOrder ? -1 : 0;
 };
 
-const distinctReducer = (column: ColumnModel) => (list: any[], r: any) => {
-    if (list.indexOf(r[column.name]) === -1) {
+const distinctReducer = (column: ColumnModel) => (list: unknown[], r: unknown) => {
+    if (list.indexOf(r[column.name]) === -1)
         list.push(r[column.name]);
-    }
+
     return list;
 };
 
@@ -80,7 +80,7 @@ const sortData = (sorts: { name: string; asc: boolean }[]) => (a, b) => {
 };
 
 class Transformer {
-    public static getResponse(request: GridRequest, dataSource: any[]): GridResponse {
+    public static getResponse(request: GridRequest, dataSource: unknown[]): GridResponse {
         const response = new GridResponse(request.counter);
         response.totalRecordCount = dataSource.length;
 
@@ -109,7 +109,7 @@ class Transformer {
         return response;
     }
 
-    private static applyFreeTextSearch(request: GridRequest, subset: any[]): any[] {
+    private static applyFreeTextSearch(request: GridRequest, subset: unknown[]): unknown[] {
         if (request.searchText) {
             const searchableColumns = request.columns.filter((x: ColumnModel) => x.searchable);
 
@@ -133,7 +133,7 @@ class Transformer {
         return subset;
     }
 
-    private static applyFiltering(request: GridRequest, subset: any[]): any[] {
+    private static applyFiltering(request: GridRequest, subset: unknown[]): unknown[] {
         request.columns
             .filter((column: ColumnModel) => columnHasFilter(column))
             .forEach((column: ColumnModel) => {
@@ -246,7 +246,7 @@ class Transformer {
         return subset;
     }
 
-    private static applySorting(request: GridRequest, subset: any[]): any[] {
+    private static applySorting(request: GridRequest, subset: unknown[]): unknown[] {
         const sortedColumns = request.columns.filter((column: ColumnModel) => column.sortOrder > 0);
 
         let sorts: { name: string; asc: boolean }[] = [{ name: request.columns[0].name, asc: true }];
@@ -265,16 +265,16 @@ class Transformer {
         return subset;
     }
 
-    private static getAggregatePayload(request: GridRequest, subset: any[]): any {
+    private static getAggregatePayload(request: GridRequest, subset: unknown[]): Record<string, number> {
         const aggregateColumns = request.columns.filter(filterAggregateColumns);
 
-        return aggregateColumns.reduce((prev: any, column: ColumnModel) => {
+        return aggregateColumns.reduce((prev, column) => {
             switch (column.aggregate.toLowerCase()) {
                 case AggregateFunctions.Sum.toLowerCase():
                     prev[column.name] = subset.length === 0 ? 0 : subset.reduce(sumReducer(column), 0);
                     break;
                 case AggregateFunctions.Average.toLowerCase():
-                    prev[column.name] = subset.length === 0 ? 0 : subset.reduce(sumReducer(column), 0) / subset.length;
+                    prev[column.name] = subset.length === 0 ? 0 : Number(subset.reduce(sumReducer(column), 0)) / subset.length;
                     break;
                 case AggregateFunctions.Max.toLowerCase():
                     prev[column.name] =

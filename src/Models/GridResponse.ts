@@ -7,7 +7,7 @@ class GridResponse {
 
     public filteredRecordCount: number;
 
-    public payload: any;
+    public payload: unknown;
 
     public totalPages = 1;
 

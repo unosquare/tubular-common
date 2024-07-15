@@ -15,7 +15,7 @@ export interface ColumnModel {
     isKey: boolean;
     label: string;
     isComputed: boolean;
-    getComputedStringValue?: (column: ColumnModel, row: any, isHeader: boolean) => string;
+    getComputedStringValue?: (column: ColumnModel, row: unknown, isHeader: boolean) => string;
     name: string;
     searchable: boolean;
     sortDirection: ColumnSortDirection;

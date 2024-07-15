@@ -18,29 +18,27 @@ export const getColumnAlign = (column: ColumnModel): 'inherit' | 'left' | 'cente
     }
 };
 
-const getRealCellValue = (column: ColumnModel, value: any, isHeader = false): string => {
-    if (isHeader) {
-        return (value || '').toString();
-    }
+const getRealCellValue = (column: ColumnModel, value: unknown, isHeader = false): string => {
+    if (isHeader) return String(value);
 
     switch (column.dataType) {
         case ColumnDataType.Date:
         case ColumnDataType.DateTime:
         case ColumnDataType.DateTimeUtc:
-            return parseDateColumnValue(column, value);
+            return value ? parseDateColumnValue(column, String(value)) : '';
         case ColumnDataType.Boolean:
             return value === true ? 'Yes' : 'No';
         default:
-            return (value || '').toString();
+            return String(value ?? '');
     }
 };
 
-const getCellValue = (column: ColumnModel, row: any, isHeader) =>
+const getCellValue = (column: ColumnModel, row: unknown, isHeader) =>
     column.isComputed
         ? column.getComputedStringValue(column, row, isHeader)
         : getRealCellValue(column, row[column.name], isHeader);
 
-const processRow = (row: any, columns: ColumnModel[], isHeader: boolean): string => {
+const processRow = (row: unknown, columns: ColumnModel[], isHeader: boolean): string => {
     const finalVal = columns.reduce<string>((prev: string, currentColumn: ColumnModel) => {
         const result = `"${getCellValue(currentColumn, row, isHeader).replace(/"/g, '""')}"`;
 
@@ -50,40 +48,36 @@ const processRow = (row: any, columns: ColumnModel[], isHeader: boolean): string
     return `${finalVal.replace(/(^,)|(,$)/g, '')}\n`;
 };
 
-export const getCsv = (gridResult: [], columns: ColumnModel[]): string => {
-    const exportableColumns = columns.filter(
-        (c) => (c.visible && c.exportable) || (c.isComputed && !c.getComputedStringValue),
+const visibleColumns = (c: ColumnModel) => (c.visible && c.exportable) || (c.isComputed && !c.getComputedStringValue);
+
+export const getCsv = (gridResult: unknown[], columns: ColumnModel[]): string => {
+    const exportableColumns = columns.filter(visibleColumns);
+    const headers = processRow(
+        exportableColumns.map((x) => ({ [x.name]: x.label })).reduce((prev, current) => ({ ...prev, ...current }), {}),
+        exportableColumns,
+        true,
     );
 
     return gridResult.reduce(
-        (prev: string, row: any) => prev + processRow(row, exportableColumns, false),
-        processRow(
-            exportableColumns
-                .map((x: ColumnModel) => ({ [x.name]: x.label }))
-                .reduce((prev, current) => ({ ...prev, ...current }), {}),
-            exportableColumns,
-            true,
-        ),
-    );
+        (prev, row) => String(prev) + processRow(row, exportableColumns, false),
+        headers,
+    ) as string;
 };
 
-export const getHtml = (gridResult: [], columns: ColumnModel[]): string => {
-    const exportableColumns = columns.filter(
-        (c) => (c.visible && c.exportable) || (c.isComputed && !c.getComputedStringValue),
-    );
+export const getHtml = (gridResult: unknown[], columns: ColumnModel[]): string => {
+    const exportableColumns = columns.filter(visibleColumns);
+    const headers = exportableColumns.reduce((prev, el) => `${prev}<th>${el.label || el.name}</th>`, '');
 
-    return `<table class="table table-bordered table-striped"><thead><tr>${exportableColumns.reduce(
-        (prev: string, el: ColumnModel) => `${prev}<th>${el.label || el.name}</th>`,
-        '',
-    )}</tr></thead><tbody>${gridResult.reduce(
-        (prevRow: string, row: any) =>
-            `${prevRow}<tr>${exportableColumns.reduce(
-                (prev: string, currentColumn: ColumnModel) =>
-                    `${prev}<td>${getCellValue(currentColumn, row, false)}</td>`,
-                '',
-            )}</tr>`,
-        '',
-    )}</tbody></table>`;
+    return `<table class="table table-bordered table-striped"><thead><tr>${headers}</tr></thead><tbody>${
+        gridResult.reduce(
+            (prevRow, row) =>
+                `${prevRow}<tr>${exportableColumns.reduce(
+                    (prev, currentColumn) => `${prev}<td>${getCellValue(currentColumn, row, false)}</td>`,
+                    '',
+                )}</tr>`,
+            '',
+        ) as string
+    }</tbody></table>`;
 };
 
 export const getPages = (currentPage: number, totalRows: number, rowsPerPage: number): number[] => {

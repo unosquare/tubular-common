@@ -53,11 +53,11 @@ describe('getCsv', () => {
                 datetime: '2020-09-29T19:00:58.31',
                 datetimeutc: '2020-09-29T19:00:58.31',
             },
-        ] as any;
+        ];
 
         const output = getCsv(data, columns);
-
-        expect(output).toContain('"1","2020-09-29","","2020-09-29T19:00:58","2020-09-29T19:00:58"');
+        
+        expect(output).toContain('"first column","date column","date nullable column","datetime","datetime utc"\n"1","2020-09-29","","2020-09-29T19:00:58","2020-09-29T19:00:58"\n');
     });
 
     it('should export dates properly with custom format', () => {
@@ -94,7 +94,7 @@ describe('getCsv', () => {
                 datetime: '2020-09-29T19:00:58.31',
                 datetimeutc: '2020-09-30T19:00:58.31',
             },
-        ] as any;
+        ];
 
         const output = getCsv(data, columns);
         expect(output).toContain('"1","09 29 - 2020","09 29 - 2020","09 30 - 2020"');
@@ -144,7 +144,7 @@ describe('getCsv', () => {
                 hidden: 'hidden value 3!',
                 actions: 'hidden value 3!',
             },
-        ] as any;
+        ];
 
         const output = getCsv(data, columns);
 
@@ -186,7 +186,7 @@ describe('getCsv', () => {
                 second: 'second value 3!',
                 hidden: 'hidden value 3!',
             },
-        ] as any;
+        ];
 
         const output = getCsv(data, columns);
 
@@ -205,13 +205,8 @@ describe('getCsv', () => {
                 visible: true,
                 dataType: ColumnDataType.String,
                 isComputed: true,
-                getComputedStringValue: (column, row, isHeader) => {
-                    if (isHeader) {
-                        return column.label;
-                    }
-
-                    return `${row.first} + ${row.second}`;
-                },
+                getComputedStringValue: (column, row: any, isHeader) =>
+                    isHeader ? column.label : `${row.first} + ${row.second}`,
             }),
             createColumn('second', {
                 label: 'second column',
@@ -223,13 +218,8 @@ describe('getCsv', () => {
                 visible: true,
                 dataType: ColumnDataType.String,
                 isComputed: true,
-                getComputedStringValue: (column, row, isHeader) => {
-                    if (isHeader) {
-                        return column.label;
-                    }
-
-                    return `${row.first} + ${row.second} 2`;
-                },
+                getComputedStringValue: (column, row: any, isHeader) =>
+                    isHeader ? column.label : `${row.first} + ${row.second} 2`,
             }),
             createColumn('hidden', {
                 label: 'hidden column',
@@ -254,7 +244,7 @@ describe('getCsv', () => {
                 second: 'second value 3!',
                 hidden: 'hidden value 3!',
             },
-        ] as any;
+        ];
 
         const output = getCsv(data, columns);
         expect(output).toContain('"first column","computed column","second column","computed column2"');
@@ -297,7 +287,7 @@ describe('getHTML', () => {
                 second: 'second value 3!',
                 hidden: 'hidden value 3!',
             },
-        ] as any;
+        ];
 
         const output = getHtml(data, columns);
 
@@ -317,13 +307,8 @@ describe('getHTML', () => {
                 visible: true,
                 dataType: ColumnDataType.String,
                 isComputed: true,
-                getComputedStringValue: (column, row, isHeader) => {
-                    if (isHeader) {
-                        return column.label;
-                    }
-
-                    return `${row.first} + ${row.second}`;
-                },
+                getComputedStringValue: (column, row: any, isHeader) =>
+                    isHeader ? column.label : `${row.first} + ${row.second}`,
             }),
             createColumn('second', {
                 label: 'second column',
@@ -340,13 +325,8 @@ describe('getHTML', () => {
                 visible: true,
                 dataType: ColumnDataType.String,
                 isComputed: true,
-                getComputedStringValue: (column, row, isHeader) => {
-                    if (isHeader) {
-                        return column.label;
-                    }
-
-                    return `${row.first} + ${row.second} 2`;
-                },
+                getComputedStringValue: (column, row: any, isHeader) =>
+                    isHeader ? column.label : `${row.first} + ${row.second} 2`,
             }),
         ];
 
@@ -366,7 +346,7 @@ describe('getHTML', () => {
                 second: 'second value 3!',
                 hidden: 'hidden value 3!',
             },
-        ] as any;
+        ];
 
         const output = getHtml(data, columns);
         expect(output).toBe(
