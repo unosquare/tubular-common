@@ -81,6 +81,6 @@
         "typescript-eslint": "^7.16.1"
     },
     "dependencies": {
-        "dayjs": "^1.11.11"
+        "dayjs": "^1.11.12"
     }
 }
