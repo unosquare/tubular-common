@@ -1,8 +1,8 @@
-import dayjs = require('dayjs');
-import customParseFormat = require('dayjs/plugin/customParseFormat');
 import { AggregateFunctions, ColumnDataType, ColumnSortDirection, CompareOperators } from './Column';
 import { CompareOperator } from './CompareOperator';
 import { ColumnModel } from './ColumnModel';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 
 dayjs.extend(customParseFormat);
 
@@ -68,7 +68,7 @@ const getSortDirection = (sortDirection: ColumnSortDirection) => {
     return sortDirection === ColumnSortDirection.Ascending ? ColumnSortDirection.Descending : ColumnSortDirection.None;
 };
 
-export const sortColumnArray = (columnName: string, columns: ColumnModel[], multiSort: boolean): ColumnModel[] => {
+export const sortColumnArray = (columnName: string, columns: ColumnModel[], multiSort: boolean) => {
     const column = columns.find((c: ColumnModel) => c.name === columnName);
 
     if (!column) {

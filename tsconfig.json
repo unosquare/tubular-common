@@ -2,6 +2,7 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "preserveConstEnums": true,
+    "esModuleInterop": true,
     "outDir": "./dist",
     "lib": [
       "es5",
@@ -10,7 +11,7 @@
     ],
     "declaration": true,
     "sourceMap": true,
-    "target": "es5",
+    "target": "ES2023",
     "skipLibCheck": true
   },
   "include": [

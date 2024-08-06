@@ -1,5 +1,5 @@
 class GridResponse {
-    public aggregationPayload: Record<string, number>;
+    public aggregationPayload: Record<string, number> | undefined;
 
     public counter: number;
 
@@ -7,7 +7,7 @@ class GridResponse {
 
     public filteredRecordCount: number;
 
-    public payload: unknown[];
+    public payload: unknown[] | undefined;
 
     public totalPages = 1;
 
@@ -15,6 +15,8 @@ class GridResponse {
 
     constructor(counter = 0) {
         this.counter = Number.isNaN(counter) ? 0 : counter;
+        this.filteredRecordCount = 0;
+        this.totalRecordCount = 0;
     }
 }
 

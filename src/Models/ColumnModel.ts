@@ -7,9 +7,9 @@ export interface ColumnModel {
     dateDisplayFormat?: string; // YYYY-MM-DD (default)
     dateTimeOriginFormat?: string; // YYYY-MM-DDTHH:mm:ss (default)
     dateTimeDisplayFormat?: string; // YYYY-MM-DDTHH:mm:ss (default)
-    filterArgument: string[] | number[];
-    filterOperator: CompareOperators;
-    filterText: string;
+    filterArgument: string[] | number[] | undefined;
+    filterOperator: CompareOperators | undefined;
+    filterText: string | undefined;
     filterable: boolean;
     exportable: boolean;
     isKey: boolean;
