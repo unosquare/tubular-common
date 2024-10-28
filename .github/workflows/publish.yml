@@ -6,7 +6,7 @@ on:
 
 jobs:
   publish:
-    uses: unosquare/bump-npm-version/.github/workflows/publish-public.yml@master
+    uses: unosquare/bump-npm-version/.github/workflows/publish-public-pnpm.yml@master
     secrets:
       github-token: ${{ secrets.GPR_ACCESS_TOKEN }}
       npm-token: ${{ secrets.NPM_TOKEN }}
