@@ -1,4 +1,4 @@
-export { default as Transformer } from './Transformer';
+export * from './getResponse';
 export * from './Models';
 export * from './utils';
 export * from './Http';

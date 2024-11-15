@@ -1,5 +1,5 @@
-import { ColumnModel } from '../Models';
-import DataGridStorage from './DataGridStorage';
+import type { ColumnModel } from '../Models';
+import type DataGridStorage from './DataGridStorage';
 
 class LocalStorage implements DataGridStorage {
     public constructor(private name?: string) {
@@ -29,7 +29,7 @@ class LocalStorage implements DataGridStorage {
     }
 
     public getPage(): number {
-        return parseInt(window.localStorage.getItem(`${this.name}_page`), 10);
+        return Number.parseInt(window.localStorage.getItem(`${this.name}_page`), 10);
     }
 
     public getColumns(): ColumnModel[] {

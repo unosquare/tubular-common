@@ -3,18 +3,18 @@
  */
 
 import {
-    getOperators,
+    BooleanOperators,
     ColumnDataType,
-    columnHasFilter,
+    type ColumnModel,
+    CompareOperators,
     NumericOperators,
     StringOperators,
-    BooleanOperators,
-    CompareOperators,
-    sortColumnArray,
+    columnHasFilter,
+    getOperators,
     parseDateColumnValue,
-    ColumnModel,
+    sortColumnArray,
 } from '../src/Models';
-import { simpleRequestWithFilters1, mockColumnModel } from './mock';
+import { mockColumnModel, simpleRequestWithFilters1 } from './mock';
 
 describe('getOperators', () => {
     it('Should return StringOperators', () =>

@@ -1,6 +1,6 @@
-import GridResponse from '../Models/GridResponse';
-import GridRequest from '../Models/GridRequest';
-import TubularHttpClientAbstract from './TubularHttpClientAbstract';
+import type GridRequest from '../Models/GridRequest';
+import type GridResponse from '../Models/GridResponse';
+import type TubularHttpClientAbstract from './TubularHttpClientAbstract';
 
 export type FetchHandler = (request: string, gridRequest: GridRequest) => Promise<GridResponse>;
 

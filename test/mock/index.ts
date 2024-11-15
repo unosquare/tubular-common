@@ -1,5 +1,5 @@
-import { ColumnModel, ColumnDataType } from '../../src';
-import { createColumn, GridRequest, ColumnSortDirection, AggregateFunctions, CompareOperators } from '../../src/Models';
+import { ColumnDataType, type ColumnModel } from '../../src';
+import { AggregateFunctions, ColumnSortDirection, CompareOperators, GridRequest, createColumn } from '../../src/Models';
 
 export const mockColumnModel: ColumnModel = {
     aggregate: null,
@@ -21,7 +21,7 @@ export const mockColumnModel: ColumnModel = {
     dateDisplayFormat: 'YYYY-MM-DD',
     dateTimeOriginFormat: 'YYYY-MM-DDTHH:mm:ss',
     dateTimeDisplayFormat: 'YYYY-MM-DDTHH:mm:ss',
-    isComputed: false
+    isComputed: false,
 };
 
 export const simpleRequestWithFilters1 = new GridRequest(

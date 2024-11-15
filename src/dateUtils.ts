@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isBetween from 'dayjs/plugin/isBetween';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
-import { ColumnModel } from './Models';
+import type { ColumnModel } from './Models';
 
 dayjs.extend(customParseFormat);
 dayjs.extend(isSameOrBefore);
@@ -30,7 +30,8 @@ export const isDateBefore = (column: ColumnModel, date1: string, date2: string, 
     return dayjs(date1, column.dateOriginFormat).isBefore(dayjs(date2, column.dateOriginFormat), 'd');
 };
 
-export const dateIsBetween = (column: ColumnModel, from: string, to: string, value: string): boolean => dayjs(dayjs(value, column.dateOriginFormat)).isBetween(
+export const dateIsBetween = (column: ColumnModel, from: string, to: string, value: string): boolean =>
+    dayjs(dayjs(value, column.dateOriginFormat)).isBetween(
         dayjs(from, column.dateOriginFormat),
         dayjs(to, column.dateOriginFormat),
         null,

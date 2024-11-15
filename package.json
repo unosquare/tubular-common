@@ -1,32 +1,23 @@
 {
     "name": "tubular-common",
-    "version": "6.10.4",
+    "version": "7.0.0",
     "description": "Tubular Common Models and Data Transformer",
     "main": "dist/index.js",
     "scripts": {
         "test": "jest --runInBand",
         "cest": "jest --collectCoverage --runInBand",
-        "lint": "eslint src/**/*.ts",
-        "lint:fix": "eslint src/**/*.ts --fix",
+        "lint": "pnpm biome check src/",
+        "lint:fix": "pnpm biome check --write src/",
         "build": "tsc",
         "watch": "tsc -w",
-        "preparepackage": "npm run build && npm run copypackage",
+        "preparepackage": "pnpm build && pnpm copypackage",
         "copypackage": "npx shx cp package.json dist"
     },
     "jest": {
         "automock": false,
-        "setupFiles": [
-            "./setupJest.ts",
-            "./test/browserMocks.js"
-        ],
-        "coverageReporters": [
-            "lcov",
-            "text"
-        ],
-        "moduleFileExtensions": [
-            "ts",
-            "js"
-        ],
+        "setupFiles": ["./setupJest.ts", "./test/browserMocks.js"],
+        "coverageReporters": ["lcov", "text"],
+        "moduleFileExtensions": ["ts", "js"],
         "transform": {
             "^.+\\.(ts|tsx)$": [
                 "ts-jest",
@@ -36,9 +27,7 @@
                 }
             ]
         },
-        "testMatch": [
-            "<rootDir>/test/**/*.spec.ts"
-        ],
+        "testMatch": ["<rootDir>/test/**/*.spec.ts"],
         "coverageThreshold": {
             "global": {
                 "branches": 60,
@@ -48,19 +37,12 @@
             }
         }
     },
-    "files": [
-        "dist/**/*",
-        "src/**/*"
-    ],
+    "files": ["dist/**/*", "src/**/*"],
     "repository": {
         "type": "git",
         "url": "git+https://github.com/unosquare/tubular-common.git"
     },
-    "keywords": [
-        "tubular",
-        "data",
-        "grid"
-    ],
+    "keywords": ["tubular", "data", "grid"],
     "author": "Unosquare",
     "license": "MIT",
     "bugs": {
@@ -68,17 +50,14 @@
     },
     "homepage": "https://github.com/unosquare/tubular-common#readme",
     "devDependencies": {
-        "@eslint/js": "^9.14.0",
-        "@types/eslint__js": "^8.42.3",
+        "@biomejs/biome": "1.9.4",
         "@types/jest": "^29.5.14",
-        "eslint": "^9.14.0",
         "jest": "^29.7.0",
         "jest-environment-jsdom": "^29.7.0",
         "jest-fetch-mock": "^3.0.3",
         "prettier": "^3.3.3",
         "ts-jest": "^29.2.5",
-        "typescript": "^5.6.3",
-        "typescript-eslint": "^8.14.0"
+        "typescript": "^5.6.3"
     },
     "dependencies": {
         "dayjs": "^1.11.13"

@@ -1,5 +1,5 @@
-import { ColumnModel } from '../Models';
-import DataGridStorage from './DataGridStorage';
+import type { ColumnModel } from '../Models';
+import type DataGridStorage from './DataGridStorage';
 
 class NullStorage implements DataGridStorage {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

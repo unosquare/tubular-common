@@ -1,4 +1,4 @@
-import { CompareOperators } from './Column';
+import type { CompareOperators } from './Column';
 
 export interface CompareOperator {
     value: CompareOperators;

@@ -1,8 +1,8 @@
-import { AggregateFunctions, ColumnDataType, ColumnSortDirection, CompareOperators } from './Column';
-import { CompareOperator } from './CompareOperator';
-import { ColumnModel } from './ColumnModel';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { AggregateFunctions, ColumnDataType, ColumnSortDirection, CompareOperators } from './Column';
+import type { ColumnModel } from './ColumnModel';
+import type { CompareOperator } from './CompareOperator';
 
 dayjs.extend(customParseFormat);
 
@@ -79,6 +79,7 @@ export const sortColumnArray = (columnName: string, columns: ColumnModel[], mult
     column.sortOrder = column.sortDirection === ColumnSortDirection.None ? -1 : Number.MAX_VALUE;
 
     if (!multiSort) {
+        // biome-ignore lint/complexity/noForEach: <explanation>
         columns
             .filter((col: ColumnModel) => col.name !== columnName)
             .forEach((c: ColumnModel) => {

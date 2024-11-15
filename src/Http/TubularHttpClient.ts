@@ -1,6 +1,6 @@
-import TubularHttpClientAbstract from './TubularHttpClientAbstract';
-import GridRequest from '../Models/GridRequest';
-import GridResponse from '../Models/GridResponse';
+import type GridRequest from '../Models/GridRequest';
+import type GridResponse from '../Models/GridResponse';
+import type TubularHttpClientAbstract from './TubularHttpClientAbstract';
 
 const responseKeys = [
     'AggregationPayload',
@@ -64,6 +64,7 @@ class TubularHttpClient implements TubularHttpClientAbstract {
     }
 
     public static fixResponse(responseObject: GridResponse): void {
+        // biome-ignore lint/complexity/noForEach: <explanation>
         responseKeys.forEach((k) => {
             if (Object.hasOwnProperty.call(responseObject, k)) {
                 responseObject[k.charAt(0).toLowerCase() + k.slice(1)] = responseObject[k];

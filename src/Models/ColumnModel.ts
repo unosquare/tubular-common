@@ -1,4 +1,4 @@
-import { AggregateFunctions, ColumnDataType, ColumnSortDirection, CompareOperators } from './Column';
+import type { AggregateFunctions, ColumnDataType, ColumnSortDirection, CompareOperators } from './Column';
 
 export interface ColumnModel {
     aggregate: AggregateFunctions;

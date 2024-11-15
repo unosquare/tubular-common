@@ -1,4 +1,4 @@
-import { ColumnDataType, ColumnModel, parseDateColumnValue } from './Models';
+import { ColumnDataType, type ColumnModel, parseDateColumnValue } from './Models';
 
 export const parsePayload = (row: Record<string, unknown>, columns: ColumnModel[]): Record<string, unknown> =>
     columns.reduce((obj: Record<string, unknown>, column: ColumnModel, key: number) => {
@@ -53,7 +53,10 @@ const visibleColumns = (c: ColumnModel) => (c.visible && c.exportable) || (c.isC
 export const getCsv = (gridResult: unknown[], columns: ColumnModel[]): string => {
     const exportableColumns = columns.filter(visibleColumns);
     const headers = processRow(
-        exportableColumns.map((x) => ({ [x.name]: x.label })).reduce((prev, current) => ({ ...prev, ...current }), {}),
+        exportableColumns
+            .map((x) => ({ [x.name]: x.label }))
+            // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
+            .reduce((prev, current) => ({ ...prev, ...current }), {}),
         exportableColumns,
         true,
     );

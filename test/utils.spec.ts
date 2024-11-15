@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { ColumnDataType, createColumn, getCsv, getColumnAlign, getHtml, getPages } from '../src';
+import { ColumnDataType, createColumn, getColumnAlign, getCsv, getHtml, getPages } from '../src';
 import { mockColumnModel } from './mock';
 
 describe('getColumnAlign', () => {
@@ -56,8 +56,10 @@ describe('getCsv', () => {
         ];
 
         const output = getCsv(data, columns);
-        
-        expect(output).toContain('"first column","date column","date nullable column","datetime","datetime utc"\n"1","2020-09-29","","2020-09-29T19:00:58","2020-09-29T19:00:58"\n');
+
+        expect(output).toContain(
+            '"first column","date column","date nullable column","datetime","datetime utc"\n"1","2020-09-29","","2020-09-29T19:00:58","2020-09-29T19:00:58"\n',
+        );
     });
 
     it('should export dates properly with custom format', () => {
@@ -205,6 +207,7 @@ describe('getCsv', () => {
                 visible: true,
                 dataType: ColumnDataType.String,
                 isComputed: true,
+                // biome-ignore lint/suspicious/noExplicitAny: <explanation>
                 getComputedStringValue: (column, row: any, isHeader) =>
                     isHeader ? column.label : `${row.first} + ${row.second}`,
             }),
@@ -218,6 +221,7 @@ describe('getCsv', () => {
                 visible: true,
                 dataType: ColumnDataType.String,
                 isComputed: true,
+                // biome-ignore lint/suspicious/noExplicitAny: <explanation>
                 getComputedStringValue: (column, row: any, isHeader) =>
                     isHeader ? column.label : `${row.first} + ${row.second} 2`,
             }),
@@ -307,6 +311,7 @@ describe('getHTML', () => {
                 visible: true,
                 dataType: ColumnDataType.String,
                 isComputed: true,
+                // biome-ignore lint/suspicious/noExplicitAny: <explanation>
                 getComputedStringValue: (column, row: any, isHeader) =>
                     isHeader ? column.label : `${row.first} + ${row.second}`,
             }),
@@ -325,6 +330,7 @@ describe('getHTML', () => {
                 visible: true,
                 dataType: ColumnDataType.String,
                 isComputed: true,
+                // biome-ignore lint/suspicious/noExplicitAny: <explanation>
                 getComputedStringValue: (column, row: any, isHeader) =>
                     isHeader ? column.label : `${row.first} + ${row.second} 2`,
             }),

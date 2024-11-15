@@ -1,4 +1,4 @@
-import { ColumnModel } from './ColumnModel';
+import type { ColumnModel } from './ColumnModel';
 
 const currentTimezone = new Date().getTimezoneOffset();
 
