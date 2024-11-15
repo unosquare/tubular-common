@@ -1,6 +1,6 @@
 {
     "name": "tubular-common",
-    "version": "7.0.0",
+    "version": "7.0.1",
     "description": "Tubular Common Models and Data Transformer",
     "main": "dist/index.js",
     "scripts": {
@@ -15,9 +15,18 @@
     },
     "jest": {
         "automock": false,
-        "setupFiles": ["./setupJest.ts", "./test/browserMocks.js"],
-        "coverageReporters": ["lcov", "text"],
-        "moduleFileExtensions": ["ts", "js"],
+        "setupFiles": [
+            "./setupJest.ts",
+            "./test/browserMocks.js"
+        ],
+        "coverageReporters": [
+            "lcov",
+            "text"
+        ],
+        "moduleFileExtensions": [
+            "ts",
+            "js"
+        ],
         "transform": {
             "^.+\\.(ts|tsx)$": [
                 "ts-jest",
@@ -27,7 +36,9 @@
                 }
             ]
         },
-        "testMatch": ["<rootDir>/test/**/*.spec.ts"],
+        "testMatch": [
+            "<rootDir>/test/**/*.spec.ts"
+        ],
         "coverageThreshold": {
             "global": {
                 "branches": 60,
@@ -37,12 +48,19 @@
             }
         }
     },
-    "files": ["dist/**/*", "src/**/*"],
+    "files": [
+        "dist/**/*",
+        "src/**/*"
+    ],
     "repository": {
         "type": "git",
         "url": "git+https://github.com/unosquare/tubular-common.git"
     },
-    "keywords": ["tubular", "data", "grid"],
+    "keywords": [
+        "tubular",
+        "data",
+        "grid"
+    ],
     "author": "Unosquare",
     "license": "MIT",
     "bugs": {
