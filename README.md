@@ -1,6 +1,3 @@
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=unosquare_tubular-common&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=unosquare_tubular-common)
-[![npm version](https://badge.fury.io/js/tubular-common.svg)](https://badge.fury.io/js/tubular-common)
-
 ![Tubular Common](http://unosquare.github.io/tubular-angular/assets/tubular.png)
 
 Tubular Common provides TypeScript and Javascript models and data transformer to use any Tubular DataGrid component with an array of Javascript objects.
