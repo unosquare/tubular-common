@@ -1,6 +1,6 @@
 {
     "name": "tubular-common",
-    "version": "7.0.11",
+    "version": "7.0.12",
     "description": "Tubular Common Models and Data Transformer",
     "main": "dist/index.js",
     "scripts": {
