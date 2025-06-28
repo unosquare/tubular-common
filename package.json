@@ -68,9 +68,9 @@
     },
     "homepage": "https://github.com/unosquare/tubular-common#readme",
     "devDependencies": {
-        "@biomejs/biome": "2.0.2",
+        "@biomejs/biome": "2.0.6",
         "@types/jest": "^30.0.0",
-        "jest": "^30.0.2",
+        "jest": "^30.0.3",
         "jest-environment-jsdom": "^30.0.2",
         "jest-fetch-mock": "^3.0.3",
         "ts-jest": "^29.4.0",
