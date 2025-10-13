@@ -1,5 +1,7 @@
 ![Tubular Common](http://unosquare.github.io/tubular-angular/assets/tubular.png)
 
+** THIS PROJECT IS DEPRECATED **
+
 Tubular Common provides TypeScript and Javascript models and data transformer to use any Tubular DataGrid component with an array of Javascript objects.
 
 Please visit the [Tubular GitHub Page](http://unosquare.github.io/tubular) to learn how quickly you can start coding. See [Related projects](#related-projects) below to discover more Tubular libraries and backend solutions.
